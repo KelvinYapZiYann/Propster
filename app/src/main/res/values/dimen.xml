@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="input_field_width">270dp</dimen>
+    <dimen name="input_field_height">40dp</dimen>
+    <dimen name="input_field_font_size">17sp</dimen>
+    <dimen name="input_field_corner_radius">30dp</dimen>
+    <dimen name="input_field_border_width">1dp</dimen>
+    <dimen name="input_field_gap_height">15dp</dimen>
+
+    <dimen name="primary_button_width">200dp</dimen>
+    <dimen name="primary_button_font_size">14sp</dimen>
+    <dimen name="primary_button_gap_height">15dp</dimen>
+    <dimen name="secondary_button_width">120dp</dimen>
+    <dimen name="secondary_button_font_size">14sp</dimen>
+    <dimen name="secondary_button_gap_height">15dp</dimen>
+
+    <dimen name="copyright_font_size">11sp</dimen>
+    <dimen name="copyright_gap_height">10dp</dimen>
+
+    <dimen name="group_gap_height">25dp</dimen>
+
+
+</resources>
