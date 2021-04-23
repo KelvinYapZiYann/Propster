@@ -5,29 +5,71 @@
     android:layout_height="match_parent"
     tools:context=".login.FirstTimeRoleSelectionActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Select Your Role"
-        android:layout_centerHorizontal="true"
-        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/firstTimeRoleSelectionLandlordButton"
-        android:text="Landlord"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/firstTimeRoleSelectionTenantButton"
-        android:layout_below="@id/firstTimeRoleSelectionLandlordButton"
-        android:text="Tenant"
-        android:layout_centerHorizontal="true"
-        />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/select_your_role"
+                android:textSize="@dimen/large_text_font_size"
+                android:textColor="@color/primary_blue"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4">
+
+            <android.widget.Button
+                android:layout_width="@dimen/large_button_width"
+                android:layout_height="wrap_content"
+                android:id="@+id/firstTimeRoleSelectionLandlordButton"
+                android:text="@string/landlord"
+                android:textColor="@color/white"
+                android:textSize="@dimen/large_button_font_size"
+                android:background="@drawable/primary_button_background_state"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:paddingTop="@dimen/large_button_padding"
+                android:paddingBottom="@dimen/large_button_padding"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4">
+
+            <android.widget.Button
+                android:layout_width="@dimen/large_button_width"
+                android:layout_height="wrap_content"
+                android:id="@+id/firstTimeRoleSelectionTenantButton"
+                android:text="@string/tenant"
+                android:textColor="@color/white"
+                android:textSize="@dimen/large_button_font_size"
+                android:background="@drawable/primary_button_background_state"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:paddingTop="@dimen/large_button_padding"
+                android:paddingBottom="@dimen/large_button_padding"
+                />
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>

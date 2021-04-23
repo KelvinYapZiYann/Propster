@@ -10,6 +10,9 @@
     <color name="disabled_blue">#4CC9F0</color>
     <color name="alert_red">#F72585</color>
 
+    <color name="disabled_grey">#FF989898</color>
+    <color name="background_black">#99000000</color>
+
 
 
 

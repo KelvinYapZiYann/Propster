@@ -1,13 +1,19 @@
 package com.propster.login;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
@@ -17,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.propster.R;
+import com.propster.content.ContentActivity;
 import com.propster.utils.Constants;
 
 import org.json.JSONException;
@@ -25,11 +32,15 @@ import org.json.JSONObject;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText loginUsername;
+    private TextView loginUsernameAlert;
     private EditText loginPassword;
-    private TextView loginAlert;
+    private TextView loginPasswordAlert;
     private Button loginButton;
     private Button registerButton;
     private TextView forgotPasswordButton;
+
+    private View backgroundView;
+    private ProgressBar loadingSpinner;
 
     private RequestQueue requestQueue;
 
@@ -39,11 +50,15 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         this.loginUsername = findViewById(R.id.loginUsername);
+        this.loginUsernameAlert = findViewById(R.id.loginUsernameAlert);
         this.loginPassword = findViewById(R.id.loginPassword);
-        this.loginAlert = findViewById(R.id.loginAlert);
+        this.loginPasswordAlert = findViewById(R.id.loginPasswordAlert);
         this.loginButton = findViewById(R.id.loginButton);
-        this.registerButton = findViewById(R.id.registerButton);
+        this.registerButton = findViewById(R.id.loginRegisterButton);
         this.forgotPasswordButton = findViewById(R.id.loginForgotPassword);
+
+        this.backgroundView = findViewById(R.id.loginBackground);
+        this.loadingSpinner = findViewById(R.id.loginLoadingSpinner);
 
         this.requestQueue = Volley.newRequestQueue(this);
 
@@ -57,7 +72,8 @@ public class LoginActivity extends AppCompatActivity {
         this.registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(registerIntent);
             }
         });
 
@@ -73,32 +89,97 @@ public class LoginActivity extends AppCompatActivity {
 
     private void doLogin() {
         if (this.loginUsername.length() <= 0) {
+            this.loginUsernameAlert.setVisibility(View.VISIBLE);
+            this.loginPasswordAlert.setVisibility(View.INVISIBLE);
             this.loginUsername.requestFocus();
             return;
         }
         if (this.loginPassword.length() <= 0) {
+            this.loginUsernameAlert.setVisibility(View.INVISIBLE);
+            this.loginPasswordAlert.setVisibility(View.VISIBLE);
             this.loginPassword.requestFocus();
             return;
         }
+        this.loginUsernameAlert.setVisibility(View.INVISIBLE);
+        this.loginPasswordAlert.setVisibility(View.INVISIBLE);
 
-        JSONObject postData = new JSONObject();
-        try {
-            postData.put("username", this.loginUsername.getText().toString());
-            postData.put("password", this.loginPassword.getText().toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
+        this.startLoadingSpinner();
+
+//        JSONObject postData = new JSONObject();
+//        try {
+//            postData.put("username", this.loginUsername.getText().toString());
+//            postData.put("password", this.loginPassword.getText().toString());
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.URL_LOGIN, postData, new Response.Listener<JSONObject>() {
+//            @Override
+//            public void onResponse(JSONObject response) {
+//                System.out.println(response);
+//                try {
+//                    loginSuccess(response.getString("session_id"), response.getBoolean("first_time"));
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                    loginFailed(e.getLocalizedMessage());
+//                }
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                loginFailed(error.getLocalizedMessage());
+//                error.printStackTrace();
+//            }
+//        });
+//        this.requestQueue.add(jsonObjectRequest);
+
+        loginSuccess("", false);
+    }
+
+    private void loginSuccess(String sessionId, boolean firstTime) {
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(Constants.SHARED_PREFERENCES_SESSION_ID, sessionId);
+        editor.apply();
+        this.stopLoadingSpinner();
+        if (firstTime) {
+            Intent userProfileIntent = new Intent(LoginActivity.this, FirstTimeUserProfileActivity.class);
+            startActivity(userProfileIntent);
+        } else {
+            Intent contentIntent = new Intent(LoginActivity.this, ContentActivity.class);
+            startActivity(contentIntent);
         }
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.URL_LOGIN, postData, new Response.Listener<JSONObject>() {
+        finish();
+    }
+
+    private void loginFailed(String loginFailedCause) {
+        this.stopLoadingSpinner();
+        AlertDialog.Builder loginFailedDialog = new AlertDialog.Builder(this);
+        loginFailedDialog.setCancelable(false);
+        loginFailedDialog.setTitle("Login Failed");
+        loginFailedDialog.setMessage(loginFailedCause);
+        loginFailedDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
-            public void onResponse(JSONObject response) {
-                System.out.println(response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
             }
         });
-        this.requestQueue.add(jsonObjectRequest);
+        loginFailedDialog.create().show();
     }
+
+    private void startLoadingSpinner() {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        this.backgroundView.setVisibility(View.VISIBLE);
+        this.loadingSpinner.setVisibility(View.VISIBLE);
+        this.loginButton.setEnabled(false);
+        this.registerButton.setEnabled(false);
+    }
+
+    private void stopLoadingSpinner() {
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        this.backgroundView.setVisibility(View.GONE);
+        this.loadingSpinner.setVisibility(View.GONE);
+        this.loginButton.setEnabled(true);
+        this.registerButton.setEnabled(true);
+    }
+
 }

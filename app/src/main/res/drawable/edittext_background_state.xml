@@ -3,11 +3,17 @@
 
     <item
         android:state_enabled="true"
+        android:state_focused="true"
         android:drawable="@drawable/edittext_background"/>
 
+<!--    <item-->
+<!--        android:state_enabled="false"-->
+<!--        android:drawable="@drawable/edittext_background_disabled"/>-->
+
     <item
-        android:state_enabled="false"
-        android:drawable="@drawable/edittext_background_disabled"/>
+        android:state_enabled="true"
+        android:state_focused="false"
+        android:drawable="@drawable/edittext_background_unfocused"/>
 
 <!--    <item-->
 <!--        android:state_enabled="true"-->

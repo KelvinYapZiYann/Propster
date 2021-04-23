@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Propster</string>
+    <string name="app_name">Propster.io</string>
 
     <string name="username">Username</string>
     <string name="email">Email</string>
@@ -12,8 +12,113 @@
     <string name="forgot_password_button">Forgot Password</string>
     <string name="back">Back</string>
     <string name="copyright">Copyrighted by PROPSTER.IO</string>
+    <string name="save">Save</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="landlord">Landlord</string>
+    <string name="tenant">Tenant</string>
+    <string name="add_property">Add Property</string>
+    <string name="add_tenant">Add Tenant</string>
+    <string name="skip">Skip</string>
 
-    <string name="login_error">Username or password is incorrect</string>
-    <string name="forgot_password_error">Email is incorrect</string>
+    <!-- USER PROFILE -->
+    <string name="email_label">Email:</string>
+    <string name="phone_number_label">Phone Number:</string>
+    <string name="title_label">Title:</string>
+    <string name="first_name_label">First Name:</string>
+    <string name="last_name_label">Last Name:</string>
+    <string name="date_of_birth_label">Date of Birth:</string>
+    <string name="is_business_label">Personal/Company:</string>
+
+    <!-- FIRST TIME ROLE SELECTION -->
+    <string name="select_your_role">Select Your Role</string>
+    <string name="first_time_login_as_landlord">First time login as landlord?</string>
+
+    <!-- TAB -->
+    <string name="dashboard">Dashboard</string>
+    <string name="report">Report</string>
+    <string name="manage">Manage</string>
+    <string name="community">Community</string>
+    <string name="more">More</string>
+
+    <!-- PROPERTY -->
+    <string name="property_name">Property Name</string>
+    <string name="unit_name">Unit Name</string>
+    <string name="floor">Floor</string>
+    <string name="address_line_1">Address Line 1</string>
+    <string name="address_line_2">Address Line 2</string>
+    <string name="city">City</string>
+    <string name="postcode">Postcode</string>
+    <string name="state">State</string>
+    <string name="country">Country</string>
+    <string name="current_occupancy">Current Occupancy</string>
+    <string name="multi_unit_property">Multi Unit Property</string>
+    <string name="no_of_bedroom">No of Bedroom</string>
+    <string name="no_of_bath">No of Bath</string>
+    <string name="assets_type">Assets Type</string>
+    <string name="assets_ownership_type">Assets Ownership Type</string>
+    <string name="total_area">Total Area</string>
+    <string name="purchase_value">Purchase Value</string>
+    <string name="purchase_tax">Purchase Tax</string>
+    <string name="current_value">Current Value</string>
+    <string name="purchase_date">Purchase Date</string>
+    <string name="under_loan">Under Loan</string>
+    <string name="loan_interest_rate">Loan Interest Rate</string>
+    <string name="down_payment">Down Payment</string>
+    <string name="remaining_amount_of_loan">Remaining Amount of Loan</string>
+    <string name="remaining_term_of_loan">Remaining Term of Loan</string>
+    <string name="latest_rental_date">Latest Rental Date</string>
+
+    <string name="property_name_label">Property Name:</string>
+    <string name="unit_name_label">Unit Name:</string>
+    <string name="floor_label">Floor:</string>
+    <string name="address_line_1_label">Address Line 1:</string>
+    <string name="address_line_2_label">Address Line 2:</string>
+    <string name="city_label">City:</string>
+    <string name="postcode_label">Postcode:</string>
+    <string name="state_label">State:</string>
+    <string name="country_label">Country:</string>
+    <string name="current_occupancy_label">Current Occupancy:</string>
+    <string name="multi_unit_property_label">Multi Unit Property:</string>
+    <string name="no_of_bedroom_label">No of Bedroom:</string>
+    <string name="no_of_bath_label">No of Bath:</string>
+    <string name="assets_type_label">Assets Type:</string>
+    <string name="assets_ownership_type_label">Assets Ownership Type:</string>
+    <string name="total_area_label">Total Area:</string>
+    <string name="purchase_value_label">Purchase Value:</string>
+    <string name="purchase_tax_label">Purchase Tax:</string>
+    <string name="current_value_label">Current Value:</string>
+    <string name="purchase_date_label">Purchase Date:</string>
+    <string name="under_loan_label">Under Loan:</string>
+    <string name="loan_interest_rate_label">Loan Interest Rate:</string>
+    <string name="down_payment_label">Down Payment:</string>
+    <string name="remaining_amount_of_loan_label">Remaining Amount of Loan:</string>
+    <string name="remaining_term_of_loan_label">Remaining Term of Loan:</string>
+    <string name="latest_rental_date_label">Latest Rental Date:</string>
+
+    <!-- ERROR -->
+    <string name="login_error_username_empty">Username cannot be empty</string>
+    <string name="login_error_password_empty">Password cannot be empty</string>
+    <string name="login_error_password_short">Password has to be at least 8 alphanumeric characters</string>
+
+    <string name="register_error_email_empty">Email cannot be empty</string>
+    <string name="register_error_phone_number_empty">Phone number cannot be empty</string>
+    <string name="register_error_password_empty">Password cannot be empty</string>
+    <string name="register_error_password_short">Password has to be at least 8 alphanumeric characters</string>
+    <string name="register_error_confirmed_password_not_match">Confirmed password does not match</string>
+
+    <string name="user_profile_error_first_name_empty">First name cannot be empty</string>
+    <string name="user_profile_error_last_name_empty">Last name cannot be empty</string>
+    <string name="user_profile_error_date_of_birth_empty">Date of birth cannot be empty</string>
+
+    <string name="add_property_error_name_empty">Property name cannot be empty</string>
+    <string name="add_property_error_unit_name_empty">Unit name cannot be empty</string>
+    <string name="add_property_error_address_empty">Address cannot be empty</string>
+    <string name="add_property_error_city_empty">City cannot be empty</string>
+    <string name="add_property_error_postcode_empty">Postcode cannot be empty</string>
+    <string name="add_property_error_state_empty">State cannot be empty</string>
+    <string name="add_property_error_country_empty">Country cannot be empty</string>
+
+
 
 </resources>

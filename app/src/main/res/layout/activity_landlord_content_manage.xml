@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/landlordManageFirstTimeLoginLabel"
+        android:text="@string/first_time_login_as_landlord"
+        android:textSize="@dimen/large_text_font_size"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/min_group_margin"
+        android:visibility="gone"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/landlordManageAddPropertyButton"
+        android:layout_marginStart="@dimen/min_group_margin"
+        android:layout_marginEnd="@dimen/min_group_margin"
+        android:layout_alignParentTop="true"
+        >
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/landlordManagePropertyList"
+            />
+
+<!--        android:divider="@color/white"-->
+<!--        android:dividerHeight="0dp"-->
+
+    </RelativeLayout>
+
+    <android.widget.Button
+        android:layout_width="@dimen/large_button_width"
+        android:layout_height="wrap_content"
+        android:id="@+id/landlordManageAddPropertyButton"
+        android:text="@string/add_property"
+        android:textColor="@color/white"
+        android:textSize="@dimen/large_button_font_size"
+        android:background="@drawable/primary_button_background_state"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="@dimen/large_button_padding"
+        android:paddingBottom="@dimen/large_button_padding"
+        android:layout_marginTop="@dimen/group_gap_height"
+        android:layout_marginBottom="@dimen/secondary_button_gap_height"
+        android:layout_alignParentBottom="true"
+        />
+
+</RelativeLayout>

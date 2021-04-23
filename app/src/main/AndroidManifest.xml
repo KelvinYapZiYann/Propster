@@ -6,19 +6,29 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/propster_icon_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/propster_icon_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Propster">
-        <activity android:name=".login.LoginActivity">
+        <activity android:name=".login.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".login.LoginActivity"/>
+        <activity android:name=".login.RegisterActivity"/>
         <activity android:name=".login.ForgotPasswordActivity"/>
+        <activity android:name=".login.FirstTimeUserProfileActivity"/>
+        <activity android:name=".login.FirstTimeRoleSelectionActivity"/>
+        <activity android:name=".login.FirstTimeLandlordActivity"/>
+
+        <activity android:name=".content.ContentActivity"/>
+
+        <activity android:name=".landlord.LandlordAddPropertyActivity"/>
+        <activity android:name=".landlord.LandlordPropertyDetailActivity"/>
     </application>
 
 </manifest>

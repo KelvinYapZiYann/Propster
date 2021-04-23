@@ -2,11 +2,13 @@
 <resources>
 
     <dimen name="input_field_width">270dp</dimen>
-    <dimen name="input_field_height">40dp</dimen>
-    <dimen name="input_field_font_size">17sp</dimen>
-    <dimen name="input_field_corner_radius">30dp</dimen>
+    <dimen name="input_field_height">35dp</dimen>
+    <dimen name="input_field_font_size">14sp</dimen>
+    <dimen name="input_field_corner_radius">7dp</dimen>
     <dimen name="input_field_border_width">1dp</dimen>
-    <dimen name="input_field_gap_height">15dp</dimen>
+    <dimen name="input_field_gap_height">13dp</dimen>
+    <dimen name="input_field_alert_font_size">10sp</dimen>
+    <dimen name="input_field_alert_gap_height">0dp</dimen>
 
     <dimen name="primary_button_width">200dp</dimen>
     <dimen name="primary_button_font_size">14sp</dimen>
@@ -15,10 +17,24 @@
     <dimen name="secondary_button_font_size">14sp</dimen>
     <dimen name="secondary_button_gap_height">15dp</dimen>
 
+    <dimen name="large_button_width">300dp</dimen>
+    <dimen name="large_button_font_size">30sp</dimen>
+    <dimen name="large_button_padding">20dp</dimen>
+
+    <dimen name="large_text_font_size">30sp</dimen>
+
     <dimen name="copyright_font_size">11sp</dimen>
     <dimen name="copyright_gap_height">10dp</dimen>
 
     <dimen name="group_gap_height">25dp</dimen>
+    <dimen name="min_group_margin">15dp</dimen>
+
+    <dimen name="tab_layout_elevation">10dp</dimen>
+    <dimen name="tab_layout_font_size">10sp</dimen>
+
+    <dimen name="list_item_property_name_font_size">20sp</dimen>
+
+<!--    <dimen name="user_profile_image_size">25dp</dimen>-->
 
 
 </resources>
