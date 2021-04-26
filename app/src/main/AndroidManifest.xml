@@ -27,6 +27,7 @@
 
         <activity android:name=".content.ContentActivity"/>
 
+        <activity android:name=".landlord.LandlordPropertyListActivity"/>
         <activity android:name=".landlord.LandlordAddPropertyActivity"/>
         <activity android:name=".landlord.LandlordPropertyDetailActivity"/>
     </application>

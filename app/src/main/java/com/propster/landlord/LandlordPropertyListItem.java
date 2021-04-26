@@ -4,12 +4,16 @@ public class LandlordPropertyListItem {
 
     private String propertyName;
     private int tenantCount;
+    private int totalTenantCount;
     private float payment;
+    private int age;
 
-    public LandlordPropertyListItem(String propertyName, int tenantCount, float payment) {
+    public LandlordPropertyListItem(String propertyName, int tenantCount, int totalTenantCount, float payment, int age) {
         this.propertyName = propertyName;
         this.tenantCount = tenantCount;
+        this.totalTenantCount = totalTenantCount;
         this.payment = payment;
+        this.age = age;
     }
 
     public String getPropertyName() {
@@ -20,8 +24,16 @@ public class LandlordPropertyListItem {
         return tenantCount;
     }
 
+    public int getTotalTenantCount() {
+        return totalTenantCount;
+    }
+
     public float getPayment() {
         return payment;
+    }
+
+    public int getAge() {
+        return age;
     }
 
     public void setPropertyName(String propertyName) {

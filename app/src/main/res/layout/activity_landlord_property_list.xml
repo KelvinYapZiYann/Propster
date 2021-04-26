@@ -4,31 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".landlord.LandlordPropertyTenantListActivity">
+    tools:context=".landlord.LandlordPropertyListActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/landlordManageFirstTimeLoginLabel"
+        android:text="@string/first_time_login_as_landlord"
+        android:textSize="@dimen/large_text_font_size"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/min_group_margin"
+        android:visibility="gone"
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/landlordPropertyAddTenantButton"
+        android:layout_above="@id/landlordManageAddPropertyButton"
         android:layout_alignParentTop="true"
         >
+
+<!--        android:layout_marginStart="@dimen/min_group_margin"-->
+<!--        android:layout_marginEnd="@dimen/min_group_margin"-->
 
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/landlordPropertyTenantList"
+            android:id="@+id/landlordManagePropertyList"
             />
 
-        <!--        android:divider="@color/white"-->
-        <!--        android:dividerHeight="0dp"-->
+<!--        android:divider="@color/white"-->
+<!--        android:dividerHeight="0dp"-->
 
     </RelativeLayout>
 
     <android.widget.Button
         android:layout_width="@dimen/large_button_width"
         android:layout_height="wrap_content"
-        android:id="@+id/landlordPropertyAddTenantButton"
-        android:text="@string/add_tenant"
+        android:id="@+id/landlordManageAddPropertyButton"
+        android:text="@string/add_property"
         android:textColor="@color/white"
         android:textSize="@dimen/large_button_font_size"
         android:background="@drawable/primary_button_background_state"
@@ -43,7 +58,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/landlordPropertyTenantListBackground"
+        android:id="@+id/landlordPropertyListBackground"
         android:background="@color/background_black"
         android:visibility="gone"
         />
@@ -51,7 +66,7 @@
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/landlordPropertyTenantListLoadingSpinner"
+        android:id="@+id/landlordPropertyListLoadingSpinner"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:indeterminate="true"

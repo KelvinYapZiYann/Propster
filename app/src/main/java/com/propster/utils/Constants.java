@@ -29,5 +29,6 @@ public class Constants {
     public static final String URL_SAVE_USER_PROFILE = "";
     public static final String URL_LANDLORD_ADD_PROPERTY = "";
     public static final String URL_LANDLORD_PROPERTY_LIST = "";
+    public static final String URL_LANDLORD_PROPERTY_TENANT_LIST = "";
 
 }

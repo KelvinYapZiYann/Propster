@@ -20,6 +20,7 @@
     <string name="add_property">Add Property</string>
     <string name="add_tenant">Add Tenant</string>
     <string name="skip">Skip</string>
+    <string name="properties">Properties</string>
 
     <!-- USER PROFILE -->
     <string name="email_label">Email:</string>
@@ -40,6 +41,12 @@
     <string name="manage">Manage</string>
     <string name="community">Community</string>
     <string name="more">More</string>
+
+    <!-- LANDLORD -->
+    <string name="property_expenses">Property Expenses</string>
+    <string name="payment_records">Payment Records</string>
+    <string name="tenants">Tenants</string>
+    <string name="tenure_contracts">Tenure Contracts</string>
 
     <!-- PROPERTY -->
     <string name="property_name">Property Name</string>

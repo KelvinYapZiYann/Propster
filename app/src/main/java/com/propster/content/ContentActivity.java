@@ -55,7 +55,9 @@ public class ContentActivity extends AppCompatActivity {
             }
         }).attach();
 
-        contentTabPager.setCurrentItem(2);
+        if (firstTime) {
+            contentTabPager.setCurrentItem(2);
+        }
 
 
     }

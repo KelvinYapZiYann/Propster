@@ -9,8 +9,8 @@
         android:orientation="horizontal"
         android:padding="@dimen/min_group_margin"
         >
-<!--        android:background="@drawable/edittext_background_unfocused"-->
-<!--        android:layout_marginBottom="@dimen/min_group_margin"-->
+        <!--        android:background="@drawable/edittext_background_unfocused"-->
+        <!--        android:layout_marginBottom="@dimen/min_group_margin"-->
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -20,9 +20,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/landlordManagePropertyListItemName"
+                android:id="@+id/landlordManagePropertyTenantListItemName"
                 android:textColor="@color/black"
-                android:text="property item name"
+                android:text="tenant item name"
                 android:textSize="20sp"
                 android:layout_centerVertical="true"
                 />
@@ -45,33 +45,24 @@
                     android:layout_weight="1"
                     >
 
-                    <RatingBar
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/landlordManagePropertyListItemTenantCount"
-                        style="?android:attr/ratingBarStyleSmall"
-                        android:numStars="10"
+                        android:id="@+id/landlordManagePropertyTenantListItemTenureEndDate"
+                        android:text="01/01/20"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/input_field_font_size"
                         android:layout_alignParentEnd="true"
                         />
 
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:id="@+id/landlordManagePropertyListItemTenantCount"-->
-<!--                        android:text="tenant count"-->
-<!--                        android:textColor="@color/black"-->
-<!--                        android:textSize="@dimen/input_field_font_size"-->
-<!--                        android:layout_alignParentEnd="true"-->
-<!--                        />-->
-
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="tenant count = "-->
-<!--                        android:textColor="@color/black"-->
-<!--                        android:textSize="@dimen/input_field_font_size"-->
-<!--                        android:layout_toStartOf="@id/landlordManagePropertyListItemTenantCount"-->
-<!--                        />-->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="tenureEndDate = "
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/input_field_font_size"
+                        android:layout_toStartOf="@id/landlordManagePropertyTenantListItemTenureEndDate"
+                        />
 
                 </RelativeLayout>
 
@@ -84,11 +75,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/landlordManagePropertyListItemPayment"
+                        android:id="@+id/landlordManagePropertyTenantListItemPayment"
                         android:textColor="@color/black"
                         android:text="payment"
                         android:textSize="@dimen/input_field_font_size"
-                        android:layout_toStartOf="@id/landlordManagePropertyListItemAgeLabel"
+                        android:layout_toStartOf="@id/landlordManagePropertyTenantListItemAgeLabel"
                         />
 
                     <TextView
@@ -97,29 +88,28 @@
                         android:text="payment = "
                         android:textColor="@color/black"
                         android:textSize="@dimen/input_field_font_size"
-                        android:layout_toStartOf="@id/landlordManagePropertyListItemPayment"
+                        android:layout_toStartOf="@id/landlordManagePropertyTenantListItemPayment"
                         />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/landlordManagePropertyListItemAgeLabel"
+                        android:id="@+id/landlordManagePropertyTenantListItemAgeLabel"
                         android:text="age = "
                         android:textColor="@color/black"
                         android:textSize="@dimen/input_field_font_size"
-                        android:layout_toStartOf="@id/landlordManagePropertyListItemAge"
+                        android:layout_toStartOf="@id/landlordManagePropertyTenantListItemAge"
                         />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/landlordManagePropertyListItemAge"
+                        android:id="@+id/landlordManagePropertyTenantListItemAge"
                         android:textColor="@color/black"
                         android:text="age"
                         android:textSize="@dimen/input_field_font_size"
                         android:layout_alignParentEnd="true"
                         />
-
 
                 </RelativeLayout>
 
