@@ -15,7 +15,7 @@
         android:textSize="@dimen/primary_button_font_size"
         android:background="@drawable/primary_button_background_state"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/group_gap_height"
+        android:layout_marginTop="@dimen/primary_button_gap_height"
         />
 
     <android.widget.Button
@@ -27,7 +27,7 @@
         android:textSize="@dimen/primary_button_font_size"
         android:background="@drawable/primary_button_background_state"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/group_gap_height"
+        android:layout_marginTop="@dimen/primary_button_gap_height"
         android:layout_below="@id/landlordContentManagePropertyPropertyExpensesButton"
         />
 
@@ -40,7 +40,7 @@
         android:textSize="@dimen/primary_button_font_size"
         android:background="@drawable/primary_button_background_state"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/group_gap_height"
+        android:layout_marginTop="@dimen/primary_button_gap_height"
         android:layout_below="@id/landlordContentManagePropertyPropertyListButton"
         />
 
@@ -53,7 +53,7 @@
         android:textSize="@dimen/primary_button_font_size"
         android:background="@drawable/primary_button_background_state"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/group_gap_height"
+        android:layout_marginTop="@dimen/primary_button_gap_height"
         android:layout_below="@id/landlordContentManagePropertyPaymentRecordsButton"
         />
 
@@ -66,7 +66,7 @@
         android:textSize="@dimen/primary_button_font_size"
         android:background="@drawable/primary_button_background_state"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/group_gap_height"
+        android:layout_marginTop="@dimen/primary_button_gap_height"
         android:layout_below="@id/landlordContentManagePropertyTenantsButton"
         />
 

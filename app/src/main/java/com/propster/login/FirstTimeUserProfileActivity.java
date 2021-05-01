@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.propster.R;
 import com.propster.utils.Constants;
 
@@ -36,10 +37,7 @@ import java.util.Locale;
 
 public class FirstTimeUserProfileActivity extends AppCompatActivity {
 
-    public static final String[] TITLE = {"Mr", "Mrs/Ms"};
-    public static final String[] IS_BUSINESS = {"Personal", "Company"};
-
-    private ImageButton userProfileImage;
+    private ShapeableImageView userProfileImage;
 
     private EditText userProfileEmail;
     private TextView userProfileEmailAlert;
@@ -86,11 +84,11 @@ public class FirstTimeUserProfileActivity extends AppCompatActivity {
 
         this.requestQueue = Volley.newRequestQueue(this);
 
-        ArrayAdapter<String> titleArrayAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, TITLE);
+        ArrayAdapter<CharSequence> titleArrayAdapter = ArrayAdapter.createFromResource(this, R.array.title, R.layout.spinner_item);
         titleArrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         this.userProfileTitle.setAdapter(titleArrayAdapter);
 
-        ArrayAdapter<String> isBusinessArrayAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, IS_BUSINESS);
+        ArrayAdapter<CharSequence> isBusinessArrayAdapter = ArrayAdapter.createFromResource(this, R.array.is_business, R.layout.spinner_item);
         isBusinessArrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         this.userProfileIsBusiness.setAdapter(isBusinessArrayAdapter);
 

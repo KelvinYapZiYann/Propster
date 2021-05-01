@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.propster.R;
 
-public class ContentHomeFragment extends Fragment {
+public class ContentHomeFragment extends ContentFragment {
 
     public ContentHomeFragment() {
 

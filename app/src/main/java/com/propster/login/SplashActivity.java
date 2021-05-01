@@ -11,6 +11,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +23,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.propster.R;
+import com.propster.content.ContentActivity;
 import com.propster.utils.Constants;
 
 import org.json.JSONException;
@@ -48,6 +54,8 @@ public class SplashActivity extends AppCompatActivity {
         this.requestQueue = Volley.newRequestQueue(this);
 
         this.checkAppVersion();
+
+        FirebaseApp.initializeApp(this);
     }
 
     private void checkAppVersion() {
@@ -121,7 +129,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 System.out.println(response);
-                checkSessionIdSuccess();
+                checkSessionIdSuccess(false);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -134,9 +142,15 @@ public class SplashActivity extends AppCompatActivity {
         checkSessionIdFailed();
     }
 
-    private void checkSessionIdSuccess() {
-        Intent userProfileIntent = new Intent(SplashActivity.this, FirstTimeUserProfileActivity.class);
-        startActivity(userProfileIntent);
+    private void checkSessionIdSuccess(boolean isUserProfileComplete) {
+        if (isUserProfileComplete) {
+            this.updateFirebaseCMToken();
+            Intent contentIntent = new Intent(SplashActivity.this, ContentActivity.class);
+            startActivity(contentIntent);
+        } else {
+            Intent userProfileIntent = new Intent(SplashActivity.this, FirstTimeUserProfileActivity.class);
+            startActivity(userProfileIntent);
+        }
         finish();
     }
 
@@ -144,6 +158,39 @@ public class SplashActivity extends AppCompatActivity {
         Intent loginIntent = new Intent(SplashActivity.this, LoginActivity.class);
         startActivity(loginIntent);
         finish();
+    }
+
+    private void updateFirebaseCMToken() {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            return;
+                        }
+                        String token = task.getResult();
+                        System.out.println("fcm token = " + token);
+//                        JSONObject postData = new JSONObject();
+//                        try {
+//                            postData.put("token", token);
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.URL_UPDATE_FCM_TOKEN, postData, new Response.Listener<JSONObject>() {
+//                            @Override
+//                            public void onResponse(JSONObject response) {
+//
+//                            }
+//                        }, new Response.ErrorListener() {
+//                            @Override
+//                            public void onErrorResponse(VolleyError error) {
+//
+//                            }
+//                        });
+//                        requestQueue.add(jsonObjectRequest);
+                    }
+                });
+
     }
 
 }

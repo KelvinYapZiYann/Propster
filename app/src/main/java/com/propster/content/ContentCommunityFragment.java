@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.propster.R;
 
-public class ContentCommunityFragment extends Fragment {
+public class ContentCommunityFragment extends ContentFragment {
 
     public ContentCommunityFragment() {
 

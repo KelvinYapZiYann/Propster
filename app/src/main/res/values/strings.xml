@@ -22,6 +22,26 @@
     <string name="skip">Skip</string>
     <string name="properties">Properties</string>
 
+    <string-array name="title">
+        <item>Mr</item>
+        <item>Ms/Mrs</item>
+    </string-array>
+
+    <string-array name="is_business">
+        <item>Personal</item>
+        <item>Company</item>
+    </string-array>
+
+    <string-array name="add_tenant_type">
+        <item>Scan QR Code</item>
+        <item>Non-existing Tenant</item>
+    </string-array>
+
+    <string-array name="add_property_type">
+        <item>Show QR Code</item>
+        <item>Non-existing Property</item>
+    </string-array>
+
     <!-- USER PROFILE -->
     <string name="email_label">Email:</string>
     <string name="phone_number_label">Phone Number:</string>
@@ -31,9 +51,18 @@
     <string name="date_of_birth_label">Date of Birth:</string>
     <string name="is_business_label">Personal/Company:</string>
 
+    <string name="switch_role">Switch Role</string>
+    <string name="switch_role_to_tenant">Switch Role To Tenant</string>
+    <string name="switch_role_to_landlord">Switch Role To Landlord</string>
+
     <!-- FIRST TIME ROLE SELECTION -->
     <string name="select_your_role">Select Your Role</string>
     <string name="first_time_login_as_landlord">First time login as landlord?</string>
+    <string name="first_time_login_as_tenant">First time login as tenant?</string>
+
+    <!-- TOOLBAR -->
+    <string name="user">User</string>
+    <string name="notification">Notification</string>
 
     <!-- TAB -->
     <string name="dashboard">Dashboard</string>
@@ -48,7 +77,12 @@
     <string name="tenants">Tenants</string>
     <string name="tenure_contracts">Tenure Contracts</string>
 
+    <!-- REMOVE -->
+    <string name="remove_property">Remove Property</string>
+    <string name="remove_tenant">Remove Tenant</string>
+
     <!-- PROPERTY -->
+    <string name="property_detail">Property Detail</string>
     <string name="property_name">Property Name</string>
     <string name="unit_name">Unit Name</string>
     <string name="floor">Floor</string>
@@ -103,6 +137,13 @@
     <string name="remaining_term_of_loan_label">Remaining Term of Loan:</string>
     <string name="latest_rental_date_label">Latest Rental Date:</string>
 
+    <!-- PROPERTY TENANT -->
+    <string name="tenant_name">Tenant Name</string>
+    <string name="salary_range">Salary Range</string>
+
+    <string name="tenant_name_label">Tenant Name:</string>
+    <string name="salary_range_label">Salary Range:</string>
+
     <!-- ERROR -->
     <string name="login_error_username_empty">Username cannot be empty</string>
     <string name="login_error_password_empty">Password cannot be empty</string>
@@ -125,6 +166,9 @@
     <string name="add_property_error_postcode_empty">Postcode cannot be empty</string>
     <string name="add_property_error_state_empty">State cannot be empty</string>
     <string name="add_property_error_country_empty">Country cannot be empty</string>
+
+    <string name="add_tenant_error_name_empty">Tenant name cannot be empty</string>
+    <string name="add_tenant_error_salary_range_empty">Salary range cannot be empty</string>
 
 
 

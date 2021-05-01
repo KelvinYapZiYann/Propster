@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".tenant.TenantPropertyListActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tenantPropertyListToolbar"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        android:elevation="@dimen/toolbar_elevation"
+        android:background="@color/white"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tenantManageFirstTimeLoginLabel"
+        android:text="@string/first_time_login_as_tenant"
+        android:textSize="@dimen/large_text_font_size"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/min_group_margin"
+        android:visibility="gone"
+        android:layout_below="@id/tenantPropertyListToolbar"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/tenantManageAddPropertyButton"
+        android:layout_below="@id/tenantPropertyListToolbar"
+        >
+
+        <!--        android:layout_marginStart="@dimen/min_group_margin"-->
+        <!--        android:layout_marginEnd="@dimen/min_group_margin"-->
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tenantManagePropertyList"
+            />
+
+        <!--        android:divider="@color/white"-->
+        <!--        android:dividerHeight="0dp"-->
+
+    </RelativeLayout>
+
+    <android.widget.Button
+        android:layout_width="@dimen/large_button_width"
+        android:layout_height="wrap_content"
+        android:id="@+id/tenantManageAddPropertyButton"
+        android:text="@string/add_property"
+        android:textColor="@color/white"
+        android:textSize="@dimen/large_button_font_size"
+        android:background="@drawable/primary_button_background_state"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="@dimen/large_button_padding"
+        android:paddingBottom="@dimen/large_button_padding"
+        android:layout_marginTop="@dimen/group_gap_height"
+        android:layout_marginBottom="@dimen/secondary_button_gap_height"
+        android:layout_alignParentBottom="true"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/tenantPropertyListBackground"
+        android:background="@color/background_black"
+        android:visibility="gone"
+        />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tenantPropertyListLoadingSpinner"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/secondary_blue"
+        android:visibility="gone"
+        />
+
+</RelativeLayout>

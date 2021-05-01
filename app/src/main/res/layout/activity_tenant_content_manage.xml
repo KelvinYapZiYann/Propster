@@ -1,12 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <android.widget.Button
+        android:layout_width="@dimen/primary_button_width"
         android:layout_height="wrap_content"
-        android:text="tenant manage"
+        android:id="@+id/tenantContentManagePropertyPropertyExpensesButton"
+        android:text="@string/property_expenses"
+        android:textColor="@color/white"
+        android:textSize="@dimen/primary_button_font_size"
+        android:background="@drawable/primary_button_background_state"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/primary_button_gap_height"
+        />
+
+    <android.widget.Button
+        android:layout_width="@dimen/primary_button_width"
+        android:layout_height="wrap_content"
+        android:id="@+id/tenantContentManagePropertyPropertyListButton"
+        android:text="@string/properties"
+        android:textColor="@color/white"
+        android:textSize="@dimen/primary_button_font_size"
+        android:background="@drawable/primary_button_background_state"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/primary_button_gap_height"
+        android:layout_below="@id/tenantContentManagePropertyPropertyExpensesButton"
+        />
+
+    <android.widget.Button
+        android:layout_width="@dimen/primary_button_width"
+        android:layout_height="wrap_content"
+        android:id="@+id/tenantContentManagePropertyPaymentRecordsButton"
+        android:text="@string/payment_records"
+        android:textColor="@color/white"
+        android:textSize="@dimen/primary_button_font_size"
+        android:background="@drawable/primary_button_background_state"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/primary_button_gap_height"
+        android:layout_below="@id/tenantContentManagePropertyPropertyListButton"
+        />
+
+    <android.widget.Button
+        android:layout_width="@dimen/primary_button_width"
+        android:layout_height="wrap_content"
+        android:id="@+id/tenantContentManagePropertyTenureContractsButton"
+        android:text="@string/tenure_contracts"
+        android:textColor="@color/white"
+        android:textSize="@dimen/primary_button_font_size"
+        android:background="@drawable/primary_button_background_state"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/primary_button_gap_height"
+        android:layout_below="@id/tenantContentManagePropertyPaymentRecordsButton"
         />
 
 </RelativeLayout>

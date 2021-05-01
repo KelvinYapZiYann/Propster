@@ -6,12 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".landlord.LandlordAddPropertyActivity">
 
-    <RelativeLayout
+    <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/landlordAddPropertyToolbar"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        android:elevation="@dimen/toolbar_elevation"
+        android:background="@color/white"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_above="@id/landlordAddPropertyButton"
         android:layout_marginStart="@dimen/min_group_margin"
         android:layout_marginEnd="@dimen/min_group_margin"
+        android:layout_below="@id/landlordAddPropertyToolbar"
         >
 
         <TextView

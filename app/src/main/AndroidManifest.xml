@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.propster">
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -11,6 +19,22 @@
         android:roundIcon="@mipmap/propster_icon_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Propster">
+
+        <service
+            android:name=".content.FirebaseNotificationService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/notification_bell_ic" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/primary_blue" />
+
         <activity android:name=".login.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,10 +50,26 @@
         <activity android:name=".login.FirstTimeLandlordActivity"/>
 
         <activity android:name=".content.ContentActivity"/>
+        <activity android:name=".content.NotificationActivity"/>
+        <activity android:name=".content.UserProfileActivity"/>
 
         <activity android:name=".landlord.LandlordPropertyListActivity"/>
         <activity android:name=".landlord.LandlordAddPropertyActivity"/>
         <activity android:name=".landlord.LandlordPropertyDetailActivity"/>
+        <activity android:name=".landlord.LandlordPropertyTenantListActivity"/>
+        <activity android:name=".landlord.LandlordPropertyAddTenantActivity"/>
+        <activity android:name=".landlord.LandlordPropertyTenantDetailActivity"/>
+
+        <activity android:name=".tenant.TenantPropertyListActivity"/>
+        <activity android:name=".tenant.TenantPropertyDetailActivity"/>
+
+        <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:screenOrientation="portrait"
+            tools:replace="android:screenOrientation"
+            android:stateNotNeeded="true"/>
     </application>
+
+
 
 </manifest>

@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.propster.R;
 import com.propster.content.ContentActivity;
 import com.propster.utils.Constants;
@@ -37,7 +42,6 @@ public class LoginActivity extends AppCompatActivity {
     private TextView loginPasswordAlert;
     private Button loginButton;
     private Button registerButton;
-    private TextView forgotPasswordButton;
 
     private View backgroundView;
     private ProgressBar loadingSpinner;
@@ -55,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         this.loginPasswordAlert = findViewById(R.id.loginPasswordAlert);
         this.loginButton = findViewById(R.id.loginButton);
         this.registerButton = findViewById(R.id.loginRegisterButton);
-        this.forgotPasswordButton = findViewById(R.id.loginForgotPassword);
+        TextView forgotPasswordButton = findViewById(R.id.loginForgotPassword);
 
         this.backgroundView = findViewById(R.id.loginBackground);
         this.loadingSpinner = findViewById(R.id.loginLoadingSpinner);
@@ -77,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        this.forgotPasswordButton.setOnClickListener(new View.OnClickListener() {
+        forgotPasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent forgotPasswordIntent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
@@ -85,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+//        FirebaseApp.initializeApp(this);
     }
 
     private void doLogin() {
@@ -135,7 +140,41 @@ public class LoginActivity extends AppCompatActivity {
         loginSuccess("", false);
     }
 
+    private void updateFirebaseCMToken() {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            return;
+                        }
+                        String token = task.getResult();
+                        System.out.println("fcm token = " + token);
+//                        JSONObject postData = new JSONObject();
+//                        try {
+//                            postData.put("token", token);
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.URL_UPDATE_FCM_TOKEN, postData, new Response.Listener<JSONObject>() {
+//                            @Override
+//                            public void onResponse(JSONObject response) {
+//
+//                            }
+//                        }, new Response.ErrorListener() {
+//                            @Override
+//                            public void onErrorResponse(VolleyError error) {
+//
+//                            }
+//                        });
+//                        requestQueue.add(jsonObjectRequest);
+                    }
+                });
+
+    }
+
     private void loginSuccess(String sessionId, boolean firstTime) {
+        this.updateFirebaseCMToken();
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(Constants.SHARED_PREFERENCES_SESSION_ID, sessionId);

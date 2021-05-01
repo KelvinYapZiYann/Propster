@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".landlord.LandlordPropertyListActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/landlordManagePropertyListToolbar"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        android:elevation="@dimen/toolbar_elevation"
+        android:background="@color/white"
+        />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,13 +25,14 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/min_group_margin"
         android:visibility="gone"
+        android:layout_below="@id/landlordManagePropertyListToolbar"
         />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/landlordManageAddPropertyButton"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/landlordManagePropertyListToolbar"
         >
 
 <!--        android:layout_marginStart="@dimen/min_group_margin"-->
@@ -51,7 +61,7 @@
         android:paddingTop="@dimen/large_button_padding"
         android:paddingBottom="@dimen/large_button_padding"
         android:layout_marginTop="@dimen/group_gap_height"
-        android:layout_marginBottom="@dimen/secondary_button_gap_height"
+        android:layout_marginBottom="@dimen/primary_button_gap_height"
         android:layout_alignParentBottom="true"
         />
 

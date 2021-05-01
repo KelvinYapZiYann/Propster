@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".content.ContentActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/mainToolbar"
+        android:elevation="@dimen/toolbar_elevation"
+        android:background="@color/white"
+        />
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/contentTabLayout"
         android:layout_width="match_parent"
@@ -15,12 +23,13 @@
         app:tabSelectedTextColor="@color/primary_blue"
         android:background="@color/white"
         android:elevation="@dimen/tab_layout_elevation"
-        app:tabTextAppearance="@style/TabLayout"
+        app:tabTextAppearance="@style/main_tab_layout"
         />
 
     <androidx.viewpager2.widget.ViewPager2
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/mainToolbar"
         android:layout_above="@id/contentTabLayout"
         android:id="@+id/contentTabPager"
         />

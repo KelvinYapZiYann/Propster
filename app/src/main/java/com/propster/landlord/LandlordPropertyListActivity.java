@@ -6,6 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -17,10 +20,13 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.propster.R;
+import com.propster.content.NotificationActivity;
+import com.propster.content.UserProfileActivity;
 import com.propster.utils.Constants;
 
 import org.json.JSONArray;
@@ -34,10 +40,10 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
     private TextView landlordManageFirstTimeLoginLabel;
     private LandlordPropertyListAdapter propertyListAdapter;
 
+    private Button landlordManageAddPropertyButton;
+
     private View backgroundView;
     private ProgressBar loadingSpinner;
-
-    private Button landlordManageAddPropertyButton;
 
     private RequestQueue requestQueue;
 
@@ -69,7 +75,9 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
         landlordManagePropertyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Intent propertyTenantListIntent = new Intent(LandlordPropertyListActivity.this, LandlordPropertyTenantListActivity.class);
+//                propertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST, "");
+                startActivity(propertyTenantListIntent);
             }
         });
 
@@ -77,12 +85,13 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
         this.landlordManageAddPropertyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent landlordAddPropertyIntent = new Intent(getActivity(), LandlordAddPropertyActivity.class);
+//                Intent landlordAddPropertyIntent = new Intent(LandlordPropertyListActivity.this, LandlordAddPropertyActivity.class);
 //                startActivityForResult(landlordAddPropertyIntent, Constants.REQUEST_CODE_LANDLORD_ADD_PROPERTY);
-                addPropertyItemIntoList("something new", 2, 4, tmp++, 30);
+                addPropertyItemIntoList("something new", tmp++, 2, 4, tmp++, 30);
                 landlordManageFirstTimeLoginLabel.setVisibility(View.GONE);
             }
         });
+
         this.refreshPropertyListView();
         if (this.propertyListAdapter.getCount() <= 0) {
             if (firstTime) {
@@ -91,6 +100,37 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
                 this.landlordManageFirstTimeLoginLabel.setVisibility(View.GONE);
             }
         }
+        Toolbar mainToolbar = findViewById(R.id.landlordManagePropertyListToolbar);
+        setSupportActionBar(mainToolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(R.string.app_name);
+        }
+        mainToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.mainMenuUser) {
+                    Intent userProfileIntent = new Intent(LandlordPropertyListActivity.this, UserProfileActivity.class);
+                    startActivityForResult(userProfileIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
+                } else if (item.getItemId() == R.id.mainMenuNotification) {
+                    Intent notificationIntent = new Intent(LandlordPropertyListActivity.this, NotificationActivity.class);
+                    startActivityForResult(notificationIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
+                }
+                return false;
+            }
+        });
+        mainToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main_toolbar, menu);
+        return true;
     }
 
     @Override
@@ -151,9 +191,9 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
             JSONObject propertyItemJsonObject;
             for (int i = 0; i < propertyListJasonArray.length(); i++) {
                 propertyItemJsonObject = propertyListJasonArray.getJSONObject(i);
-                this.addPropertyItemIntoList(propertyItemJsonObject.getString("property_name"), propertyItemJsonObject.getInt("tenant_count"),
-                        propertyItemJsonObject.getInt("total_tenant_count"), (float) propertyItemJsonObject.getDouble("payment"),
-                        propertyItemJsonObject.getInt("age"));
+                this.addPropertyItemIntoList(propertyItemJsonObject.getString("property_name"), propertyItemJsonObject.getInt("property_id"),
+                        propertyItemJsonObject.getInt("tenant_count"), propertyItemJsonObject.getInt("total_tenant_count"),
+                        (float) propertyItemJsonObject.getDouble("payment"), propertyItemJsonObject.getInt("age"));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -182,11 +222,11 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
         this.propertyListAdapter.clear();
     }
 
-    private void addPropertyItemIntoList(String propertyName, int tenantCount, int totalTenantCount, float payment, int age) {
+    private void addPropertyItemIntoList(String propertyName, int propertyId, int tenantCount, int totalTenantCount, float payment, int age) {
         if (this.propertyListAdapter == null) {
             return;
         }
-        this.propertyListAdapter.add(new LandlordPropertyListItem(propertyName, tenantCount, totalTenantCount, payment, age));
+        this.propertyListAdapter.add(new LandlordPropertyListItem(propertyName, propertyId, tenantCount, totalTenantCount, payment, age));
     }
 
     private void startLoadingSpinner() {

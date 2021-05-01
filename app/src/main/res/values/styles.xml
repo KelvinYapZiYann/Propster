@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="TabLayout" parent="Theme.AppCompat">
+    <style name="main_tab_layout" parent="Theme.AppCompat">
         <item name="android:textSize">@dimen/tab_layout_font_size</item>
+    </style>
+
+    <style name="user_profile_rounded_image">
+        <item name="backgroundColor">@color/white</item>
+        <item name="strokeColor">@color/disabled_grey</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
     </style>
 
 </resources>

@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.propster.R;
 
-public class ContentReportFragment extends Fragment {
+public class ContentReportFragment extends ContentFragment {
 
     public ContentReportFragment() {
 
