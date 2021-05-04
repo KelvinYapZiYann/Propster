@@ -36,6 +36,8 @@ import org.json.JSONObject;
 
 public class SplashActivity extends AppCompatActivity {
 
+    public static String SESSION_ID = "";
+
     private RequestQueue requestQueue;
 
     @Override
@@ -106,11 +108,11 @@ public class SplashActivity extends AppCompatActivity {
     private void checkLoginCredentials() {
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         String sessionId = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, null);
-        if (sessionId == null) {
+//        if (sessionId == null) {
             this.checkSessionIdFailed();
-        } else {
-            doCheckSessionId(sessionId);
-        }
+//        } else {
+//            this.doCheckSessionId(sessionId);
+//        }
     }
 
     private void doCheckSessionId(String sessionId) {
@@ -125,7 +127,7 @@ public class SplashActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.URL_CHECK_SESSION_ID, postData, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.URL_CHECK_MIDDLEWARE_VERIFICATION, postData, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 System.out.println(response);

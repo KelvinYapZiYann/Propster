@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -33,6 +34,10 @@ import com.propster.utils.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -76,8 +81,9 @@ public class LoginActivity extends AppCompatActivity {
         this.registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(registerIntent);
+//                Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
+//                startActivity(registerIntent);
+                doCheckUserMiddlewareVerification();
             }
         });
 
@@ -110,37 +116,63 @@ public class LoginActivity extends AppCompatActivity {
 
         this.startLoadingSpinner();
 
-//        JSONObject postData = new JSONObject();
-//        try {
-//            postData.put("username", this.loginUsername.getText().toString());
-//            postData.put("password", this.loginPassword.getText().toString());
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.URL_LOGIN, postData, new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject response) {
-//                System.out.println(response);
-//                try {
-//                    loginSuccess(response.getString("session_id"), response.getBoolean("first_time"));
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                    loginFailed(e.getLocalizedMessage());
-//                }
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                loginFailed(error.getLocalizedMessage());
-//                error.printStackTrace();
-//            }
-//        });
-//        this.requestQueue.add(jsonObjectRequest);
-
-        loginSuccess("", false);
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("email", this.loginUsername.getText().toString());
+            postData.put("password", this.loginPassword.getText().toString());
+        } catch (JSONException e) {
+            loginFailed(Constants.ERROR_COMMON);
+        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.URL_LOGIN, postData, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if (!response.has("access_token")) {
+                        loginFailed(Constants.ERROR_COMMON);
+                        return;
+                    }
+                    loginSuccess(response.getString("access_token"));
+                } catch (JSONException e) {
+                    loginFailed(Constants.ERROR_COMMON);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                try {
+                    String errorResponseBody = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+                    JSONObject errorResponseBodyJsonObject = new JSONObject(errorResponseBody);
+                    if (!errorResponseBodyJsonObject.has("message")) {
+                        loginFailed(Constants.ERROR_COMMON);
+                        return;
+                    }
+                    if (!errorResponseBodyJsonObject.has("errors")) {
+                        loginFailed(Constants.ERROR_COMMON);
+                        return;
+                    }
+                    JSONObject errorJsonObject = errorResponseBodyJsonObject.getJSONObject("errors");
+                    if (!errorJsonObject.has("email")) {
+                        loginFailed(Constants.ERROR_COMMON);
+                        return;
+                    }
+                    loginFailed(Constants.ERROR_LOGIN_FAILED_CREDENTIALS);
+                } catch (JSONException e) {
+                    loginFailed(Constants.ERROR_COMMON);
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headerParams = new HashMap<String, String>();
+                headerParams.put("Accept", "application/json");
+                headerParams.put("Content-Type", "application/json");
+                return headerParams;
+            }
+        };
+        this.requestQueue.add(jsonObjectRequest);
     }
 
-    private void updateFirebaseCMToken() {
+    private void doUpdateFirebaseCMToken() {
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
@@ -170,24 +202,76 @@ public class LoginActivity extends AppCompatActivity {
 //                        requestQueue.add(jsonObjectRequest);
                     }
                 });
-
     }
 
-    private void loginSuccess(String sessionId, boolean firstTime) {
-        this.updateFirebaseCMToken();
+    private void doCheckUserMiddlewareVerification() {
+        JSONObject postData = new JSONObject();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.URL_CHECK_MIDDLEWARE_VERIFICATION, postData, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Intent userProfileIntent = new Intent(LoginActivity.this, FirstTimeUserProfileActivity.class);
+                startActivity(userProfileIntent);
+                finish();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                try {
+                    String errorResponseBody = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+                    JSONObject errorResponseBodyJsonObject = new JSONObject(errorResponseBody);
+                    if (!errorResponseBodyJsonObject.has("message")) {
+                        loginFailed(Constants.ERROR_COMMON);
+                        return;
+                    }
+                    String errorMessage = errorResponseBodyJsonObject.getString("message");
+                    if (errorMessage.equals("Unauthenticated.")) {
+                        loginFailed(Constants.ERROR_LOGIN_FAILED_CREDENTIALS);
+                    } else if (errorMessage.equals("user email not verified.")) {
+                        loginFailedWithResendEmailVerification();
+                    } else {
+                        loginFailed(Constants.ERROR_COMMON);
+                    }
+                } catch (JSONException e) {
+                    loginFailed(Constants.ERROR_COMMON);
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                if (SplashActivity.SESSION_ID.isEmpty()) {
+                    SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                    SplashActivity.SESSION_ID = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, "");
+                }
+                Map<String, String> headerParams = new HashMap<String, String>();
+                headerParams.put("Accept", "application/json");
+                headerParams.put("Content-Type", "application/json");
+                headerParams.put("X-Requested-With", "XMLHttpRequest");
+                headerParams.put("Authorization", SplashActivity.SESSION_ID);
+                return headerParams;
+            }
+        };
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
+//        this.requestQueue.add(jsonObjectRequest);
+    }
+
+    private void loginSuccess(String sessionId) {
+//        this.doUpdateFirebaseCMToken();
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(Constants.SHARED_PREFERENCES_SESSION_ID, sessionId);
+        editor.putString(Constants.SHARED_PREFERENCES_EMAIL, this.loginUsername.getText().toString());
+        editor.putString(Constants.SHARED_PREFERENCES_PASSWORD, this.loginPassword.getText().toString());
+        editor.putString(Constants.SHARED_PREFERENCES_SESSION_ID, "Bearer " + sessionId);
         editor.apply();
-        this.stopLoadingSpinner();
-        if (firstTime) {
-            Intent userProfileIntent = new Intent(LoginActivity.this, FirstTimeUserProfileActivity.class);
-            startActivity(userProfileIntent);
-        } else {
-            Intent contentIntent = new Intent(LoginActivity.this, ContentActivity.class);
-            startActivity(contentIntent);
-        }
-        finish();
+        SplashActivity.SESSION_ID = "Bearer " + sessionId;
+        this.doCheckUserMiddlewareVerification();
+//        this.stopLoadingSpinner();
+//        if (firstTime) {
+//            Intent userProfileIntent = new Intent(LoginActivity.this, FirstTimeUserProfileActivity.class);
+//            startActivity(userProfileIntent);
+//        } else {
+//            Intent contentIntent = new Intent(LoginActivity.this, ContentActivity.class);
+//            startActivity(contentIntent);
+//        }
     }
 
     private void loginFailed(String loginFailedCause) {
@@ -202,6 +286,22 @@ public class LoginActivity extends AppCompatActivity {
                 dialog.cancel();
             }
         });
+        loginFailedDialog.create().show();
+    }
+
+    private void loginFailedWithResendEmailVerification() {
+        this.stopLoadingSpinner();
+        AlertDialog.Builder loginFailedDialog = new AlertDialog.Builder(this);
+        loginFailedDialog.setCancelable(false);
+        loginFailedDialog.setTitle("Login Failed");
+        loginFailedDialog.setMessage(Constants.ERROR_LOGIN_FAILED_NOT_VERIFIED);
+        loginFailedDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        loginFailedDialog.set
         loginFailedDialog.create().show();
     }
 

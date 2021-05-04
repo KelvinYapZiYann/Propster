@@ -18,6 +18,7 @@ public class Constants {
     /* SHARED PREFERENCES */
     public static final String SHARED_PREFERENCES = "Propster_SP";
     public static final String SHARED_PREFERENCES_EMAIL = "SP_EMAIL";
+    public static final String SHARED_PREFERENCES_PASSWORD = "SP_PASSWORD";
     public static final String SHARED_PREFERENCES_SESSION_ID = "SP_SESSION_ID";
     public static final String SHARED_PREFERENCES_ROLE = "SP_ROLE";
 
@@ -33,15 +34,21 @@ public class Constants {
     public static final int PREMIUM = 2;
 
     /* URL */
-    public static final String URL_CHECK_SESSION_ID = "";
-    public static final String URL_LOGIN = "";
-    public static final String URL_UPDATE_FCM_TOKEN = "";
-    public static final String URL_REGISTER = "";
-    public static final String URL_FORGOT_PASSWORD = "";
-    public static final String URL_SAVE_USER_PROFILE = "";
-    public static final String URL_LANDLORD_ADD_PROPERTY = "";
-    public static final String URL_LANDLORD_PROPERTY_LIST = "";
-    public static final String URL_LANDLORD_PROPERTY_TENANT_LIST = "";
-    public static final String URL_LANDLORD_PROPERTY_ADD_TENANT = "";
+    public static final String URL_BASE = "https://propster.io/api/dashboard/";
+    public static final String URL_LOGIN = URL_BASE + "login";
+    public static final String URL_CHECK_MIDDLEWARE_VERIFICATION = URL_BASE + "middleware-verification";
+    public static final String URL_UPDATE_FCM_TOKEN = URL_BASE + "";
+    public static final String URL_REGISTER = URL_BASE + "";
+    public static final String URL_FORGOT_PASSWORD = URL_BASE + "";
+    public static final String URL_SAVE_USER_PROFILE = URL_BASE + "";
+    public static final String URL_LANDLORD_ADD_PROPERTY = URL_BASE + "";
+    public static final String URL_LANDLORD_PROPERTY_LIST = URL_BASE + "";
+    public static final String URL_LANDLORD_PROPERTY_TENANT_LIST = URL_BASE + "";
+    public static final String URL_LANDLORD_PROPERTY_ADD_TENANT = URL_BASE + "";
+
+    /* ERROR */
+    public static final String ERROR_COMMON = "Error retrieving data from server. Please contact us.";
+    public static final String ERROR_LOGIN_FAILED_CREDENTIALS = "Email or password is incorrect. Please try again.";
+    public static final String ERROR_LOGIN_FAILED_NOT_VERIFIED = "Email is not verified. Please verify the email before logging in.";
 
 }

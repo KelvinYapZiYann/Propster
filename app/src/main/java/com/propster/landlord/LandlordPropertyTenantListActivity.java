@@ -91,7 +91,6 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
                 startActivity(propertyTenantListDetail);
             }
         });
-
         this.landlordManagePropertyAddTenantButton = findViewById(R.id.landlordManagePropertyAddTenantButton);
         this.landlordManagePropertyAddTenantButton.setOnClickListener(new View.OnClickListener() {
             @Override
