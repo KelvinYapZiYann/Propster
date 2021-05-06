@@ -5,10 +5,19 @@
     android:layout_height="match_parent"
     tools:context=".login.FirstTimeRoleSelectionActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/firstTimeRoleSelectionToolbar"
+        android:elevation="@dimen/toolbar_elevation"
+        android:background="@color/white"
+        />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_below="@id/firstTimeRoleSelectionToolbar"
         >
 
         <RelativeLayout
@@ -71,5 +80,24 @@
         </RelativeLayout>
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/firstTimeRoleSelectionBackground"
+        android:background="@color/background_black"
+        android:visibility="gone"
+        />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/firstTimeRoleSelectionLoadingSpinner"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/secondary_blue"
+        android:visibility="gone"
+        />
 
 </RelativeLayout>

@@ -1,6 +1,5 @@
 package com.propster.login;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -13,10 +12,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.propster.R;
@@ -24,6 +23,10 @@ import com.propster.utils.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
@@ -52,20 +55,10 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         this.requestQueue = Volley.newRequestQueue(this);
 
         this.forgotPasswordButton = findViewById(R.id.forgotPasswordButton);
-        this.forgotPasswordButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doForgotPassword();
-            }
-        });
+        this.forgotPasswordButton.setOnClickListener(v -> doForgotPassword());
 
         this.forgotPasswordBackButton = findViewById(R.id.forgotPasswordBackButton);
-        this.forgotPasswordBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        this.forgotPasswordBackButton.setOnClickListener(v -> finish());
     }
 
     private void doForgotPassword() {
@@ -78,27 +71,53 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         this.forgotPasswordAlert.setVisibility(View.INVISIBLE);
         this.startLoadingSpinner();
 
-//        JSONObject postData = new JSONObject();
-//        try {
-//            postData.put("email", this.forgotPasswordEmail.getText().toString());
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.URL_FORGOT_PASSWORD, postData, new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject response) {
-//                System.out.println(response);
-//                forgotPasswordSuccess();
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                forgotPasswordFailed(error.getLocalizedMessage());
-//                error.printStackTrace();
-//            }
-//        });
-//        this.requestQueue.add(jsonObjectRequest);
-        forgotPasswordSuccess();
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("email", this.forgotPasswordEmail.getText().toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.URL_FORGOT_PASSWORD, postData, response -> forgotPasswordSuccess(), error -> {
+            try {
+                String errorResponseBody = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+                JSONObject errorResponseBodyJsonObject = new JSONObject(errorResponseBody);
+                System.out.println("errorResponseBodyJsonObject = " + errorResponseBodyJsonObject.toString());
+                if (!errorResponseBodyJsonObject.has("message")) {
+                    forgotPasswordFailed(Constants.ERROR_COMMON);
+                    return;
+                }
+                String errorMessage = errorResponseBodyJsonObject.getString("message");
+                if (errorMessage.equals("The given data was invalid.")) {
+                    if (errorResponseBodyJsonObject.has("errors")) {
+                        StringBuilder sb = new StringBuilder();
+                        if (errorResponseBodyJsonObject.has("email")) {
+                            sb.append("The email is not yet registered.");
+                        }
+                        if (sb.length() > 0) {
+                            forgotPasswordFailed(sb.toString());
+                        } else {
+                            forgotPasswordFailed(errorMessage);
+                        }
+                    } else {
+                        forgotPasswordFailed(errorMessage);
+                    }
+                } else {
+                    forgotPasswordFailed(errorMessage);
+                }
+            } catch (Exception e) {
+                forgotPasswordFailed(Constants.ERROR_COMMON);
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headerParams = new HashMap<>();
+                headerParams.put("Accept", "application/json");
+                headerParams.put("Content-Type", "application/json");
+                return headerParams;
+            }
+        };
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        this.requestQueue.add(jsonObjectRequest);
     }
 
     private void forgotPasswordSuccess() {
@@ -107,12 +126,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         registerSuccessDialog.setCancelable(false);
         registerSuccessDialog.setTitle("Forgot Password");
         registerSuccessDialog.setMessage("Password change has been sent to the email.");
-        registerSuccessDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
+        registerSuccessDialog.setPositiveButton("OK", (dialog, which) -> finish());
         registerSuccessDialog.create().show();
     }
 
@@ -122,12 +136,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         forgotPasswordFailedDialog.setCancelable(false);
         forgotPasswordFailedDialog.setTitle("Forgot Password Failed");
         forgotPasswordFailedDialog.setMessage(forgotPasswordFailedCause);
-        forgotPasswordFailedDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        forgotPasswordFailedDialog.setPositiveButton("OK", (dialog, which) -> dialog.cancel());
         forgotPasswordFailedDialog.create().show();
     }
 

@@ -6,10 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".login.FirstTimeUserProfileActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/firstTimeUserProfileToolbar"
+        android:elevation="@dimen/toolbar_elevation"
+        android:background="@color/white"
+        />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_below="@id/firstTimeUserProfileToolbar">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -46,7 +55,7 @@
 
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_above="@id/firstTimeUserProfileSaveButton"
                 >
 
@@ -55,110 +64,110 @@
                     android:layout_height="wrap_content"
                     >
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/firstTimeUserProfileEmailLabel"
-                        android:text="@string/email_label"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/input_field_font_size"
-                        />
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:id="@+id/firstTimeUserProfileEmailLabel"-->
+<!--                        android:text="@string/email_label"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="@dimen/input_field_font_size"-->
+<!--                        />-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/input_field_gap_height"
-                        android:id="@+id/firstTimeUserProfileEmailAlert"
-                        android:text="@string/register_error_email_empty"
-                        android:textColor="@color/alert_red"
-                        android:textSize="@dimen/input_field_alert_font_size"
-                        android:visibility="invisible"
-                        android:layout_toEndOf="@id/firstTimeUserProfileEmailLabel"
-                        android:layout_marginStart="@dimen/min_group_margin"
-                        />
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="@dimen/input_field_gap_height"-->
+<!--                        android:id="@+id/firstTimeUserProfileEmailAlert"-->
+<!--                        android:text="@string/register_error_email_empty"-->
+<!--                        android:textColor="@color/alert_red"-->
+<!--                        android:textSize="@dimen/input_field_alert_font_size"-->
+<!--                        android:visibility="invisible"-->
+<!--                        android:layout_toEndOf="@id/firstTimeUserProfileEmailLabel"-->
+<!--                        android:layout_marginStart="@dimen/min_group_margin"-->
+<!--                        />-->
 
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/input_field_height"
-                        android:id="@+id/firstTimeUserProfileEmail"
-                        android:hint="@string/email"
-                        android:autofillHints=""
-                        android:inputType="textEmailAddress"
-                        android:textAlignment="textStart"
-                        android:textSize="@dimen/input_field_font_size"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/disabled_grey"
-                        android:background="@drawable/edittext_background_state"
-                        android:layout_below="@id/firstTimeUserProfileEmailLabel"
-                        android:paddingStart="@dimen/input_field_gap_height"
-                        tools:ignore="RtlSymmetry"
-                        />
+<!--                    <EditText-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="@dimen/input_field_height"-->
+<!--                        android:id="@+id/firstTimeUserProfileEmail"-->
+<!--                        android:hint="@string/email"-->
+<!--                        android:autofillHints=""-->
+<!--                        android:inputType="textEmailAddress"-->
+<!--                        android:textAlignment="textStart"-->
+<!--                        android:textSize="@dimen/input_field_font_size"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textColorHint="@color/disabled_grey"-->
+<!--                        android:background="@drawable/edittext_background_state"-->
+<!--                        android:layout_below="@id/firstTimeUserProfileEmailLabel"-->
+<!--                        android:paddingStart="@dimen/input_field_gap_height"-->
+<!--                        tools:ignore="RtlSymmetry"-->
+<!--                        />-->
 
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/firstTimeUserProfilePhoneNumberLabel"
-                        android:text="@string/phone_number_label"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/input_field_font_size"
-                        android:layout_below="@id/firstTimeUserProfileEmail"
-                        android:layout_marginTop="@dimen/input_field_gap_height"
-                        />
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:id="@+id/firstTimeUserProfilePhoneNumberLabel"-->
+<!--                        android:text="@string/phone_number_label"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="@dimen/input_field_font_size"-->
+<!--                        android:layout_below="@id/firstTimeUserProfileEmail"-->
+<!--                        android:layout_marginTop="@dimen/input_field_gap_height"-->
+<!--                        />-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/input_field_gap_height"
-                        android:id="@+id/firstTimeUserProfilePhoneNumberAlert"
-                        android:text="@string/register_error_phone_number_empty"
-                        android:textColor="@color/alert_red"
-                        android:textSize="@dimen/input_field_alert_font_size"
-                        android:visibility="invisible"
-                        android:layout_toEndOf="@id/firstTimeUserProfilePhoneNumberLabel"
-                        android:layout_below="@id/firstTimeUserProfileEmail"
-                        android:layout_marginStart="@dimen/min_group_margin"
-                        android:layout_marginTop="@dimen/input_field_gap_height"
-                        />
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="@dimen/input_field_gap_height"-->
+<!--                        android:id="@+id/firstTimeUserProfilePhoneNumberAlert"-->
+<!--                        android:text="@string/register_error_phone_number_empty"-->
+<!--                        android:textColor="@color/alert_red"-->
+<!--                        android:textSize="@dimen/input_field_alert_font_size"-->
+<!--                        android:visibility="invisible"-->
+<!--                        android:layout_toEndOf="@id/firstTimeUserProfilePhoneNumberLabel"-->
+<!--                        android:layout_below="@id/firstTimeUserProfileEmail"-->
+<!--                        android:layout_marginStart="@dimen/min_group_margin"-->
+<!--                        android:layout_marginTop="@dimen/input_field_gap_height"-->
+<!--                        />-->
 
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/input_field_height"
-                        android:id="@+id/firstTimeUserProfilePhoneNumber"
-                        android:autofillHints=""
-                        android:hint="@string/phone_number"
-                        android:inputType="phone"
-                        android:textAlignment="textStart"
-                        android:textSize="@dimen/input_field_font_size"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/disabled_grey"
-                        android:background="@drawable/edittext_background_state"
-                        android:layout_below="@id/firstTimeUserProfilePhoneNumberLabel"
-                        android:paddingStart="@dimen/input_field_gap_height"
-                        tools:ignore="RtlSymmetry"
-                        />
+<!--                    <EditText-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="@dimen/input_field_height"-->
+<!--                        android:id="@+id/firstTimeUserProfilePhoneNumber"-->
+<!--                        android:autofillHints=""-->
+<!--                        android:hint="@string/phone_number"-->
+<!--                        android:inputType="phone"-->
+<!--                        android:textAlignment="textStart"-->
+<!--                        android:textSize="@dimen/input_field_font_size"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textColorHint="@color/disabled_grey"-->
+<!--                        android:background="@drawable/edittext_background_state"-->
+<!--                        android:layout_below="@id/firstTimeUserProfilePhoneNumberLabel"-->
+<!--                        android:paddingStart="@dimen/input_field_gap_height"-->
+<!--                        tools:ignore="RtlSymmetry"-->
+<!--                        />-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/firstTimeUserProfileTitleLabel"
-                        android:text="@string/title_label"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/input_field_font_size"
-                        android:layout_below="@id/firstTimeUserProfilePhoneNumber"
-                        android:layout_marginTop="@dimen/input_field_gap_height"
-                        />
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:id="@+id/firstTimeUserProfileTitleLabel"-->
+<!--                        android:text="@string/title_label"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textSize="@dimen/input_field_font_size"-->
+<!--                        android:layout_below="@id/firstTimeUserProfilePhoneNumber"-->
+<!--                        android:layout_marginTop="@dimen/input_field_gap_height"-->
+<!--                        />-->
 
-                    <Spinner
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/input_field_height"
-                        android:id="@+id/firstTimeUserProfileTitle"
-                        android:textAlignment="textStart"
-                        android:textSize="@dimen/input_field_font_size"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/disabled_grey"
-                        android:background="@drawable/edittext_background_state"
-                        android:layout_below="@id/firstTimeUserProfileTitleLabel"
-                        tools:ignore="RtlSymmetry"
-                        />
+<!--                    <Spinner-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="@dimen/input_field_height"-->
+<!--                        android:id="@+id/firstTimeUserProfileTitle"-->
+<!--                        android:textAlignment="textStart"-->
+<!--                        android:textSize="@dimen/input_field_font_size"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:textColorHint="@color/disabled_grey"-->
+<!--                        android:background="@drawable/edittext_background_state"-->
+<!--                        android:layout_below="@id/firstTimeUserProfileTitleLabel"-->
+<!--                        tools:ignore="RtlSymmetry"-->
+<!--                        />-->
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -167,9 +176,9 @@
                         android:text="@string/first_name_label"
                         android:textColor="@color/black"
                         android:textSize="@dimen/input_field_font_size"
-                        android:layout_below="@id/firstTimeUserProfileTitle"
-                        android:layout_marginTop="@dimen/input_field_gap_height"
                         />
+<!--                    android:layout_marginTop="@dimen/input_field_gap_height"-->
+<!--                    android:layout_below="@id/firstTimeUserProfileTitle"-->
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -180,10 +189,10 @@
                         android:textSize="@dimen/input_field_alert_font_size"
                         android:visibility="invisible"
                         android:layout_toEndOf="@id/firstTimeUserProfileFirstNameLabel"
-                        android:layout_below="@id/firstTimeUserProfileTitle"
                         android:layout_marginStart="@dimen/min_group_margin"
-                        android:layout_marginTop="@dimen/input_field_gap_height"
                         />
+<!--                    android:layout_marginTop="@dimen/input_field_gap_height"-->
+<!--                        android:layout_below="@id/firstTimeUserProfileTitle"-->
 
                     <EditText
                         android:layout_width="match_parent"
@@ -292,11 +301,35 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:id="@+id/firstTimeUserProfileGenderLabel"
+                        android:text="@string/gender_label"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/input_field_font_size"
+                        android:layout_below="@id/firstTimeUserProfileDateOfBirth"
+                        android:layout_marginTop="@dimen/input_field_gap_height"
+                        />
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/input_field_height"
+                        android:id="@+id/firstTimeUserProfileGender"
+                        android:textAlignment="textStart"
+                        android:textSize="@dimen/input_field_font_size"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/disabled_grey"
+                        android:background="@drawable/edittext_background_state"
+                        android:layout_below="@id/firstTimeUserProfileGenderLabel"
+                        tools:ignore="RtlSymmetry"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:id="@+id/firstTimeUserProfileIsBusinessLabel"
                         android:text="@string/is_business_label"
                         android:textColor="@color/black"
                         android:textSize="@dimen/input_field_font_size"
-                        android:layout_below="@id/firstTimeUserProfileDateOfBirth"
+                        android:layout_below="@id/firstTimeUserProfileGender"
                         android:layout_marginTop="@dimen/input_field_gap_height"
                         />
 
@@ -553,7 +586,7 @@
                     <!--            </LinearLayout>-->
 
 
-                    <!--            <Button-->
+                    <!--            <android.widget.Button-->
                     <!--                android:layout_width="@dimen/primary_button_width"-->
                     <!--                android:layout_height="wrap_content"-->
                     <!--                android:id="@+id/firstTimeUserProfileSaveButton"-->
@@ -570,7 +603,7 @@
 
             </ScrollView>
 
-            <Button
+            <android.widget.Button
                 android:layout_width="@dimen/primary_button_width"
                 android:layout_height="wrap_content"
                 android:id="@+id/firstTimeUserProfileSaveButton"

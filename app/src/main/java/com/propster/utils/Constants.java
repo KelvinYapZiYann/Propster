@@ -34,13 +34,19 @@ public class Constants {
     public static final int PREMIUM = 2;
 
     /* URL */
+    public static final String SESSION_ID_PREFIX = "Bearer ";
+
+    /* URL */
     public static final String URL_BASE = "https://propster.io/api/dashboard/";
     public static final String URL_LOGIN = URL_BASE + "login";
     public static final String URL_CHECK_MIDDLEWARE_VERIFICATION = URL_BASE + "middleware-verification";
+    public static final String URL_RESEND_EMAIL_VERIFICATION = URL_BASE + "email-not-verified";
     public static final String URL_UPDATE_FCM_TOKEN = URL_BASE + "";
-    public static final String URL_REGISTER = URL_BASE + "";
-    public static final String URL_FORGOT_PASSWORD = URL_BASE + "";
-    public static final String URL_SAVE_USER_PROFILE = URL_BASE + "";
+    public static final String URL_REGISTER = URL_BASE + "register";
+    public static final String URL_FORGOT_PASSWORD = URL_BASE + "password/email";
+    public static final String URL_SAVE_USER_PROFILE = URL_BASE + "create-profile";
+    public static final String URL_SELECT_ROLE = URL_BASE + "select-role";
+    public static final String URL_LOGOUT = URL_BASE + "logout";
     public static final String URL_LANDLORD_ADD_PROPERTY = URL_BASE + "";
     public static final String URL_LANDLORD_PROPERTY_LIST = URL_BASE + "";
     public static final String URL_LANDLORD_PROPERTY_TENANT_LIST = URL_BASE + "";
@@ -49,6 +55,9 @@ public class Constants {
     /* ERROR */
     public static final String ERROR_COMMON = "Error retrieving data from server. Please contact us.";
     public static final String ERROR_LOGIN_FAILED_CREDENTIALS = "Email or password is incorrect. Please try again.";
-    public static final String ERROR_LOGIN_FAILED_NOT_VERIFIED = "Email is not verified. Please verify the email before logging in.";
+    public static final String ERROR_LOGIN_FAILED_NOT_VERIFIED = "Email is not verified. Please verify the email before logging in.\nIf you did not receive any email notification, please click \"Resend Email Verification\" button.";
+    public static final String RESEND_EMAIL_VERIFICATION_SUCCESSFUL = "Email verification is resent successfully. Please check your email inbox.";
+    public static final String ERROR_RESEND_EMAIL_VERIFICATION_FAILED = "Failed resending email verification. Please try again.";
+    public static final String ERROR_USER_PROFILE_FAILED = "Failed saving using profile. Please try again.";
 
 }

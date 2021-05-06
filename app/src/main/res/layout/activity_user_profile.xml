@@ -57,7 +57,7 @@
 
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_above="@id/userProfileSaveButton"
                 >
 
@@ -328,7 +328,7 @@
 
             </ScrollView>
 
-            <Button
+            <android.widget.Button
                 android:layout_width="@dimen/primary_button_width"
                 android:layout_height="wrap_content"
                 android:id="@+id/userProfileSaveButton"
@@ -342,7 +342,7 @@
                 android:layout_above="@id/userProfileSwitchRoleButton"
                 />
 
-            <Button
+            <android.widget.Button
                 android:layout_width="@dimen/large_button_width"
                 android:layout_height="wrap_content"
                 android:id="@+id/userProfileSwitchRoleButton"
@@ -350,6 +350,19 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/primary_button_font_size"
                 android:background="@drawable/primary_button_background_state"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/primary_button_gap_height"
+                android:layout_above="@id/userProfileLogoutButton"
+                />
+
+            <android.widget.Button
+                android:layout_width="@dimen/primary_button_width"
+                android:layout_height="wrap_content"
+                android:id="@+id/userProfileLogoutButton"
+                android:text="@string/logout"
+                android:textColor="@color/white"
+                android:textSize="@dimen/primary_button_font_size"
+                android:background="@drawable/alert_button_background_state"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="@dimen/group_gap_height"
                 android:layout_alignParentBottom="true"

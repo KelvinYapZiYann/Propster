@@ -1,6 +1,5 @@
 package com.propster.login;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -13,10 +12,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.propster.R;
@@ -24,6 +23,10 @@ import com.propster.utils.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -62,20 +65,10 @@ public class RegisterActivity extends AppCompatActivity {
         this.loadingSpinner = findViewById(R.id.registerLoadingSpinner);
 
         this.registerButton = findViewById(R.id.registerButton);
-        this.registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doRegister();
-            }
-        });
+        this.registerButton.setOnClickListener(v -> doRegister());
 
         this.backButton = findViewById(R.id.registerBackButton);
-        this.backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        this.backButton.setOnClickListener(v -> finish());
 
         this.requestQueue = Volley.newRequestQueue(this);
 
@@ -130,29 +123,66 @@ public class RegisterActivity extends AppCompatActivity {
 
         this.startLoadingSpinner();
 
-//        JSONObject postData = new JSONObject();
-//        try {
-//            postData.put("username", this.registerEmail.getText().toString());
-//            postData.put("phoneNumber", this.registerPhoneNumber.getText().toString());
-//            postData.put("password", this.registerPassword.getText().toString());
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.URL_REGISTER, postData, new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject response) {
-//                System.out.println(response);
-//                registerSuccess();
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                registerFailed(error.getLocalizedMessage());
-//                error.printStackTrace();
-//            }
-//        });
-//        this.requestQueue.add(jsonObjectRequest);
-        registerFailed("just failed");
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("email", this.registerEmail.getText().toString());
+            postData.put("mobile_number", this.registerPhoneNumber.getText().toString());
+            postData.put("password", this.registerPassword.getText().toString());
+            postData.put("password_confirmation", this.registerConfirmedPassword.getText().toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.URL_REGISTER, postData, response -> registerSuccess(), error -> {
+            try {
+                String errorResponseBody = new String(error.networkResponse.data, StandardCharsets.UTF_8);
+                JSONObject errorResponseBodyJsonObject = new JSONObject(errorResponseBody);
+                System.out.println("errorResponseBodyJsonObject = " + errorResponseBodyJsonObject.toString());
+                if (!errorResponseBodyJsonObject.has("message")) {
+                    registerFailed(Constants.ERROR_COMMON);
+                    return;
+                }
+                String errorMessage = errorResponseBodyJsonObject.getString("message");
+                if (errorMessage.equals("The given data was invalid.")) {
+                    if (errorResponseBodyJsonObject.has("errors")) {
+                        JSONObject errorsJsonObject = errorResponseBodyJsonObject.getJSONObject("errors");
+                        StringBuilder sb = new StringBuilder();
+                        if (errorsJsonObject.has("email")) {
+                            sb.append(errorsJsonObject.getJSONArray("email").getString(0)).append("\n");
+                        }
+                        if (errorsJsonObject.has("password")) {
+                            sb.append(errorsJsonObject.getJSONArray("password").getString(0)).append("\n");
+                        }
+                        if (errorsJsonObject.has("password_confirmation")) {
+                            sb.append(errorsJsonObject.getJSONArray("password_confirmation").getString(0)).append("\n");
+                        }
+                        if (errorsJsonObject.has("mobile_number")) {
+                            sb.append(errorsJsonObject.getJSONArray("mobile_number").getString(0)).append("\n");
+                        }
+                        if (sb.length() > 0) {
+                            registerFailed(sb.toString());
+                        } else {
+                            registerFailed(errorMessage);
+                        }
+                    } else {
+                        registerFailed(errorMessage);
+                    }
+                } else {
+                    registerFailed(errorMessage);
+                }
+            } catch (Exception e) {
+                registerFailed(Constants.ERROR_COMMON);
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headerParams = new HashMap<>();
+                headerParams.put("Accept", "application/json");
+                headerParams.put("Content-Type", "application/json");
+                return headerParams;
+            }
+        };
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        this.requestQueue.add(jsonObjectRequest);
     }
 
     private void registerSuccess() {
@@ -161,12 +191,7 @@ public class RegisterActivity extends AppCompatActivity {
         registerSuccessDialog.setCancelable(false);
         registerSuccessDialog.setTitle("Register Successful");
         registerSuccessDialog.setMessage("Check your email to verify the account before logging in.");
-        registerSuccessDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
+        registerSuccessDialog.setPositiveButton("OK", (dialog, which) -> finish());
         registerSuccessDialog.create().show();
     }
 
@@ -176,12 +201,7 @@ public class RegisterActivity extends AppCompatActivity {
         registerFailedDialog.setCancelable(false);
         registerFailedDialog.setTitle("Register Failed");
         registerFailedDialog.setMessage(registerFailedCause);
-        registerFailedDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        registerFailedDialog.setPositiveButton("OK", (dialog, which) -> dialog.cancel());
         registerFailedDialog.create().show();
     }
 

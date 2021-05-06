@@ -11,6 +11,7 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -47,7 +48,6 @@
         <activity android:name=".login.ForgotPasswordActivity"/>
         <activity android:name=".login.FirstTimeUserProfileActivity"/>
         <activity android:name=".login.FirstTimeRoleSelectionActivity"/>
-        <activity android:name=".login.FirstTimeLandlordActivity"/>
 
         <activity android:name=".content.ContentActivity"/>
         <activity android:name=".content.NotificationActivity"/>

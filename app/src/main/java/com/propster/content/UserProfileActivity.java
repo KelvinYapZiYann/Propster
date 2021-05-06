@@ -27,20 +27,27 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.propster.R;
 import com.propster.login.FirstTimeRoleSelectionActivity;
+import com.propster.login.LoginActivity;
+import com.propster.login.SplashActivity;
 import com.propster.utils.Constants;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class UserProfileActivity extends AppCompatActivity {
 
@@ -61,6 +68,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private Button userProfileSaveButton;
     private Button userProfileSwitchRoleButton;
+    private Button userProfileLogoutButton;
 
     private View backgroundView;
     private ProgressBar loadingSpinner;
@@ -138,6 +146,14 @@ public class UserProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 doSwitchRole();
+            }
+        });
+
+        this.userProfileLogoutButton = findViewById(R.id.userProfileLogoutButton);
+        this.userProfileLogoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doLogout();
             }
         });
 
@@ -300,6 +316,42 @@ public class UserProfileActivity extends AppCompatActivity {
 //        });
 //        this.requestQueue.add(jsonObjectRequest);
         saveUserProfileSuccess();
+    }
+
+    private void doLogout() {
+        this.startLoadingSpinner();
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.URL_LOGOUT, null, response -> logoutSuccess(), error -> logoutSuccess()) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                if (SplashActivity.SESSION_ID.isEmpty()) {
+                    SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                    SplashActivity.SESSION_ID = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, "");
+                }
+                Map<String, String> headerParams = new HashMap<>();
+                headerParams.put("Accept", "application/json");
+                headerParams.put("Content-Type", "application/json");
+                headerParams.put("X-Requested-With", "XMLHttpRequest");
+                headerParams.put("Authorization", SplashActivity.SESSION_ID);
+                return headerParams;
+            }
+        };
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        this.requestQueue.add(jsonObjectRequest);
+    }
+
+    private void logoutSuccess() {
+        this.stopLoadingSpinner();
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(Constants.SHARED_PREFERENCES_EMAIL);
+        editor.remove(Constants.SHARED_PREFERENCES_PASSWORD);
+        editor.remove(Constants.SHARED_PREFERENCES_SESSION_ID);
+        editor.apply();
+        SplashActivity.SESSION_ID = "";
+        Intent loginIntent = new Intent(this, LoginActivity.class);
+        startActivity(loginIntent);
+        finish();
     }
 
     private void saveUserProfileSuccess() {
