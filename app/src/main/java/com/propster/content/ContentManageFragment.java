@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.propster.R;
+import com.propster.allRoles.PropertyExpensesListActivity;
 import com.propster.landlord.LandlordPropertyListActivity;
 import com.propster.landlord.LandlordPropertyListAdapter;
 import com.propster.landlord.LandlordPropertyListItem;
@@ -65,11 +66,10 @@ public class ContentManageFragment extends ContentFragment {
 
     private void initializeLandlordManageView(View view) {
         Button landlordContentManagePropertyPropertyExpensesButton = view.findViewById(R.id.landlordContentManagePropertyPropertyExpensesButton);
-        landlordContentManagePropertyPropertyExpensesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
+        landlordContentManagePropertyPropertyExpensesButton.setOnClickListener(view12 -> {
+            Intent propertyExpensesListIntent = new Intent(getContext(), PropertyExpensesListActivity.class);
+            propertyExpensesListIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST, Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST_ALL);
+            startActivity(propertyExpensesListIntent);
         });
         Button landlordContentManagePropertyPropertyListButton = view.findViewById(R.id.landlordContentManagePropertyPropertyListButton);
         landlordContentManagePropertyPropertyListButton.setOnClickListener(new View.OnClickListener() {
@@ -88,13 +88,10 @@ public class ContentManageFragment extends ContentFragment {
             }
         });
         Button landlordContentManagePropertyTenantsButton = view.findViewById(R.id.landlordContentManagePropertyTenantsButton);
-        landlordContentManagePropertyTenantsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent landlordPropertyTenantListIntent = new Intent(getContext(), LandlordPropertyTenantListActivity.class);
-                landlordPropertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_ALL_TENANTS, Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_ALL_TENANTS);
-                startActivity(landlordPropertyTenantListIntent);
-            }
+        landlordContentManagePropertyTenantsButton.setOnClickListener(view1 -> {
+            Intent landlordPropertyTenantListIntent = new Intent(getContext(), LandlordPropertyTenantListActivity.class);
+            landlordPropertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_ALL_TENANTS, Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_ALL_TENANTS);
+            startActivity(landlordPropertyTenantListIntent);
         });
         Button landlordContentManagePropertyTenureContractsButton = view.findViewById(R.id.landlordContentManagePropertyTenureContractsButton);
         landlordContentManagePropertyTenureContractsButton.setOnClickListener(new View.OnClickListener() {

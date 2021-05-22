@@ -1,17 +1,13 @@
 package com.propster.landlord;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -22,11 +18,16 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.propster.R;
 import com.propster.content.NotificationActivity;
 import com.propster.content.UserProfileActivity;
+import com.propster.login.SplashActivity;
 import com.propster.utils.Constants;
 
 import org.json.JSONArray;
@@ -34,6 +35,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class LandlordPropertyListActivity extends AppCompatActivity {
 
@@ -46,8 +50,6 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
     private ProgressBar loadingSpinner;
 
     private RequestQueue requestQueue;
-
-    private int tmp = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,24 +74,19 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
         ArrayList<LandlordPropertyListItem> propertyListItemArrayList = new ArrayList<>();
         this.propertyListAdapter = new LandlordPropertyListAdapter(this, propertyListItemArrayList);
         landlordManagePropertyList.setAdapter(this.propertyListAdapter);
-        landlordManagePropertyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent propertyTenantListIntent = new Intent(LandlordPropertyListActivity.this, LandlordPropertyTenantListActivity.class);
-//                propertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST, "");
-                startActivity(propertyTenantListIntent);
-            }
+        landlordManagePropertyList.setOnItemClickListener((parent, view, position, id) -> {
+            LandlordPropertyListItem landlordPropertyListItem = ((LandlordPropertyListAdapter) parent.getAdapter()).getItem(position);
+            Intent propertyTenantListIntent = new Intent(LandlordPropertyListActivity.this, LandlordPropertyTenantListActivity.class);
+            propertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_PROPERTY_ID, landlordPropertyListItem.getPropertyId());
+            propertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST, landlordPropertyListItem.getTenantIdArray());
+            startActivityForResult(propertyTenantListIntent, Constants.REQUEST_CODE_LANDLORD_PROPERTY_TENANT_LIST);
         });
 
         this.landlordManageAddPropertyButton = findViewById(R.id.landlordManageAddPropertyButton);
-        this.landlordManageAddPropertyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Intent landlordAddPropertyIntent = new Intent(LandlordPropertyListActivity.this, LandlordAddPropertyActivity.class);
-//                startActivityForResult(landlordAddPropertyIntent, Constants.REQUEST_CODE_LANDLORD_ADD_PROPERTY);
-                addPropertyItemIntoList("something new", tmp++, 2, 4, tmp++, 30);
-                landlordManageFirstTimeLoginLabel.setVisibility(View.GONE);
-            }
+        this.landlordManageAddPropertyButton.setOnClickListener(v -> {
+            Intent landlordAddPropertyIntent = new Intent(LandlordPropertyListActivity.this, LandlordAddPropertyActivity.class);
+            startActivityForResult(landlordAddPropertyIntent, Constants.REQUEST_CODE_LANDLORD_ADD_PROPERTY);
+            landlordManageFirstTimeLoginLabel.setVisibility(View.GONE);
         });
 
         this.refreshPropertyListView();
@@ -105,25 +102,17 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(R.string.app_name);
         }
-        mainToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.mainMenuUser) {
-                    Intent userProfileIntent = new Intent(LandlordPropertyListActivity.this, UserProfileActivity.class);
-                    startActivityForResult(userProfileIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
-                } else if (item.getItemId() == R.id.mainMenuNotification) {
-                    Intent notificationIntent = new Intent(LandlordPropertyListActivity.this, NotificationActivity.class);
-                    startActivityForResult(notificationIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
-                }
-                return false;
+        mainToolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.mainMenuUser) {
+                Intent userProfileIntent = new Intent(LandlordPropertyListActivity.this, UserProfileActivity.class);
+                startActivityForResult(userProfileIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
+            } else if (item.getItemId() == R.id.mainMenuNotification) {
+                Intent notificationIntent = new Intent(LandlordPropertyListActivity.this, NotificationActivity.class);
+                startActivityForResult(notificationIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
             }
+            return false;
         });
-        mainToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        mainToolbar.setNavigationOnClickListener(v -> finish());
     }
 
     @Override
@@ -137,10 +126,12 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.REQUEST_CODE_LANDLORD_ADD_PROPERTY) {
-            if (resultCode == Activity.RESULT_OK) {
+//            if (resultCode == Activity.RESULT_OK) {
                 this.landlordManageFirstTimeLoginLabel.setVisibility(View.GONE);
                 this.refreshPropertyListView();
-            }
+//            }
+        } else if (requestCode == Constants.REQUEST_CODE_LANDLORD_PROPERTY_TENANT_LIST) {
+            this.refreshPropertyListView();
         }
     }
 
@@ -153,50 +144,74 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
             return;
         }
 
-//        JSONObject postData = new JSONObject();
-//        try {
-//            postData.put("session_id", sessionId);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.URL_LANDLORD_PROPERTY_LIST, postData, new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject response) {
-//                System.out.println(response);
-//                try {
-//                    landlordManageGetPropertyListSuccess(response.getJSONArray("property_list"));
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                    landlordManageGetPropertyListFailed(e.getLocalizedMessage());
-//                }
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                landlordManageGetPropertyListFailed(error.getLocalizedMessage());
-//                error.printStackTrace();
-//            }
-//        });
-//        this.requestQueue.add(jsonObjectRequest);
-
-        JSONArray propertyListJasonArray = new JSONArray();
-        this.landlordManageGetPropertyListSuccess(propertyListJasonArray);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY_LIST, null, response -> {
+            try {
+                if (!response.has("data")) {
+                    landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
+                    return;
+                }
+                JSONArray dataJsonArray = response.getJSONArray("data");
+                JSONObject dataJsonObject;
+                JSONObject dataFieldsJsonObject;
+                int[] tenantIdArray;
+                JSONArray dataTenantsJsonArray;
+                JSONObject dataTenantJsonObject;
+                List<LandlordPropertyListItem> propertyListItems = new ArrayList<>();
+                for (int i = 0; i < dataJsonArray.length(); i++) {
+                    dataJsonObject = dataJsonArray.getJSONObject(i);
+                    if (!dataJsonObject.has("id")) {
+                        landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
+                    }
+                    if (!dataJsonObject.has("landlord_id")) {
+                        landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
+                    }
+                    if (!dataJsonObject.has("fields")) {
+                        landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
+                    }
+                    dataFieldsJsonObject = dataJsonObject.getJSONObject("fields");
+                    if (!dataFieldsJsonObject.has("Asset Nickname")) {
+                        landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
+                    }
+                    if (!dataFieldsJsonObject.has("Tenants")) {
+                        landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
+                    }
+                    dataTenantsJsonArray = dataFieldsJsonObject.getJSONArray("Tenants");
+                    tenantIdArray = new int[dataTenantsJsonArray.length()];
+                    for (int j = 0; j < dataTenantsJsonArray.length(); j++) {
+                        dataTenantJsonObject = dataTenantsJsonArray.getJSONObject(j);
+                        tenantIdArray[j] = dataTenantJsonObject.getInt("id");
+                    }
+                    propertyListItems.add(new LandlordPropertyListItem(dataFieldsJsonObject.getString("Asset Nickname"), dataJsonObject.getInt("id"), tenantIdArray, 0, 0));
+                }
+                landlordManageGetPropertyListSuccess(propertyListItems);
+            } catch (JSONException e) {
+                landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
+            }
+        }, error -> landlordManageGetPropertyListFailed(Constants.ERROR_COMMON)) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                if (SplashActivity.SESSION_ID.isEmpty()) {
+                    SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                    SplashActivity.SESSION_ID = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, "");
+                }
+                Map<String, String> headerParams = new HashMap<>();
+                headerParams.put("Accept", "application/json");
+                headerParams.put("Content-Type", "application/json");
+                headerParams.put("X-Requested-With", "XMLHttpRequest");
+                headerParams.put("Authorization", SplashActivity.SESSION_ID);
+                return headerParams;
+            }
+        };
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        this.requestQueue.add(jsonObjectRequest);
 
     }
 
-    private void landlordManageGetPropertyListSuccess(JSONArray propertyListJasonArray) {
+    private void landlordManageGetPropertyListSuccess(List<LandlordPropertyListItem> propertyListItemList) {
         this.refreshPropertyList();
         this.stopLoadingSpinner();
-        try {
-            JSONObject propertyItemJsonObject;
-            for (int i = 0; i < propertyListJasonArray.length(); i++) {
-                propertyItemJsonObject = propertyListJasonArray.getJSONObject(i);
-                this.addPropertyItemIntoList(propertyItemJsonObject.getString("property_name"), propertyItemJsonObject.getInt("property_id"),
-                        propertyItemJsonObject.getInt("tenant_count"), propertyItemJsonObject.getInt("total_tenant_count"),
-                        (float) propertyItemJsonObject.getDouble("payment"), propertyItemJsonObject.getInt("age"));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        for (int i = 0; i < propertyListItemList.size(); i++) {
+            this.addPropertyItemIntoList(propertyListItemList.get(i));
         }
     }
 
@@ -206,12 +221,7 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
         loginFailedDialog.setCancelable(false);
         loginFailedDialog.setTitle("Property List Failed");
         loginFailedDialog.setMessage(landlordGetPropertyListFailed);
-        loginFailedDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        loginFailedDialog.setPositiveButton("OK", (dialog, which) -> dialog.cancel());
         loginFailedDialog.create().show();
     }
 
@@ -222,11 +232,19 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
         this.propertyListAdapter.clear();
     }
 
-    private void addPropertyItemIntoList(String propertyName, int propertyId, int tenantCount, int totalTenantCount, float payment, int age) {
+//    private void addPropertyItemIntoList(String propertyName, int propertyId, int[] tenantIdArray, float payment, int age) {
+//        if (this.propertyListAdapter == null) {
+//            return;
+//        }
+//        this.propertyListAdapter.add(new LandlordPropertyListItem(propertyName, propertyId, tenantIdArray, payment, age));
+////        this.propertyListAdapter.add(new LandlordPropertyListItem(propertyName, propertyId, tenantCount, totalTenantCount, payment, age));
+//    }
+
+    private void addPropertyItemIntoList(LandlordPropertyListItem propertyListItem) {
         if (this.propertyListAdapter == null) {
             return;
         }
-        this.propertyListAdapter.add(new LandlordPropertyListItem(propertyName, propertyId, tenantCount, totalTenantCount, payment, age));
+        this.propertyListAdapter.add(propertyListItem);
     }
 
     private void startLoadingSpinner() {

@@ -14,6 +14,7 @@
     <string name="back">Back</string>
     <string name="copyright">Copyrighted by PROPSTER.IO</string>
     <string name="save">Save</string>
+    <string name="edit">Edit</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="landlord">Landlord</string>
@@ -47,6 +48,21 @@
     <string-array name="add_property_type">
         <item>Show QR Code</item>
         <item>Non-existing Property</item>
+    </string-array>
+
+    <string-array name="property_type">
+        <item>Residential</item>
+        <item>Commercial</item>
+    </string-array>
+
+    <string-array name="ownership_type">
+        <item>Freehold</item>
+        <item>Leasehold</item>
+    </string-array>
+
+    <string-array name="loan_is_active">
+        <item>Yes</item>
+        <item>No</item>
     </string-array>
 
     <!-- USER PROFILE -->
@@ -91,8 +107,8 @@
 
     <!-- PROPERTY -->
     <string name="property_detail">Property Detail</string>
-    <string name="property_name">Property Name</string>
-    <string name="unit_name">Unit Name</string>
+    <string name="property_name">Asset Nickname</string>
+    <string name="unit_name">Unit No</string>
     <string name="floor">Floor</string>
     <string name="address_line_1">Address Line 1</string>
     <string name="address_line_2">Address Line 2</string>
@@ -107,7 +123,7 @@
     <string name="assets_type">Assets Type</string>
     <string name="assets_ownership_type">Assets Ownership Type</string>
     <string name="total_area">Total Area</string>
-    <string name="purchase_value">Purchase Value</string>
+    <string name="purchase_value">Purchased Value</string>
     <string name="purchase_tax">Purchase Tax</string>
     <string name="current_value">Current Value</string>
     <string name="purchase_date">Purchase Date</string>
@@ -117,9 +133,16 @@
     <string name="remaining_amount_of_loan">Remaining Amount of Loan</string>
     <string name="remaining_term_of_loan">Remaining Term of Loan</string>
     <string name="latest_rental_date">Latest Rental Date</string>
+    <string name="number_of_rooms">Number of Rooms</string>
+    <string name="number_of_bathrooms">Number of Bathrooms</string>
+    <string name="property_type">Asset Type</string>
+    <string name="property_ownership_type">Asset Ownership Type</string>
+    <string name="is_loan_active">Is Loan Active</string>
+    <string name="outstanding_amount">Loan Outstanding Amount</string>
+    <string name="total_year">Total Year</string>
 
-    <string name="property_name_label">Property Name:</string>
-    <string name="unit_name_label">Unit Name:</string>
+    <string name="property_name_label">Asset Nickname:</string>
+    <string name="unit_name_label">Unit No:</string>
     <string name="floor_label">Floor:</string>
     <string name="address_line_1_label">Address Line 1:</string>
     <string name="address_line_2_label">Address Line 2:</string>
@@ -134,7 +157,7 @@
     <string name="assets_type_label">Assets Type:</string>
     <string name="assets_ownership_type_label">Assets Ownership Type:</string>
     <string name="total_area_label">Total Area:</string>
-    <string name="purchase_value_label">Purchase Value:</string>
+    <string name="purchase_value_label">Purchased Value:</string>
     <string name="purchase_tax_label">Purchase Tax:</string>
     <string name="current_value_label">Current Value:</string>
     <string name="purchase_date_label">Purchase Date:</string>
@@ -144,6 +167,13 @@
     <string name="remaining_amount_of_loan_label">Remaining Amount of Loan:</string>
     <string name="remaining_term_of_loan_label">Remaining Term of Loan:</string>
     <string name="latest_rental_date_label">Latest Rental Date:</string>
+    <string name="number_of_rooms_label">Number of Rooms:</string>
+    <string name="number_of_bathrooms_label">Number of Bathrooms:</string>
+    <string name="property_type_label">Asset Type:</string>
+    <string name="property_ownership_type_label">Asset Ownership Type:</string>
+    <string name="is_loan_active_label">Is Loan Active:</string>
+    <string name="outstanding_amount_label">Loan Outstanding Amount:</string>
+    <string name="total_year_label">Total Year (Loan):</string>
 
     <!-- PROPERTY TENANT -->
     <string name="tenant_name">Tenant Name</string>
@@ -151,6 +181,9 @@
 
     <string name="tenant_name_label">Tenant Name:</string>
     <string name="salary_range_label">Salary Range:</string>
+
+    <!-- PROPERTY EXPENSES -->
+    <string name="add_property_expenses">Add Property Expenses</string>
 
     <!-- ERROR -->
     <string name="login_error_username_empty">Username cannot be empty</string>
@@ -174,6 +207,14 @@
     <string name="add_property_error_postcode_empty">Postcode cannot be empty</string>
     <string name="add_property_error_state_empty">State cannot be empty</string>
     <string name="add_property_error_country_empty">Country cannot be empty</string>
+    <string name="add_property_error_number_of_rooms_empty">Number of rooms cannot be empty</string>
+    <string name="add_property_error_number_of_bathrooms_empty">Number of bathrooms cannot be empty</string>
+    <string name="add_property_error_purchase_value_empty">Purchase value cannot be empty</string>
+    <string name="add_property_error_current_value_empty">Current value cannot be empty</string>
+    <string name="add_property_error_interest_rate_empty">Interest rate cannot be empty</string>
+    <string name="add_property_error_outstanding_amount_empty">Outstanding amount cannot be empty</string>
+    <string name="add_property_error_total_year_empty">Total year cannot be empty</string>
+    <string name="add_property_error_purchase_date_empty">Purchase date cannot be empty</string>
 
     <string name="add_tenant_error_name_empty">Tenant name cannot be empty</string>
     <string name="add_tenant_error_salary_range_empty">Salary range cannot be empty</string>

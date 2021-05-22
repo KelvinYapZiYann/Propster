@@ -29,8 +29,13 @@ public class LandlordPropertyListAdapter extends ArrayAdapter<LandlordPropertyLi
         TextView landlordManagePropertyListItemPayment = convertView.findViewById(R.id.landlordManagePropertyListItemPayment);
         TextView landlordManagePropertyListItemAge = convertView.findViewById(R.id.landlordManagePropertyListItemAge);
         landlordManagePropertyListItemName.setText(propertyListItem.getPropertyName());
-        landlordManagePropertyListItemTenantCount.setNumStars(propertyListItem.getTotalTenantCount());
-        landlordManagePropertyListItemTenantCount.setRating(propertyListItem.getTenantCount());
+        if (propertyListItem.getTenantIdArray().length == 0) {
+            landlordManagePropertyListItemTenantCount.setVisibility(View.INVISIBLE);
+        } else {
+            landlordManagePropertyListItemTenantCount.setVisibility(View.VISIBLE);
+        }
+        landlordManagePropertyListItemTenantCount.setNumStars(propertyListItem.getTenantIdArray().length);
+        landlordManagePropertyListItemTenantCount.setRating(propertyListItem.getTenantIdArray().length);
         landlordManagePropertyListItemPayment.setText(Float.toString(propertyListItem.getPayment()));
         landlordManagePropertyListItemAge.setText(Integer.toString(propertyListItem.getAge()));
         return convertView;

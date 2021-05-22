@@ -34,11 +34,15 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.nambimobile.widgets.efab.FabOption;
 import com.propster.R;
 import com.propster.login.FirstTimeRoleSelectionActivity;
 import com.propster.login.LoginActivity;
 import com.propster.login.SplashActivity;
 import com.propster.utils.Constants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -54,21 +58,21 @@ public class UserProfileActivity extends AppCompatActivity {
     private ShapeableImageView userProfileImage;
 
     private EditText userProfileEmail;
-    private TextView userProfileEmailAlert;
+//    private TextView userProfileEmailAlert;
     private EditText userProfilePhoneNumber;
-    private TextView userProfilePhoneNumberAlert;
-    private Spinner userProfileTitle;
+//    private TextView userProfilePhoneNumberAlert;
+    private EditText userProfileGender;
     private EditText userProfileFirstName;
-    private TextView userProfileFirstNameAlert;
+//    private TextView userProfileFirstNameAlert;
     private EditText userProfileLastName;
-    private TextView userProfileLastNameAlert;
+//    private TextView userProfileLastNameAlert;
     private EditText userProfileDateOfBirth;
-    private TextView userProfileDateOfBirthAlert;
-    private Spinner userProfileIsBusiness;
+//    private TextView userProfileDateOfBirthAlert;
+    private EditText userProfileIsBusiness;
 
-    private Button userProfileSaveButton;
-    private Button userProfileSwitchRoleButton;
-    private Button userProfileLogoutButton;
+    private FabOption userProfileEditButton;
+    private FabOption userProfileSwitchRoleButton;
+    private FabOption userProfileLogoutButton;
 
     private View backgroundView;
     private ProgressBar loadingSpinner;
@@ -83,16 +87,11 @@ public class UserProfileActivity extends AppCompatActivity {
         this.userProfileImage = findViewById(R.id.userProfileImage);
 
         this.userProfileEmail = findViewById(R.id.userProfileEmail);
-        this.userProfileEmailAlert = findViewById(R.id.userProfileEmailAlert);
         this.userProfilePhoneNumber = findViewById(R.id.userProfilePhoneNumber);
-        this.userProfilePhoneNumberAlert = findViewById(R.id.userProfilePhoneNumberAlert);
-        this.userProfileTitle = findViewById(R.id.userProfileTitle);
         this.userProfileFirstName = findViewById(R.id.userProfileFirstName);
-        this.userProfileFirstNameAlert = findViewById(R.id.userProfileFirstNameAlert);
         this.userProfileLastName = findViewById(R.id.userProfileLastName);
-        this.userProfileLastNameAlert = findViewById(R.id.userProfileLastNameAlert);
+        this.userProfileGender = findViewById(R.id.userProfileGender);
         this.userProfileDateOfBirth = findViewById(R.id.userProfileDateOfBirth);
-        this.userProfileDateOfBirthAlert = findViewById(R.id.userProfileDateOfBirthAlert);
         this.userProfileIsBusiness = findViewById(R.id.userProfileIsBusiness);
 
         this.backgroundView = findViewById(R.id.userProfileBackground);
@@ -100,93 +99,121 @@ public class UserProfileActivity extends AppCompatActivity {
 
         this.requestQueue = Volley.newRequestQueue(this);
 
-        ArrayAdapter<CharSequence> titleArrayAdapter = ArrayAdapter.createFromResource(this, R.array.title, R.layout.spinner_item);
-        titleArrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        this.userProfileTitle.setAdapter(titleArrayAdapter);
-
-        ArrayAdapter<CharSequence> isBusinessArrayAdapter = ArrayAdapter.createFromResource(this, R.array.is_business, R.layout.spinner_item);
-        isBusinessArrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        this.userProfileIsBusiness.setAdapter(isBusinessArrayAdapter);
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.UK);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
         Calendar currentCalendar = new GregorianCalendar();
-        this.userProfileDateOfBirth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(UserProfileActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        currentCalendar.set(Calendar.YEAR, year);
-                        currentCalendar.set(Calendar.MONTH, month);
-                        currentCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        userProfileDateOfBirth.setText(sdf.format(currentCalendar.getTime()));
-                    }
-                }, currentCalendar.get(Calendar.YEAR), currentCalendar.get(Calendar.MONTH), currentCalendar.get(Calendar.DAY_OF_MONTH));
-                datePickerDialog.show();
-            }
+        this.userProfileDateOfBirth.setOnClickListener(v -> {
+            DatePickerDialog datePickerDialog = new DatePickerDialog(UserProfileActivity.this, (view, year, month, dayOfMonth) -> {
+                currentCalendar.set(Calendar.YEAR, year);
+                currentCalendar.set(Calendar.MONTH, month);
+                currentCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                userProfileDateOfBirth.setText(sdf.format(currentCalendar.getTime()));
+            }, currentCalendar.get(Calendar.YEAR), currentCalendar.get(Calendar.MONTH), currentCalendar.get(Calendar.DAY_OF_MONTH));
+            datePickerDialog.show();
         });
 
-        this.userProfileImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                doChooseImage();
-            }
-        });
+        this.userProfileImage.setOnClickListener(view -> doChooseImage());
 
-        this.userProfileSaveButton = findViewById(R.id.userProfileSaveButton);
-        this.userProfileSaveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                doSaveUserProfile();
-            }
-        });
+        this.userProfileEditButton = findViewById(R.id.userProfileEditButton);
+        this.userProfileEditButton.setOnClickListener(view -> doEditUserProfile());
 
         this.userProfileSwitchRoleButton = findViewById(R.id.userProfileSwitchRoleButton);
-        this.userProfileSwitchRoleButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doSwitchRole();
-            }
-        });
+        this.userProfileSwitchRoleButton.setOnClickListener(v -> doSwitchRole());
 
         this.userProfileLogoutButton = findViewById(R.id.userProfileLogoutButton);
-        this.userProfileLogoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doLogout();
-            }
-        });
+        this.userProfileLogoutButton.setOnClickListener(v -> doLogout());
 
         Toolbar userProfileToolbar = findViewById(R.id.userProfileToolbar);
         setSupportActionBar(userProfileToolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(R.string.app_name);
         }
-        userProfileToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.userProfileMenuNotification) {
-                    Intent notificationIntent = new Intent(UserProfileActivity.this, NotificationActivity.class);
-                    startActivity(notificationIntent);
-                }
-                return false;
+        userProfileToolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.userProfileMenuNotification) {
+                Intent notificationIntent = new Intent(UserProfileActivity.this, NotificationActivity.class);
+                startActivity(notificationIntent);
             }
+            return false;
         });
-        userProfileToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setResult(Activity.RESULT_CANCELED);
-                finish();
-            }
+        userProfileToolbar.setNavigationOnClickListener(v -> {
+            setResult(Activity.RESULT_CANCELED);
+            finish();
         });
 
-        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        int role = sharedPreferences.getInt(Constants.SHARED_PREFERENCES_ROLE, Constants.ROLE_TENANT);
-        if (role == Constants.ROLE_TENANT) {
-            this.userProfileSwitchRoleButton.setText(R.string.switch_role_to_landlord);
-        } else {
-            this.userProfileSwitchRoleButton.setText(R.string.switch_role_to_tenant);
-        }
+//        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+//        int role = sharedPreferences.getInt(Constants.SHARED_PREFERENCES_ROLE, Constants.ROLE_TENANT);
+//        if (role == Constants.ROLE_TENANT) {
+//            this.userProfileSwitchRoleButton.setText(R.string.switch_role_to_landlord);
+//        } else {
+//            this.userProfileSwitchRoleButton.setText(R.string.switch_role_to_tenant);
+//        }
+
+        this.refreshUserProfile();
+    }
+
+    private void refreshUserProfile() {
+//        this.startLoadingSpinner();
+//        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+//        String sessionId = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, null);
+//        if (sessionId == null) {
+//            this.getUserProfileFailed("Please relogin.");
+//            return;
+//        }
+//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_USER + "/" + this.tenantId, null, response -> getUserProfileSuccess(response),
+//                error -> getUserProfileFailed(Constants.ERROR_COMMON)) {
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                if (SplashActivity.SESSION_ID.isEmpty()) {
+//                    SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+//                    SplashActivity.SESSION_ID = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, "");
+//                }
+//                Map<String, String> headerParams = new HashMap<>();
+//                headerParams.put("Accept", "application/json");
+//                headerParams.put("Content-Type", "application/json");
+//                headerParams.put("X-Requested-With", "XMLHttpRequest");
+//                headerParams.put("Authorization", SplashActivity.SESSION_ID);
+//                return headerParams;
+//            }
+//        };
+//        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//        this.requestQueue.add(jsonObjectRequest);
+    }
+
+    private void getUserProfileSuccess(JSONObject response) {
+//        try {
+            System.out.println("response.toString() = " + response.toString());
+//            if (!response.has("data")) {
+//                getUserProfileFailed(Constants.ERROR_COMMON);
+//                return;
+//            }
+//            JSONObject dataJsonObject = response.getJSONObject("data");
+//            if (!dataJsonObject.has("id")) {
+//                getUserProfileFailed(Constants.ERROR_COMMON);
+//            }
+//            if (dataJsonObject.getInt("id") != this.tenantId) {
+//                getUserProfileFailed(Constants.ERROR_USER_TENANT_DETAIL_ID_NOT_MATCHED);
+//            }
+//            JSONObject dataFieldsJsonObject = dataJsonObject.getJSONObject("field");
+//            this.landlordPropertyTenantDetailFirstName.setText(dataFieldsJsonObject.getString("First Name"));
+//            this.landlordPropertyTenantDetailLastName.setText(dataFieldsJsonObject.getString("Last Name"));
+//            this.landlordPropertyTenantDetailGender.setText(dataFieldsJsonObject.getString("Gender"));
+//            this.landlordPropertyTenantDetailIsBusiness.setText(dataFieldsJsonObject.getInt("Is Business") == 1 ? "COMMERCIAL" : "RESIDENTIAL");
+//            String dateOfBirth = dataFieldsJsonObject.getString("Date Of Birth");
+//            this.landlordPropertyTenantDetailDateOfBirth.setText(dateOfBirth.length() > 10 ? dateOfBirth.substring(0, 10) : dateOfBirth);
+            this.stopLoadingSpinner();
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//            this.getUserProfileFailed(Constants.ERROR_COMMON);
+//        }
+    }
+
+    private void getUserProfileFailed(String getTenantDetailFailedCause) {
+        this.stopLoadingSpinner();
+        AlertDialog.Builder saveUserProfileFailedDialog = new AlertDialog.Builder(this);
+        saveUserProfileFailedDialog.setCancelable(false);
+        saveUserProfileFailedDialog.setTitle("User Profile Failed");
+        saveUserProfileFailedDialog.setMessage(getTenantDetailFailedCause);
+        saveUserProfileFailedDialog.setPositiveButton("OK", (dialog, which) -> dialog.cancel());
+        saveUserProfileFailedDialog.create().show();
     }
 
     private void doSwitchRole() {
@@ -240,54 +267,54 @@ public class UserProfileActivity extends AppCompatActivity {
         return true;
     }
 
-    private void doSaveUserProfile() {
-        if (this.userProfileEmail.length() <= 0) {
-            this.userProfileEmailAlert.setVisibility(View.VISIBLE);
-            this.userProfilePhoneNumberAlert.setVisibility(View.INVISIBLE);
-            this.userProfileFirstNameAlert.setVisibility(View.INVISIBLE);
-            this.userProfileLastNameAlert.setVisibility(View.INVISIBLE);
-            this.userProfileDateOfBirthAlert.setVisibility(View.INVISIBLE);
-            this.userProfileEmail.requestFocus();
-            return;
-        }
-        if (this.userProfilePhoneNumber.length() <= 0) {
-            this.userProfileEmailAlert.setVisibility(View.INVISIBLE);
-            this.userProfilePhoneNumberAlert.setVisibility(View.VISIBLE);
-            this.userProfileFirstNameAlert.setVisibility(View.INVISIBLE);
-            this.userProfileLastNameAlert.setVisibility(View.INVISIBLE);
-            this.userProfileDateOfBirthAlert.setVisibility(View.INVISIBLE);
-            this.userProfilePhoneNumber.requestFocus();
-            return;
-        }
-        if (this.userProfileFirstName.length() <= 0) {
-            this.userProfileEmailAlert.setVisibility(View.INVISIBLE);
-            this.userProfilePhoneNumberAlert.setVisibility(View.INVISIBLE);
-            this.userProfileFirstNameAlert.setVisibility(View.VISIBLE);
-            this.userProfileLastNameAlert.setVisibility(View.INVISIBLE);
-            this.userProfileDateOfBirthAlert.setVisibility(View.INVISIBLE);
-            this.userProfileFirstName.requestFocus();
-            return;
-        }
-        if (this.userProfileLastName.length() <= 0) {
-            this.userProfileEmailAlert.setVisibility(View.INVISIBLE);
-            this.userProfilePhoneNumberAlert.setVisibility(View.INVISIBLE);
-            this.userProfileFirstNameAlert.setVisibility(View.INVISIBLE);
-            this.userProfileLastNameAlert.setVisibility(View.VISIBLE);
-            this.userProfileDateOfBirthAlert.setVisibility(View.INVISIBLE);
-            this.userProfileLastName.requestFocus();
-            return;
-        }
-        if (this.userProfileDateOfBirth.length() <= 0) {
-            this.userProfileEmailAlert.setVisibility(View.INVISIBLE);
-            this.userProfilePhoneNumberAlert.setVisibility(View.INVISIBLE);
-            this.userProfileFirstNameAlert.setVisibility(View.INVISIBLE);
-            this.userProfileLastNameAlert.setVisibility(View.INVISIBLE);
-            this.userProfileDateOfBirthAlert.setVisibility(View.VISIBLE);
-            this.userProfileLastName.requestFocus();
-            return;
-        }
-
-        this.startLoadingSpinner();
+    private void doEditUserProfile() {
+//        if (this.userProfileEmail.length() <= 0) {
+//            this.userProfileEmailAlert.setVisibility(View.VISIBLE);
+//            this.userProfilePhoneNumberAlert.setVisibility(View.INVISIBLE);
+//            this.userProfileFirstNameAlert.setVisibility(View.INVISIBLE);
+//            this.userProfileLastNameAlert.setVisibility(View.INVISIBLE);
+//            this.userProfileDateOfBirthAlert.setVisibility(View.INVISIBLE);
+//            this.userProfileEmail.requestFocus();
+//            return;
+//        }
+//        if (this.userProfilePhoneNumber.length() <= 0) {
+//            this.userProfileEmailAlert.setVisibility(View.INVISIBLE);
+//            this.userProfilePhoneNumberAlert.setVisibility(View.VISIBLE);
+//            this.userProfileFirstNameAlert.setVisibility(View.INVISIBLE);
+//            this.userProfileLastNameAlert.setVisibility(View.INVISIBLE);
+//            this.userProfileDateOfBirthAlert.setVisibility(View.INVISIBLE);
+//            this.userProfilePhoneNumber.requestFocus();
+//            return;
+//        }
+//        if (this.userProfileFirstName.length() <= 0) {
+//            this.userProfileEmailAlert.setVisibility(View.INVISIBLE);
+//            this.userProfilePhoneNumberAlert.setVisibility(View.INVISIBLE);
+//            this.userProfileFirstNameAlert.setVisibility(View.VISIBLE);
+//            this.userProfileLastNameAlert.setVisibility(View.INVISIBLE);
+//            this.userProfileDateOfBirthAlert.setVisibility(View.INVISIBLE);
+//            this.userProfileFirstName.requestFocus();
+//            return;
+//        }
+//        if (this.userProfileLastName.length() <= 0) {
+//            this.userProfileEmailAlert.setVisibility(View.INVISIBLE);
+//            this.userProfilePhoneNumberAlert.setVisibility(View.INVISIBLE);
+//            this.userProfileFirstNameAlert.setVisibility(View.INVISIBLE);
+//            this.userProfileLastNameAlert.setVisibility(View.VISIBLE);
+//            this.userProfileDateOfBirthAlert.setVisibility(View.INVISIBLE);
+//            this.userProfileLastName.requestFocus();
+//            return;
+//        }
+//        if (this.userProfileDateOfBirth.length() <= 0) {
+//            this.userProfileEmailAlert.setVisibility(View.INVISIBLE);
+//            this.userProfilePhoneNumberAlert.setVisibility(View.INVISIBLE);
+//            this.userProfileFirstNameAlert.setVisibility(View.INVISIBLE);
+//            this.userProfileLastNameAlert.setVisibility(View.INVISIBLE);
+//            this.userProfileDateOfBirthAlert.setVisibility(View.VISIBLE);
+//            this.userProfileLastName.requestFocus();
+//            return;
+//        }
+//
+//        this.startLoadingSpinner();
 
 //        JSONObject postData = new JSONObject();
 //        try {
@@ -315,7 +342,7 @@ public class UserProfileActivity extends AppCompatActivity {
 //            }
 //        });
 //        this.requestQueue.add(jsonObjectRequest);
-        saveUserProfileSuccess();
+//        saveUserProfileSuccess();
     }
 
     private void doLogout() {
@@ -354,41 +381,36 @@ public class UserProfileActivity extends AppCompatActivity {
         finish();
     }
 
-    private void saveUserProfileSuccess() {
-        this.stopLoadingSpinner();
-        Intent roleSelectionIntent = new Intent(this, FirstTimeRoleSelectionActivity.class);
-        startActivity(roleSelectionIntent);
-        finish();
-    }
-
-    private void saveUserProfileFailed(String saveUserProfileFailedCause) {
-        this.stopLoadingSpinner();
-        AlertDialog.Builder saveUserProfileFailedDialog = new AlertDialog.Builder(this);
-        saveUserProfileFailedDialog.setCancelable(false);
-        saveUserProfileFailedDialog.setTitle("User Profile Failed");
-        saveUserProfileFailedDialog.setMessage(saveUserProfileFailedCause);
-        saveUserProfileFailedDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        saveUserProfileFailedDialog.create().show();
-    }
+//    private void saveUserProfileSuccess() {
+//        this.stopLoadingSpinner();
+//        Intent roleSelectionIntent = new Intent(this, FirstTimeRoleSelectionActivity.class);
+//        startActivity(roleSelectionIntent);
+//        finish();
+//    }
+//
+//    private void saveUserProfileFailed(String saveUserProfileFailedCause) {
+//        this.stopLoadingSpinner();
+//        AlertDialog.Builder saveUserProfileFailedDialog = new AlertDialog.Builder(this);
+//        saveUserProfileFailedDialog.setCancelable(false);
+//        saveUserProfileFailedDialog.setTitle("User Profile Failed");
+//        saveUserProfileFailedDialog.setMessage(saveUserProfileFailedCause);
+//        saveUserProfileFailedDialog.setPositiveButton("OK", (dialog, which) -> dialog.cancel());
+//        saveUserProfileFailedDialog.create().show();
+//    }
 
     private void startLoadingSpinner() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         this.backgroundView.setVisibility(View.VISIBLE);
         this.loadingSpinner.setVisibility(View.VISIBLE);
-        this.userProfileSaveButton.setEnabled(false);
-        this.userProfileSwitchRoleButton.setEnabled(false);
+//        this.userProfileSaveButton.setEnabled(false);
+//        this.userProfileSwitchRoleButton.setEnabled(false);
     }
 
     private void stopLoadingSpinner() {
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         this.backgroundView.setVisibility(View.GONE);
         this.loadingSpinner.setVisibility(View.GONE);
-        this.userProfileSaveButton.setEnabled(true);
-        this.userProfileSwitchRoleButton.setEnabled(true);
+//        this.userProfileSaveButton.setEnabled(true);
+//        this.userProfileSwitchRoleButton.setEnabled(true);
     }
 }

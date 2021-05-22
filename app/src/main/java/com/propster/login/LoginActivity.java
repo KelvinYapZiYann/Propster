@@ -21,7 +21,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.propster.R;
 import com.propster.content.ContentActivity;
 import com.propster.utils.Constants;
@@ -190,7 +189,6 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
                 String errorMessage = errorResponseBodyJsonObject.getString("message");
-                System.out.println("errorMessage ==> " + errorMessage);
                 switch (errorMessage) {
                     case "Unauthenticated.":
                         loginFailed(Constants.ERROR_LOGIN_FAILED_CREDENTIALS);

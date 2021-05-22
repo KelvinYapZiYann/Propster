@@ -17,9 +17,9 @@
     <dimen name="secondary_button_font_size">14sp</dimen>
     <dimen name="secondary_button_gap_height">15dp</dimen>
 
-    <dimen name="large_button_width">300dp</dimen>
-    <dimen name="large_button_font_size">30sp</dimen>
-    <dimen name="large_button_padding">20dp</dimen>
+    <dimen name="large_button_width">200dp</dimen>
+    <dimen name="large_button_font_size">14sp</dimen>
+    <dimen name="large_button_padding">0dp</dimen>
 
     <dimen name="large_text_font_size">30sp</dimen>
 
@@ -38,7 +38,9 @@
     <dimen name="tab_layout_elevation">10dp</dimen>
     <dimen name="tab_layout_font_size">10sp</dimen>
 
-    <dimen name="list_item_property_name_font_size">20sp</dimen>
+    <dimen name="list_item_primary_font_size">20sp</dimen>
+    <dimen name="list_item_secondary_large_font_size">17sp</dimen>
+    <dimen name="list_item_secondary_small_font_size">14sp</dimen>
 
 <!--    <dimen name="user_profile_image_size">25dp</dimen>-->
 

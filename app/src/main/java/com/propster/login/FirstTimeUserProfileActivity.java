@@ -2,7 +2,6 @@ package com.propster.login;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -10,14 +9,11 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -31,15 +27,10 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.propster.R;
-import com.propster.content.ContentActivity;
-import com.propster.content.NotificationActivity;
-import com.propster.content.UserProfileActivity;
 import com.propster.utils.Constants;
 
 import org.json.JSONException;
@@ -288,9 +279,7 @@ public class FirstTimeUserProfileActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.URL_SAVE_USER_PROFILE, postData, response -> {
-            saveUserProfileSuccess();
-        }, error -> {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.URL_SAVE_USER_PROFILE, postData, response -> saveUserProfileSuccess(), error -> {
             try {
                 String errorResponseBody = new String(error.networkResponse.data, StandardCharsets.UTF_8);
                 JSONObject errorResponseBodyJsonObject = new JSONObject(errorResponseBody);

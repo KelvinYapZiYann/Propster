@@ -15,369 +15,819 @@
         android:background="@color/white"
         />
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/landlordPropertyDetailSaveButton"
+        android:layout_above="@id/landlordPropertyDetailEditButton"
+        android:layout_marginTop="@dimen/min_group_margin"
         android:layout_marginStart="@dimen/min_group_margin"
         android:layout_marginEnd="@dimen/min_group_margin"
         android:layout_below="@id/landlordPropertyDetailToolbar"
         >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/landlordPropertyDetailNameLabel"
-            android:text="@string/property_name_label"
-            android:textColor="@color/black"
-            android:textSize="@dimen/input_field_font_size"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/input_field_gap_height"
-            android:id="@+id/landlordPropertyDetailNameAlert"
-            android:text="@string/add_property_error_name_empty"
-            android:textColor="@color/alert_red"
-            android:textSize="@dimen/input_field_alert_font_size"
-            android:visibility="invisible"
-            android:layout_toEndOf="@id/landlordPropertyDetailNameLabel"
-            android:layout_marginStart="@dimen/min_group_margin"
-            />
-
-        <EditText
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/input_field_height"
-            android:id="@+id/landlordPropertyDetailName"
-            android:hint="@string/property_name"
-            android:autofillHints=""
-            android:inputType="text"
-            android:textAlignment="textStart"
-            android:textSize="@dimen/input_field_font_size"
-            android:textColor="@color/black"
-            android:textColorHint="@color/disabled_grey"
-            android:background="@drawable/edittext_background_state"
-            android:layout_below="@id/landlordPropertyDetailNameLabel"
-            android:paddingStart="@dimen/input_field_gap_height"
-            tools:ignore="RtlSymmetry"
-
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/landlordPropertyDetailUnitNameLabel"
-            android:text="@string/unit_name_label"
-            android:textColor="@color/black"
-            android:textSize="@dimen/input_field_font_size"
-            android:layout_below="@id/landlordPropertyDetailName"
-            android:layout_marginTop="@dimen/input_field_gap_height"
-            />
+            >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/input_field_gap_height"
-            android:id="@+id/landlordPropertyDetailUnitNameAlert"
-            android:text="@string/add_property_error_unit_name_empty"
-            android:textColor="@color/alert_red"
-            android:textSize="@dimen/input_field_alert_font_size"
-            android:visibility="invisible"
-            android:layout_toEndOf="@id/landlordPropertyDetailUnitNameLabel"
-            android:layout_below="@id/landlordPropertyDetailName"
-            android:layout_marginStart="@dimen/min_group_margin"
-            android:layout_marginTop="@dimen/input_field_gap_height"
-            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/landlordPropertyDetailNameLabel"
+                android:text="@string/property_name_label"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_field_font_size"
+                />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/input_field_height"
-            android:id="@+id/landlordPropertyDetailUnitName"
-            android:autofillHints=""
-            android:hint="@string/unit_name"
-            android:inputType="text"
-            android:textAlignment="textStart"
-            android:textSize="@dimen/input_field_font_size"
-            android:textColor="@color/black"
-            android:textColorHint="@color/disabled_grey"
-            android:background="@drawable/edittext_background_state"
-            android:layout_below="@id/landlordPropertyDetailUnitNameLabel"
-            android:paddingStart="@dimen/input_field_gap_height"
-            tools:ignore="RtlSymmetry"
-            />
+            <!--        <TextView-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="@dimen/input_field_gap_height"-->
+            <!--            android:id="@+id/landlordPropertyDetailNameAlert"-->
+            <!--            android:text="@string/add_property_error_name_empty"-->
+            <!--            android:textColor="@color/alert_red"-->
+            <!--            android:textSize="@dimen/input_field_alert_font_size"-->
+            <!--            android:visibility="invisible"-->
+            <!--            android:layout_toEndOf="@id/landlordPropertyDetailNameLabel"-->
+            <!--            android:layout_marginStart="@dimen/min_group_margin"-->
+            <!--            />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/landlordPropertyDetailFloorLabel"
-            android:text="@string/floor_label"
-            android:textColor="@color/black"
-            android:textSize="@dimen/input_field_font_size"
-            android:layout_below="@id/landlordPropertyDetailUnitName"
-            android:layout_marginTop="@dimen/input_field_gap_height"
-            />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_field_height"
+                android:id="@+id/landlordPropertyDetailName"
+                android:hint="@string/property_name"
+                android:autofillHints=""
+                android:enabled="false"
+                android:inputType="text"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/input_field_font_size"
+                android:textColor="@color/black"
+                android:textColorHint="@color/disabled_grey"
+                android:background="@drawable/edittext_background_state"
+                android:layout_below="@id/landlordPropertyDetailNameLabel"
+                android:paddingStart="@dimen/input_field_gap_height"
+                tools:ignore="RtlSymmetry"
+                />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/input_field_height"
-            android:id="@+id/landlordPropertyDetailFloor"
-            android:autofillHints=""
-            android:hint="@string/floor"
-            android:inputType="text"
-            android:textAlignment="textStart"
-            android:textSize="@dimen/input_field_font_size"
-            android:textColor="@color/black"
-            android:textColorHint="@color/disabled_grey"
-            android:background="@drawable/edittext_background_state"
-            android:layout_below="@id/landlordPropertyDetailFloorLabel"
-            android:paddingStart="@dimen/input_field_gap_height"
-            tools:ignore="RtlSymmetry"
-            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/landlordPropertyDetailUnitNameLabel"
+                android:text="@string/unit_name_label"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_field_font_size"
+                android:layout_below="@id/landlordPropertyDetailName"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/landlordPropertyDetailAddressLine1Label"
-            android:text="@string/address_line_1_label"
-            android:textColor="@color/black"
-            android:textSize="@dimen/input_field_font_size"
-            android:layout_below="@id/landlordPropertyDetailFloor"
-            android:layout_marginTop="@dimen/input_field_gap_height"
-            />
+            <!--        <TextView-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="@dimen/input_field_gap_height"-->
+            <!--            android:id="@+id/landlordPropertyDetailUnitNameAlert"-->
+            <!--            android:text="@string/add_property_error_unit_name_empty"-->
+            <!--            android:textColor="@color/alert_red"-->
+            <!--            android:textSize="@dimen/input_field_alert_font_size"-->
+            <!--            android:visibility="invisible"-->
+            <!--            android:layout_toEndOf="@id/landlordPropertyDetailUnitNameLabel"-->
+            <!--            android:layout_below="@id/landlordPropertyDetailName"-->
+            <!--            android:layout_marginStart="@dimen/min_group_margin"-->
+            <!--            android:layout_marginTop="@dimen/input_field_gap_height"-->
+            <!--            />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/input_field_gap_height"
-            android:id="@+id/landlordPropertyDetailAddressLine1Alert"
-            android:text="@string/add_property_error_address_empty"
-            android:textColor="@color/alert_red"
-            android:textSize="@dimen/input_field_alert_font_size"
-            android:visibility="invisible"
-            android:layout_toEndOf="@id/landlordPropertyDetailAddressLine1Label"
-            android:layout_below="@id/landlordPropertyDetailFloor"
-            android:layout_marginStart="@dimen/min_group_margin"
-            android:layout_marginTop="@dimen/input_field_gap_height"
-            />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_field_height"
+                android:id="@+id/landlordPropertyDetailUnitName"
+                android:autofillHints=""
+                android:enabled="false"
+                android:hint="@string/unit_name"
+                android:inputType="text"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/input_field_font_size"
+                android:textColor="@color/black"
+                android:textColorHint="@color/disabled_grey"
+                android:background="@drawable/edittext_background_state"
+                android:layout_below="@id/landlordPropertyDetailUnitNameLabel"
+                android:paddingStart="@dimen/input_field_gap_height"
+                tools:ignore="RtlSymmetry"
+                />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/input_field_height"
-            android:id="@+id/landlordPropertyDetailAddressLine1"
-            android:autofillHints=""
-            android:hint="@string/address_line_1"
-            android:inputType="text"
-            android:textAlignment="textStart"
-            android:textSize="@dimen/input_field_font_size"
-            android:textColor="@color/black"
-            android:textColorHint="@color/disabled_grey"
-            android:background="@drawable/edittext_background_state"
-            android:layout_below="@id/landlordPropertyDetailAddressLine1Label"
-            android:paddingStart="@dimen/input_field_gap_height"
-            tools:ignore="RtlSymmetry"
-            />
+            <!--        <TextView-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:id="@+id/landlordPropertyDetailFloorLabel"-->
+            <!--            android:text="@string/floor_label"-->
+            <!--            android:textColor="@color/black"-->
+            <!--            android:textSize="@dimen/input_field_font_size"-->
+            <!--            android:layout_below="@id/landlordPropertyDetailUnitName"-->
+            <!--            android:layout_marginTop="@dimen/input_field_gap_height"-->
+            <!--            />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/landlordPropertyDetailAddressLine2Label"
-            android:text="@string/address_line_2_label"
-            android:textColor="@color/black"
-            android:textSize="@dimen/input_field_font_size"
-            android:layout_below="@id/landlordPropertyDetailAddressLine1"
-            android:layout_marginTop="@dimen/input_field_gap_height"
-            />
+            <!--        <EditText-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="@dimen/input_field_height"-->
+            <!--            android:id="@+id/landlordPropertyDetailFloor"-->
+            <!--            android:autofillHints=""
+                android:enabled="false"-->
+            <!--            android:hint="@string/floor"-->
+            <!--            android:inputType="text"-->
+            <!--            android:textAlignment="textStart"-->
+            <!--            android:textSize="@dimen/input_field_font_size"-->
+            <!--            android:textColor="@color/black"-->
+            <!--            android:textColorHint="@color/disabled_grey"-->
+            <!--            android:background="@drawable/edittext_background_state"-->
+            <!--            android:layout_below="@id/landlordPropertyDetailFloorLabel"-->
+            <!--            android:paddingStart="@dimen/input_field_gap_height"-->
+            <!--            tools:ignore="RtlSymmetry"-->
+            <!--            />-->
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/input_field_height"
-            android:id="@+id/landlordPropertyDetailAddressLine2"
-            android:autofillHints=""
-            android:hint="@string/address_line_2"
-            android:inputType="text"
-            android:textAlignment="textStart"
-            android:textSize="@dimen/input_field_font_size"
-            android:textColor="@color/black"
-            android:textColorHint="@color/disabled_grey"
-            android:background="@drawable/edittext_background_state"
-            android:layout_below="@id/landlordPropertyDetailAddressLine2Label"
-            android:paddingStart="@dimen/input_field_gap_height"
-            tools:ignore="RtlSymmetry"
-            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/landlordPropertyDetailAddressLine1Label"
+                android:text="@string/address_line_1_label"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_field_font_size"
+                android:layout_below="@id/landlordPropertyDetailUnitName"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/landlordPropertyDetailCityLabel"
-            android:text="@string/city_label"
-            android:textColor="@color/black"
-            android:textSize="@dimen/input_field_font_size"
-            android:layout_below="@id/landlordPropertyDetailAddressLine2"
-            android:layout_marginTop="@dimen/input_field_gap_height"
-            />
+            <!--        <TextView-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="@dimen/input_field_gap_height"-->
+            <!--            android:id="@+id/landlordPropertyDetailAddressLine1Alert"-->
+            <!--            android:text="@string/add_property_error_address_empty"-->
+            <!--            android:textColor="@color/alert_red"-->
+            <!--            android:textSize="@dimen/input_field_alert_font_size"-->
+            <!--            android:visibility="invisible"-->
+            <!--            android:layout_toEndOf="@id/landlordPropertyDetailAddressLine1Label"-->
+            <!--            android:layout_below="@id/landlordPropertyDetailUnitName"-->
+            <!--            android:layout_marginStart="@dimen/min_group_margin"-->
+            <!--            android:layout_marginTop="@dimen/input_field_gap_height"-->
+            <!--            />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/input_field_gap_height"
-            android:id="@+id/landlordPropertyDetailCityAlert"
-            android:text="@string/add_property_error_city_empty"
-            android:textColor="@color/alert_red"
-            android:textSize="@dimen/input_field_alert_font_size"
-            android:visibility="invisible"
-            android:layout_toEndOf="@id/landlordPropertyDetailCityLabel"
-            android:layout_below="@id/landlordPropertyDetailAddressLine2"
-            android:layout_marginStart="@dimen/min_group_margin"
-            android:layout_marginTop="@dimen/input_field_gap_height"
-            />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_field_height"
+                android:id="@+id/landlordPropertyDetailAddressLine1"
+                android:autofillHints=""
+                android:enabled="false"
+                android:hint="@string/address_line_1"
+                android:inputType="text"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/input_field_font_size"
+                android:textColor="@color/black"
+                android:textColorHint="@color/disabled_grey"
+                android:background="@drawable/edittext_background_state"
+                android:layout_below="@id/landlordPropertyDetailAddressLine1Label"
+                android:paddingStart="@dimen/input_field_gap_height"
+                tools:ignore="RtlSymmetry"
+                />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/input_field_height"
-            android:id="@+id/landlordPropertyDetailCity"
-            android:autofillHints=""
-            android:hint="@string/city"
-            android:inputType="text"
-            android:textAlignment="textStart"
-            android:textSize="@dimen/input_field_font_size"
-            android:textColor="@color/black"
-            android:textColorHint="@color/disabled_grey"
-            android:background="@drawable/edittext_background_state"
-            android:layout_below="@id/landlordPropertyDetailCityLabel"
-            android:paddingStart="@dimen/input_field_gap_height"
-            tools:ignore="RtlSymmetry"
-            />
+            <!--        <TextView-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:id="@+id/landlordPropertyDetailAddressLine2Label"-->
+            <!--            android:text="@string/address_line_2_label"-->
+            <!--            android:textColor="@color/black"-->
+            <!--            android:textSize="@dimen/input_field_font_size"-->
+            <!--            android:layout_below="@id/landlordPropertyDetailAddressLine1"-->
+            <!--            android:layout_marginTop="@dimen/input_field_gap_height"-->
+            <!--            />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/landlordPropertyDetailPostcodeLabel"
-            android:text="@string/postcode_label"
-            android:textColor="@color/black"
-            android:textSize="@dimen/input_field_font_size"
-            android:layout_below="@id/landlordPropertyDetailCity"
-            android:layout_marginTop="@dimen/input_field_gap_height"
-            />
+            <!--        <EditText-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="@dimen/input_field_height"-->
+            <!--            android:id="@+id/landlordPropertyDetailAddressLine2"-->
+            <!--            android:autofillHints=""
+                android:enabled="false"-->
+            <!--            android:hint="@string/address_line_2"-->
+            <!--            android:inputType="text"-->
+            <!--            android:textAlignment="textStart"-->
+            <!--            android:textSize="@dimen/input_field_font_size"-->
+            <!--            android:textColor="@color/black"-->
+            <!--            android:textColorHint="@color/disabled_grey"-->
+            <!--            android:background="@drawable/edittext_background_state"-->
+            <!--            android:layout_below="@id/landlordPropertyDetailAddressLine2Label"-->
+            <!--            android:paddingStart="@dimen/input_field_gap_height"-->
+            <!--            tools:ignore="RtlSymmetry"-->
+            <!--            />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/input_field_gap_height"
-            android:id="@+id/landlordPropertyDetailPostcodeAlert"
-            android:text="@string/add_property_error_postcode_empty"
-            android:textColor="@color/alert_red"
-            android:textSize="@dimen/input_field_alert_font_size"
-            android:visibility="invisible"
-            android:layout_toEndOf="@id/landlordPropertyDetailPostcodeLabel"
-            android:layout_below="@id/landlordPropertyDetailCity"
-            android:layout_marginStart="@dimen/min_group_margin"
-            android:layout_marginTop="@dimen/input_field_gap_height"
-            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/landlordPropertyDetailCityLabel"
+                android:text="@string/city_label"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_field_font_size"
+                android:layout_below="@id/landlordPropertyDetailAddressLine1"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/input_field_height"
-            android:id="@+id/landlordPropertyDetailPostcode"
-            android:autofillHints=""
-            android:hint="@string/postcode"
-            android:inputType="number"
-            android:textAlignment="textStart"
-            android:textSize="@dimen/input_field_font_size"
-            android:textColor="@color/black"
-            android:textColorHint="@color/disabled_grey"
-            android:background="@drawable/edittext_background_state"
-            android:layout_below="@id/landlordPropertyDetailPostcodeLabel"
-            android:paddingStart="@dimen/input_field_gap_height"
-            tools:ignore="RtlSymmetry"
-            />
+            <!--        <TextView-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="@dimen/input_field_gap_height"-->
+            <!--            android:id="@+id/landlordPropertyDetailCityAlert"-->
+            <!--            android:text="@string/add_property_error_city_empty"-->
+            <!--            android:textColor="@color/alert_red"-->
+            <!--            android:textSize="@dimen/input_field_alert_font_size"-->
+            <!--            android:visibility="invisible"-->
+            <!--            android:layout_toEndOf="@id/landlordPropertyDetailCityLabel"-->
+            <!--            android:layout_below="@id/landlordPropertyDetailAddressLine1"-->
+            <!--            android:layout_marginStart="@dimen/min_group_margin"-->
+            <!--            android:layout_marginTop="@dimen/input_field_gap_height"-->
+            <!--            />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/landlordPropertyDetailStateLabel"
-            android:text="@string/state_label"
-            android:textColor="@color/black"
-            android:textSize="@dimen/input_field_font_size"
-            android:layout_below="@id/landlordPropertyDetailPostcode"
-            android:layout_marginTop="@dimen/input_field_gap_height"
-            />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_field_height"
+                android:id="@+id/landlordPropertyDetailCity"
+                android:autofillHints=""
+                android:enabled="false"
+                android:hint="@string/city"
+                android:inputType="text"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/input_field_font_size"
+                android:textColor="@color/black"
+                android:textColorHint="@color/disabled_grey"
+                android:background="@drawable/edittext_background_state"
+                android:layout_below="@id/landlordPropertyDetailCityLabel"
+                android:paddingStart="@dimen/input_field_gap_height"
+                tools:ignore="RtlSymmetry"
+                />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/input_field_gap_height"
-            android:id="@+id/landlordPropertyDetailStateAlert"
-            android:text="@string/add_property_error_state_empty"
-            android:textColor="@color/alert_red"
-            android:textSize="@dimen/input_field_alert_font_size"
-            android:visibility="invisible"
-            android:layout_toEndOf="@id/landlordPropertyDetailStateLabel"
-            android:layout_below="@id/landlordPropertyDetailPostcode"
-            android:layout_marginStart="@dimen/min_group_margin"
-            android:layout_marginTop="@dimen/input_field_gap_height"
-            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/landlordPropertyDetailPostcodeLabel"
+                android:text="@string/postcode_label"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_field_font_size"
+                android:layout_below="@id/landlordPropertyDetailCity"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/input_field_height"
-            android:id="@+id/landlordPropertyDetailState"
-            android:autofillHints=""
-            android:hint="@string/state"
-            android:inputType="text"
-            android:textAlignment="textStart"
-            android:textSize="@dimen/input_field_font_size"
-            android:textColor="@color/black"
-            android:textColorHint="@color/disabled_grey"
-            android:background="@drawable/edittext_background_state"
-            android:layout_below="@id/landlordPropertyDetailStateLabel"
-            android:paddingStart="@dimen/input_field_gap_height"
-            tools:ignore="RtlSymmetry"
-            />
+            <!--        <TextView-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="@dimen/input_field_gap_height"-->
+            <!--            android:id="@+id/landlordPropertyDetailPostcodeAlert"-->
+            <!--            android:text="@string/add_property_error_postcode_empty"-->
+            <!--            android:textColor="@color/alert_red"-->
+            <!--            android:textSize="@dimen/input_field_alert_font_size"-->
+            <!--            android:visibility="invisible"-->
+            <!--            android:layout_toEndOf="@id/landlordPropertyDetailPostcodeLabel"-->
+            <!--            android:layout_below="@id/landlordPropertyDetailCity"-->
+            <!--            android:layout_marginStart="@dimen/min_group_margin"-->
+            <!--            android:layout_marginTop="@dimen/input_field_gap_height"-->
+            <!--            />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/landlordPropertyDetailCountryLabel"
-            android:text="@string/country_label"
-            android:textColor="@color/black"
-            android:textSize="@dimen/input_field_font_size"
-            android:layout_below="@id/landlordPropertyDetailState"
-            android:layout_marginTop="@dimen/input_field_gap_height"
-            />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_field_height"
+                android:id="@+id/landlordPropertyDetailPostcode"
+                android:autofillHints=""
+                android:enabled="false"
+                android:hint="@string/postcode"
+                android:inputType="number"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/input_field_font_size"
+                android:textColor="@color/black"
+                android:textColorHint="@color/disabled_grey"
+                android:background="@drawable/edittext_background_state"
+                android:layout_below="@id/landlordPropertyDetailPostcodeLabel"
+                android:paddingStart="@dimen/input_field_gap_height"
+                tools:ignore="RtlSymmetry"
+                />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/input_field_gap_height"
-            android:id="@+id/landlordPropertyDetailCountryAlert"
-            android:text="@string/add_property_error_country_empty"
-            android:textColor="@color/alert_red"
-            android:textSize="@dimen/input_field_alert_font_size"
-            android:visibility="invisible"
-            android:layout_toEndOf="@id/landlordPropertyDetailCountryLabel"
-            android:layout_below="@id/landlordPropertyDetailState"
-            android:layout_marginStart="@dimen/min_group_margin"
-            android:layout_marginTop="@dimen/input_field_gap_height"
-            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/landlordPropertyDetailStateLabel"
+                android:text="@string/state_label"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_field_font_size"
+                android:layout_below="@id/landlordPropertyDetailPostcode"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/input_field_height"
-            android:id="@+id/landlordPropertyDetailCountry"
-            android:autofillHints=""
-            android:hint="@string/country"
-            android:inputType="text"
-            android:textAlignment="textStart"
-            android:textSize="@dimen/input_field_font_size"
-            android:textColor="@color/black"
-            android:textColorHint="@color/disabled_grey"
-            android:background="@drawable/edittext_background_state"
-            android:layout_below="@id/landlordPropertyDetailCountryLabel"
-            android:paddingStart="@dimen/input_field_gap_height"
-            tools:ignore="RtlSymmetry"
-            />
+            <!--        <TextView-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="@dimen/input_field_gap_height"-->
+            <!--            android:id="@+id/landlordPropertyDetailStateAlert"-->
+            <!--            android:text="@string/add_property_error_state_empty"-->
+            <!--            android:textColor="@color/alert_red"-->
+            <!--            android:textSize="@dimen/input_field_alert_font_size"-->
+            <!--            android:visibility="invisible"-->
+            <!--            android:layout_toEndOf="@id/landlordPropertyDetailStateLabel"-->
+            <!--            android:layout_below="@id/landlordPropertyDetailPostcode"-->
+            <!--            android:layout_marginStart="@dimen/min_group_margin"-->
+            <!--            android:layout_marginTop="@dimen/input_field_gap_height"-->
+            <!--            />-->
 
-    </RelativeLayout>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_field_height"
+                android:id="@+id/landlordPropertyDetailState"
+                android:autofillHints=""
+                android:enabled="false"
+                android:hint="@string/state"
+                android:inputType="text"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/input_field_font_size"
+                android:textColor="@color/black"
+                android:textColorHint="@color/disabled_grey"
+                android:background="@drawable/edittext_background_state"
+                android:layout_below="@id/landlordPropertyDetailStateLabel"
+                android:paddingStart="@dimen/input_field_gap_height"
+                tools:ignore="RtlSymmetry"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/landlordPropertyDetailCountryLabel"
+                android:text="@string/country_label"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_field_font_size"
+                android:layout_below="@id/landlordPropertyDetailState"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
+
+            <!--        <TextView-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="@dimen/input_field_gap_height"-->
+            <!--            android:id="@+id/landlordPropertyDetailCountryAlert"-->
+            <!--            android:text="@string/add_property_error_country_empty"-->
+            <!--            android:textColor="@color/alert_red"-->
+            <!--            android:textSize="@dimen/input_field_alert_font_size"-->
+            <!--            android:visibility="invisible"-->
+            <!--            android:layout_toEndOf="@id/landlordPropertyDetailCountryLabel"-->
+            <!--            android:layout_below="@id/landlordPropertyDetailState"-->
+            <!--            android:layout_marginStart="@dimen/min_group_margin"-->
+            <!--            android:layout_marginTop="@dimen/input_field_gap_height"-->
+            <!--            />-->
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_field_height"
+                android:id="@+id/landlordPropertyDetailCountry"
+                android:autofillHints=""
+                android:enabled="false"
+                android:hint="@string/country"
+                android:inputType="text"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/input_field_font_size"
+                android:textColor="@color/black"
+                android:textColorHint="@color/disabled_grey"
+                android:background="@drawable/edittext_background_state"
+                android:layout_below="@id/landlordPropertyDetailCountryLabel"
+                android:paddingStart="@dimen/input_field_gap_height"
+                tools:ignore="RtlSymmetry"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/landlordPropertyDetailNumberOfRoomsLabel"
+                android:text="@string/number_of_rooms_label"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_field_font_size"
+                android:layout_below="@id/landlordPropertyDetailCountry"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
+
+            <!--        <TextView-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="@dimen/input_field_gap_height"-->
+            <!--            android:id="@+id/landlordPropertyDetailNumberOfRoomsAlert"-->
+            <!--            android:text="@string/add_property_error_number_of_rooms_empty"-->
+            <!--            android:textColor="@color/alert_red"-->
+            <!--            android:textSize="@dimen/input_field_alert_font_size"-->
+            <!--            android:visibility="invisible"-->
+            <!--            android:layout_toEndOf="@id/landlordPropertyDetailNumberOfRoomsLabel"-->
+            <!--            android:layout_below="@id/landlordPropertyDetailCountry"-->
+            <!--            android:layout_marginStart="@dimen/min_group_margin"-->
+            <!--            android:layout_marginTop="@dimen/input_field_gap_height"-->
+            <!--            />-->
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_field_height"
+                android:id="@+id/landlordPropertyDetailNumberOfRooms"
+                android:autofillHints=""
+                android:enabled="false"
+                android:hint="@string/number_of_rooms"
+                android:inputType="number"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/input_field_font_size"
+                android:textColor="@color/black"
+                android:textColorHint="@color/disabled_grey"
+                android:background="@drawable/edittext_background_state"
+                android:layout_below="@id/landlordPropertyDetailNumberOfRoomsLabel"
+                android:paddingStart="@dimen/input_field_gap_height"
+                tools:ignore="RtlSymmetry"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/landlordPropertyDetailNumberOfBathroomsLabel"
+                android:text="@string/number_of_bathrooms_label"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_field_font_size"
+                android:layout_below="@id/landlordPropertyDetailNumberOfRooms"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
+
+            <!--        <TextView-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="@dimen/input_field_gap_height"-->
+            <!--            android:id="@+id/landlordPropertyDetailNumberOfBathroomsAlert"-->
+            <!--            android:text="@string/add_property_error_number_of_bathrooms_empty"-->
+            <!--            android:textColor="@color/alert_red"-->
+            <!--            android:textSize="@dimen/input_field_alert_font_size"-->
+            <!--            android:visibility="invisible"-->
+            <!--            android:layout_toEndOf="@id/landlordPropertyDetailNumberOfBathroomsLabel"-->
+            <!--            android:layout_below="@id/landlordPropertyDetailNumberOfRooms"-->
+            <!--            android:layout_marginStart="@dimen/min_group_margin"-->
+            <!--            android:layout_marginTop="@dimen/input_field_gap_height"-->
+            <!--            />-->
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_field_height"
+                android:id="@+id/landlordPropertyDetailNumberOfBathrooms"
+                android:autofillHints=""
+                android:enabled="false"
+                android:hint="@string/number_of_bathrooms"
+                android:inputType="number"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/input_field_font_size"
+                android:textColor="@color/black"
+                android:textColorHint="@color/disabled_grey"
+                android:background="@drawable/edittext_background_state"
+                android:layout_below="@id/landlordPropertyDetailNumberOfBathroomsLabel"
+                android:paddingStart="@dimen/input_field_gap_height"
+                tools:ignore="RtlSymmetry"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/landlordPropertyDetailTypeLabel"
+                android:text="@string/property_type_label"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_field_font_size"
+                android:layout_below="@id/landlordPropertyDetailNumberOfBathrooms"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_field_height"
+                android:id="@+id/landlordPropertyDetailType"
+                android:autofillHints=""
+                android:enabled="false"
+                android:hint="@string/number_of_bathrooms"
+                android:inputType="number"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/input_field_font_size"
+                android:textColor="@color/black"
+                android:textColorHint="@color/disabled_grey"
+                android:background="@drawable/edittext_background_state"
+                android:layout_below="@id/landlordPropertyDetailTypeLabel"
+                android:paddingStart="@dimen/input_field_gap_height"
+                tools:ignore="RtlSymmetry"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/landlordPropertyDetailOwnershipTypeLabel"
+                android:text="@string/property_ownership_type_label"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_field_font_size"
+                android:layout_below="@id/landlordPropertyDetailType"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_field_height"
+                android:id="@+id/landlordPropertyDetailOwnershipType"
+                android:autofillHints=""
+                android:enabled="false"
+                android:hint="@string/number_of_bathrooms"
+                android:inputType="number"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/input_field_font_size"
+                android:textColor="@color/black"
+                android:textColorHint="@color/disabled_grey"
+                android:background="@drawable/edittext_background_state"
+                android:layout_below="@id/landlordPropertyDetailOwnershipTypeLabel"
+                android:paddingStart="@dimen/input_field_gap_height"
+                tools:ignore="RtlSymmetry"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/landlordPropertyDetailPurchaseValueLabel"
+                android:text="@string/purchase_value_label"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_field_font_size"
+                android:layout_below="@id/landlordPropertyDetailOwnershipType"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
+
+            <!--        <TextView-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="@dimen/input_field_gap_height"-->
+            <!--            android:id="@+id/landlordPropertyDetailPurchaseValueAlert"-->
+            <!--            android:text="@string/add_property_error_purchase_value_empty"-->
+            <!--            android:textColor="@color/alert_red"-->
+            <!--            android:textSize="@dimen/input_field_alert_font_size"-->
+            <!--            android:visibility="invisible"-->
+            <!--            android:layout_toEndOf="@id/landlordPropertyDetailPurchaseValueLabel"-->
+            <!--            android:layout_below="@id/landlordPropertyDetailOwnershipType"-->
+            <!--            android:layout_marginStart="@dimen/min_group_margin"-->
+            <!--            android:layout_marginTop="@dimen/input_field_gap_height"-->
+            <!--            />-->
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_field_height"
+                android:id="@+id/landlordPropertyDetailPurchaseValue"
+                android:autofillHints=""
+                android:enabled="false"
+                android:hint="@string/purchase_value"
+                android:inputType="number"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/input_field_font_size"
+                android:textColor="@color/black"
+                android:textColorHint="@color/disabled_grey"
+                android:background="@drawable/edittext_background_state"
+                android:layout_below="@id/landlordPropertyDetailPurchaseValueLabel"
+                android:paddingStart="@dimen/input_field_gap_height"
+                tools:ignore="RtlSymmetry"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/landlordPropertyDetailCurrentValueLabel"
+                android:text="@string/current_value_label"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_field_font_size"
+                android:layout_below="@id/landlordPropertyDetailPurchaseValue"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
+
+            <!--        <TextView-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="@dimen/input_field_gap_height"-->
+            <!--            android:id="@+id/landlordPropertyDetailCurrentValueAlert"-->
+            <!--            android:text="@string/add_property_error_current_value_empty"-->
+            <!--            android:textColor="@color/alert_red"-->
+            <!--            android:textSize="@dimen/input_field_alert_font_size"-->
+            <!--            android:visibility="invisible"-->
+            <!--            android:layout_toEndOf="@id/landlordPropertyDetailCurrentValueLabel"-->
+            <!--            android:layout_below="@id/landlordPropertyDetailPurchaseValue"-->
+            <!--            android:layout_marginStart="@dimen/min_group_margin"-->
+            <!--            android:layout_marginTop="@dimen/input_field_gap_height"-->
+            <!--            />-->
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_field_height"
+                android:id="@+id/landlordPropertyDetailCurrentValue"
+                android:autofillHints=""
+                android:enabled="false"
+                android:hint="@string/current_value"
+                android:inputType="number"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/input_field_font_size"
+                android:textColor="@color/black"
+                android:textColorHint="@color/disabled_grey"
+                android:background="@drawable/edittext_background_state"
+                android:layout_below="@id/landlordPropertyDetailCurrentValueLabel"
+                android:paddingStart="@dimen/input_field_gap_height"
+                tools:ignore="RtlSymmetry"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/landlordPropertyDetailPurchaseDateLabel"
+                android:text="@string/purchase_date_label"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_field_font_size"
+                android:layout_below="@id/landlordPropertyDetailCurrentValue"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
+
+            <!--        <TextView-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="@dimen/input_field_gap_height"-->
+            <!--            android:id="@+id/landlordPropertyDetailPurchaseDateAlert"-->
+            <!--            android:text="@string/add_property_error_purchase_date_empty"-->
+            <!--            android:textColor="@color/alert_red"-->
+            <!--            android:textSize="@dimen/input_field_alert_font_size"-->
+            <!--            android:visibility="invisible"-->
+            <!--            android:layout_toEndOf="@id/landlordPropertyDetailPurchaseDateLabel"-->
+            <!--            android:layout_below="@id/landlordPropertyDetailCurrentValue"-->
+            <!--            android:layout_marginStart="@dimen/min_group_margin"-->
+            <!--            android:layout_marginTop="@dimen/input_field_gap_height"-->
+            <!--            />-->
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_field_height"
+                android:id="@+id/landlordPropertyDetailPurchaseDate"
+                android:inputType="date"
+                android:autofillHints=""
+                android:enabled="false"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/input_field_font_size"
+                android:textColor="@color/black"
+                android:textColorHint="@color/disabled_grey"
+                android:background="@drawable/edittext_background_state"
+                android:layout_below="@id/landlordPropertyDetailPurchaseDateLabel"
+                android:paddingStart="@dimen/input_field_gap_height"
+                tools:ignore="RtlSymmetry"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/landlordPropertyDetailIsActiveLabel"
+                android:text="@string/is_loan_active_label"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_field_font_size"
+                android:layout_below="@id/landlordPropertyDetailPurchaseDate"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_field_height"
+                android:id="@+id/landlordPropertyDetailIsActive"
+                android:autofillHints=""
+                android:enabled="false"
+                android:hint="@string/number_of_bathrooms"
+                android:inputType="number"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/input_field_font_size"
+                android:textColor="@color/black"
+                android:textColorHint="@color/disabled_grey"
+                android:background="@drawable/edittext_background_state"
+                android:layout_below="@id/landlordPropertyDetailIsActiveLabel"
+                android:paddingStart="@dimen/input_field_gap_height"
+                tools:ignore="RtlSymmetry"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/landlordPropertyDetailInterestRateLabel"
+                android:text="@string/loan_interest_rate_label"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_field_font_size"
+                android:layout_below="@id/landlordPropertyDetailIsActive"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
+
+            <!--        <TextView-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="@dimen/input_field_gap_height"-->
+            <!--            android:id="@+id/landlordPropertyDetailInterestRateAlert"-->
+            <!--            android:text="@string/add_property_error_interest_rate_empty"-->
+            <!--            android:textColor="@color/alert_red"-->
+            <!--            android:textSize="@dimen/input_field_alert_font_size"-->
+            <!--            android:visibility="invisible"-->
+            <!--            android:layout_toEndOf="@id/landlordPropertyDetailInterestRateLabel"-->
+            <!--            android:layout_below="@id/landlordPropertyDetailIsActive"-->
+            <!--            android:layout_marginStart="@dimen/min_group_margin"-->
+            <!--            android:layout_marginTop="@dimen/input_field_gap_height"-->
+            <!--            />-->
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_field_height"
+                android:id="@+id/landlordPropertyDetailInterestRate"
+                android:autofillHints=""
+                android:enabled="false"
+                android:hint="@string/loan_interest_rate"
+                android:inputType="numberDecimal|numberSigned"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/input_field_font_size"
+                android:textColor="@color/black"
+                android:textColorHint="@color/disabled_grey"
+                android:background="@drawable/edittext_background_state"
+                android:layout_below="@id/landlordPropertyDetailInterestRateLabel"
+                android:paddingStart="@dimen/input_field_gap_height"
+                tools:ignore="RtlSymmetry"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/landlordPropertyDetailOutstandingAmountLabel"
+                android:text="@string/outstanding_amount_label"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_field_font_size"
+                android:layout_below="@id/landlordPropertyDetailInterestRate"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
+
+            <!--        <TextView-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="@dimen/input_field_gap_height"-->
+            <!--            android:id="@+id/landlordPropertyDetailOutstandingAmountAlert"-->
+            <!--            android:text="@string/add_property_error_outstanding_amount_empty"-->
+            <!--            android:textColor="@color/alert_red"-->
+            <!--            android:textSize="@dimen/input_field_alert_font_size"-->
+            <!--            android:visibility="invisible"-->
+            <!--            android:layout_toEndOf="@id/landlordPropertyDetailOutstandingAmountLabel"-->
+            <!--            android:layout_below="@id/landlordPropertyDetailInterestRate"-->
+            <!--            android:layout_marginStart="@dimen/min_group_margin"-->
+            <!--            android:layout_marginTop="@dimen/input_field_gap_height"-->
+            <!--            />-->
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_field_height"
+                android:id="@+id/landlordPropertyDetailOutstandingAmount"
+                android:autofillHints=""
+                android:enabled="false"
+                android:hint="@string/outstanding_amount"
+                android:inputType="number"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/input_field_font_size"
+                android:textColor="@color/black"
+                android:textColorHint="@color/disabled_grey"
+                android:background="@drawable/edittext_background_state"
+                android:layout_below="@id/landlordPropertyDetailOutstandingAmountLabel"
+                android:paddingStart="@dimen/input_field_gap_height"
+                tools:ignore="RtlSymmetry"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/landlordPropertyDetailTotalYearLabel"
+                android:text="@string/total_year_label"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_field_font_size"
+                android:layout_below="@id/landlordPropertyDetailOutstandingAmount"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
+
+            <!--        <TextView-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="@dimen/input_field_gap_height"-->
+            <!--            android:id="@+id/landlordPropertyDetailTotalYearAlert"-->
+            <!--            android:text="@string/add_property_error_total_year_empty"-->
+            <!--            android:textColor="@color/alert_red"-->
+            <!--            android:textSize="@dimen/input_field_alert_font_size"-->
+            <!--            android:visibility="invisible"-->
+            <!--            android:layout_toEndOf="@id/landlordPropertyDetailTotalYearLabel"-->
+            <!--            android:layout_below="@id/landlordPropertyDetailOutstandingAmount"-->
+            <!--            android:layout_marginStart="@dimen/min_group_margin"-->
+            <!--            android:layout_marginTop="@dimen/input_field_gap_height"-->
+            <!--            />-->
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_field_height"
+                android:id="@+id/landlordPropertyDetailTotalYear"
+                android:autofillHints=""
+                android:enabled="false"
+                android:hint="@string/total_year"
+                android:inputType="number"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/input_field_font_size"
+                android:textColor="@color/black"
+                android:textColorHint="@color/disabled_grey"
+                android:background="@drawable/edittext_background_state"
+                android:layout_below="@id/landlordPropertyDetailTotalYearLabel"
+                android:paddingStart="@dimen/input_field_gap_height"
+                tools:ignore="RtlSymmetry"
+                />
+
+        </RelativeLayout>
+
+    </ScrollView>
 
     <android.widget.Button
         android:layout_width="@dimen/primary_button_width"
         android:layout_height="wrap_content"
-        android:id="@+id/landlordPropertyDetailSaveButton"
-        android:text="@string/save"
+        android:id="@+id/landlordPropertyDetailEditButton"
+        android:text="@string/edit"
         android:textColor="@color/white"
         android:textSize="@dimen/primary_button_font_size"
         android:background="@drawable/primary_button_background_state"
@@ -385,6 +835,25 @@
         android:layout_marginTop="@dimen/group_gap_height"
         android:layout_marginBottom="@dimen/secondary_button_gap_height"
         android:layout_alignParentBottom="true"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/landlordPropertyDetailBackground"
+        android:background="@color/background_black"
+        android:visibility="gone"
+        />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/landlordPropertyDetailLoadingSpinner"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/secondary_blue"
+        android:visibility="gone"
         />
 
 </RelativeLayout>

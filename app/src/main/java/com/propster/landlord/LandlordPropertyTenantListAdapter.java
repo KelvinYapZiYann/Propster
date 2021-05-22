@@ -32,7 +32,8 @@ public class LandlordPropertyTenantListAdapter extends ArrayAdapter<LandlordProp
         TextView landlordManagePropertyTenantListItemTenureEndDate = convertView.findViewById(R.id.landlordManagePropertyTenantListItemTenureEndDate);
         TextView landlordManagePropertyTenantListItemPayment = convertView.findViewById(R.id.landlordManagePropertyTenantListItemPayment);
         TextView landlordManagePropertyTenantListItemAge = convertView.findViewById(R.id.landlordManagePropertyTenantListItemAge);
-        landlordManagePropertyTenantListItemName.setText(propertyTenantListItem.getTenantName());
+        String name = propertyTenantListItem.getTenantFirstName() + " " + propertyTenantListItem.getTenantLastName();
+        landlordManagePropertyTenantListItemName.setText(name);
         landlordManagePropertyTenantListItemTenureEndDate.setText(propertyTenantListItem.getTenureEndDate());
         landlordManagePropertyTenantListItemPayment.setText(Float.toString(propertyTenantListItem.getPayment()));
         landlordManagePropertyTenantListItemAge.setText(Integer.toString(propertyTenantListItem.getAge()));

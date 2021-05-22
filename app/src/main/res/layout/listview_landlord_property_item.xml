@@ -23,7 +23,7 @@
                 android:id="@+id/landlordManagePropertyListItemName"
                 android:textColor="@color/black"
                 android:text="property item name"
-                android:textSize="20sp"
+                android:textSize="@dimen/list_item_primary_font_size"
                 android:layout_centerVertical="true"
                 />
 
@@ -87,7 +87,7 @@
                         android:id="@+id/landlordManagePropertyListItemPayment"
                         android:textColor="@color/black"
                         android:text="payment"
-                        android:textSize="@dimen/input_field_font_size"
+                        android:textSize="@dimen/list_item_secondary_small_font_size"
                         android:layout_toStartOf="@id/landlordManagePropertyListItemAgeLabel"
                         />
 
@@ -96,7 +96,7 @@
                         android:layout_height="wrap_content"
                         android:text="payment = "
                         android:textColor="@color/black"
-                        android:textSize="@dimen/input_field_font_size"
+                        android:textSize="@dimen/list_item_secondary_small_font_size"
                         android:layout_toStartOf="@id/landlordManagePropertyListItemPayment"
                         />
 
@@ -106,7 +106,7 @@
                         android:id="@+id/landlordManagePropertyListItemAgeLabel"
                         android:text="age = "
                         android:textColor="@color/black"
-                        android:textSize="@dimen/input_field_font_size"
+                        android:textSize="@dimen/list_item_secondary_small_font_size"
                         android:layout_toStartOf="@id/landlordManagePropertyListItemAge"
                         />
 
@@ -116,7 +116,7 @@
                         android:id="@+id/landlordManagePropertyListItemAge"
                         android:textColor="@color/black"
                         android:text="age"
-                        android:textSize="@dimen/input_field_font_size"
+                        android:textSize="@dimen/list_item_secondary_small_font_size"
                         android:layout_alignParentEnd="true"
                         />
 

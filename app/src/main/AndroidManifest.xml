@@ -63,6 +63,9 @@
         <activity android:name=".tenant.TenantPropertyListActivity"/>
         <activity android:name=".tenant.TenantPropertyDetailActivity"/>
 
+        <activity android:name=".allRoles.PropertyExpensesListActivity"/>
+        <activity android:name=".allRoles.PropertyExpensesDetailActivity"/>
+
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="portrait"
