@@ -26,7 +26,6 @@ import com.android.volley.toolbox.Volley;
 import com.propster.R;
 import com.propster.content.NotificationActivity;
 import com.propster.content.UserProfileActivity;
-import com.propster.landlord.LandlordPropertyListActivity;
 import com.propster.login.SplashActivity;
 import com.propster.utils.Constants;
 
@@ -50,17 +49,27 @@ public class PropertyExpensesListActivity extends AppCompatActivity {
 
     private RequestQueue requestQueue;
 
+    private String propertyExpensesAll = null;
+    private int propertyId;
+    private String propertyName;
+    private int[] propertyExpensesIdArray;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_property_expenses_list);
 
-        String propertyExpensesAll;
         Bundle extras = getIntent().getExtras();
         if(extras == null) {
-            propertyExpensesAll = null;
+            this.propertyExpensesAll = null;
+            this.propertyId = -1;
+            this.propertyName = null;
+            this.propertyExpensesIdArray = null;
         } else {
-            propertyExpensesAll = extras.getString(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST);
+            this.propertyExpensesAll = extras.getString(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST, null);
+            this.propertyId = extras.getInt(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST_PROPERTY_ID, -1);
+            this.propertyName = extras.getString(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_NAME, null);
+            this.propertyExpensesIdArray = extras.getIntArray(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST_PROPERTY_EXPENSES_ID);
         }
 
         this.backgroundView = findViewById(R.id.propertyExpensesListBackground);
@@ -74,9 +83,11 @@ public class PropertyExpensesListActivity extends AppCompatActivity {
         propertyExpensesList.setAdapter(this.propertyExpensesListAdapter);
         propertyExpensesList.setOnItemClickListener((parent, view, position, id) -> {
             PropertyExpensesListItem propertyExpensesListItem = ((PropertyExpensesListAdapter) parent.getAdapter()).getItem(position);
-            Intent propertyTenantListIntent = new Intent(PropertyExpensesListActivity.this, PropertyExpensesDetailActivity.class);
-            propertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_PROPERTY_ID, propertyExpensesListItem.getPropertyExpensesId());
-            startActivityForResult(propertyTenantListIntent, Constants.REQUEST_CODE_LANDLORD_PROPERTY_TENANT_DETAIL);
+            Intent propertyTenantDetailIntent = new Intent(PropertyExpensesListActivity.this, PropertyExpensesDetailActivity.class);
+            propertyTenantDetailIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_PROPERTY_ID, propertyExpensesListItem.getPropertyId());
+            propertyTenantDetailIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_ID, propertyExpensesListItem.getPropertyExpensesId());
+            propertyTenantDetailIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_NAME, propertyExpensesListItem.getPropertyExpensesDescription());
+            startActivityForResult(propertyTenantDetailIntent, Constants.REQUEST_CODE_LANDLORD_PROPERTY_TENANT_DETAIL);
         });
 
         this.propertyExpensesListAddExpensesButton = findViewById(R.id.propertyExpensesListAddExpensesButton);
@@ -86,7 +97,7 @@ public class PropertyExpensesListActivity extends AppCompatActivity {
 //            landlordManageFirstTimeLoginLabel.setVisibility(View.GONE);
         });
 
-        if (propertyExpensesAll == null || !propertyExpensesAll.equals(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST_ALL)) {
+        if (this.propertyExpensesAll == null || !this.propertyExpensesAll.equals(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST_ALL)) {
             this.propertyExpensesListAddExpensesButton.setVisibility(View.VISIBLE);
         } else {
             this.propertyExpensesListAddExpensesButton.setVisibility(View.GONE);
@@ -95,7 +106,11 @@ public class PropertyExpensesListActivity extends AppCompatActivity {
         Toolbar mainToolbar = findViewById(R.id.propertyExpensesListToolbar);
         setSupportActionBar(mainToolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(R.string.app_name);
+            if (this.propertyExpensesAll == null || !this.propertyExpensesAll.equals(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST_ALL)) {
+                getSupportActionBar().setTitle(this.propertyName);
+            } else {
+                getSupportActionBar().setTitle(R.string.property_expenses);
+            }
         }
         mainToolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.mainMenuUser) {
@@ -136,85 +151,147 @@ public class PropertyExpensesListActivity extends AppCompatActivity {
             return;
         }
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY_LIST, null, response -> {
-            try {
-                if (!response.has("data")) {
+        if (this.propertyExpensesAll == null || !this.propertyExpensesAll.equals(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST_ALL)) {
+            this.refreshPropertyExpensesAdapterList();
+            for (int value : this.propertyExpensesIdArray) {
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY_EXPENSES + "/" + value, null, response -> {
+                    try {
+                        if (!response.has("data")) {
+                            getPropertyExpensesListFailed(Constants.ERROR_COMMON);
+                            return;
+                        }
+                        JSONObject dataJsonObject = response.getJSONObject("data");
+                        if (!dataJsonObject.has("id")) {
+                            getPropertyExpensesListFailed(Constants.ERROR_COMMON);
+                            return;
+                        }
+                        if (!dataJsonObject.has("fields")) {
+                            getPropertyExpensesListFailed(Constants.ERROR_COMMON);
+                            return;
+                        }
+                        JSONObject dataFieldsJsonObject = dataJsonObject.getJSONObject("fields");
+                        if (!dataFieldsJsonObject.has("Payment Description")) {
+                            getPropertyExpensesListFailed(Constants.ERROR_COMMON);
+                            return;
+                        }
+                        if (!dataFieldsJsonObject.has("Date Of Expense")) {
+                            getPropertyExpensesListFailed(Constants.ERROR_COMMON);
+                            return;
+                        }
+                        if (!dataFieldsJsonObject.has("Currency Iso")) {
+                            getPropertyExpensesListFailed(Constants.ERROR_COMMON);
+                            return;
+                        }
+                        if (!dataFieldsJsonObject.has("Amount")) {
+                            getPropertyExpensesListFailed(Constants.ERROR_COMMON);
+                            return;
+                        }
+                        this.propertyExpensesListAdapter.add(new PropertyExpensesListItem(this.propertyId, dataJsonObject.getInt("id"),
+                                dataFieldsJsonObject.getString("Payment Description"), this.propertyName,
+                                dataFieldsJsonObject.getString("Date Of Expense"), dataFieldsJsonObject.getString("Currency Iso") + dataFieldsJsonObject.getDouble("Amount")));
+                        this.stopLoadingSpinner();
+                    } catch (JSONException e) {
+                        getPropertyExpensesListFailed(Constants.ERROR_COMMON);
+                    }
+                }, error -> getPropertyExpensesListFailed(Constants.ERROR_COMMON)) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        if (SplashActivity.SESSION_ID.isEmpty()) {
+                            SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                            SplashActivity.SESSION_ID = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, "");
+                        }
+                        Map<String, String> headerParams = new HashMap<>();
+                        headerParams.put("Accept", "application/json");
+                        headerParams.put("Content-Type", "application/json");
+                        headerParams.put("X-Requested-With", "XMLHttpRequest");
+                        headerParams.put("Authorization", SplashActivity.SESSION_ID);
+                        return headerParams;
+                    }
+                };
+                jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                this.requestQueue.add(jsonObjectRequest);
+            }
+        } else {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY_LIST, null, response -> {
+                try {
+                    if (!response.has("data")) {
+                        getPropertyExpensesListFailed(Constants.ERROR_COMMON);
+                        return;
+                    }
+                    JSONArray dataJsonArray = response.getJSONArray("data");
+                    JSONObject dataJsonObject;
+                    JSONObject dataFieldsJsonObject;
+                    JSONArray dataExpensesJsonArray;
+                    JSONObject dataExpensesJsonObject;
+                    JSONObject dataExpensesFieldsJsonObject;
+                    List<PropertyExpensesListItem> propertyExpensesListItemList = new ArrayList<>();
+                    for (int i = 0; i < dataJsonArray.length(); i++) {
+                        dataJsonObject = dataJsonArray.getJSONObject(i);
+                        if (!dataJsonObject.has("id")) {
+                            getPropertyExpensesListFailed(Constants.ERROR_COMMON);
+                            return;
+                        }
+                        if (!dataJsonObject.has("fields")) {
+                            getPropertyExpensesListFailed(Constants.ERROR_COMMON);
+                            return;
+                        }
+                        dataFieldsJsonObject = dataJsonObject.getJSONObject("fields");
+                        dataExpensesJsonArray = dataFieldsJsonObject.getJSONArray("Asset Expenses");
+                        for (int j = 0; j < dataExpensesJsonArray.length(); j++) {
+                            dataExpensesJsonObject = dataExpensesJsonArray.getJSONObject(j);
+                            if (!dataExpensesJsonObject.has("id")) {
+                                getPropertyExpensesListFailed(Constants.ERROR_COMMON);
+                                return;
+                            }
+                            if (!dataExpensesJsonObject.has("fields")) {
+                                getPropertyExpensesListFailed(Constants.ERROR_COMMON);
+                                return;
+                            }
+                            dataExpensesFieldsJsonObject = dataExpensesJsonObject.getJSONObject("fields");
+                            if (!dataExpensesFieldsJsonObject.has("Payment Description")) {
+                                getPropertyExpensesListFailed(Constants.ERROR_COMMON);
+                                return;
+                            }
+                            if (!dataExpensesFieldsJsonObject.has("Date Of Expense")) {
+                                getPropertyExpensesListFailed(Constants.ERROR_COMMON);
+                                return;
+                            }
+                            if (!dataExpensesFieldsJsonObject.has("Currency Iso")) {
+                                getPropertyExpensesListFailed(Constants.ERROR_COMMON);
+                                return;
+                            }
+                            if (!dataExpensesFieldsJsonObject.has("Amount")) {
+                                getPropertyExpensesListFailed(Constants.ERROR_COMMON);
+                                return;
+                            }
+                            propertyExpensesListItemList.add(new PropertyExpensesListItem(dataJsonObject.getInt("id"), dataExpensesJsonObject.getInt("id"),
+                                    dataExpensesFieldsJsonObject.getString("Payment Description"), dataFieldsJsonObject.getString("Asset Nickname"),
+                                    dataExpensesFieldsJsonObject.getString("Date Of Expense"),
+                                    dataExpensesFieldsJsonObject.getString("Currency Iso") + dataExpensesFieldsJsonObject.getInt("Amount")));
+                        }
+                    }
+                    getPropertyExpensesListSuccess(propertyExpensesListItemList);
+                } catch (JSONException e) {
                     getPropertyExpensesListFailed(Constants.ERROR_COMMON);
-                    return;
                 }
-                JSONArray dataJsonArray = response.getJSONArray("data");
-                JSONObject dataJsonObject;
-                JSONObject dataFieldsJsonObject;
-                JSONArray dataExpensesJsonArray;
-                JSONObject dataExpensesJsonObject;
-                JSONObject dataExpensesFieldsJsonObject;
-                List<PropertyExpensesListItem> propertyExpensesListItemList = new ArrayList<>();
-                for (int i = 0; i < dataJsonArray.length(); i++) {
-                    dataJsonObject = dataJsonArray.getJSONObject(i);
-                    if (!dataJsonObject.has("id")) {
-                        getPropertyExpensesListFailed(Constants.ERROR_COMMON);
-                        return;
+            }, error -> getPropertyExpensesListFailed(Constants.ERROR_COMMON)) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    if (SplashActivity.SESSION_ID.isEmpty()) {
+                        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                        SplashActivity.SESSION_ID = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, "");
                     }
-                    if (!dataJsonObject.has("fields")) {
-                        getPropertyExpensesListFailed(Constants.ERROR_COMMON);
-                        return;
-                    }
-                    dataFieldsJsonObject = dataJsonObject.getJSONObject("fields");
-                    dataExpensesJsonArray = dataFieldsJsonObject.getJSONArray("Asset Expenses");
-                    for (int j = 0; j < dataExpensesJsonArray.length(); j++) {
-                        dataExpensesJsonObject = dataExpensesJsonArray.getJSONObject(j);
-                        if (!dataExpensesJsonObject.has("id")) {
-                            getPropertyExpensesListFailed(Constants.ERROR_COMMON);
-                            return;
-                        }
-                        if (!dataExpensesJsonObject.has("fields")) {
-                            getPropertyExpensesListFailed(Constants.ERROR_COMMON);
-                            return;
-                        }
-                        dataExpensesFieldsJsonObject = dataExpensesJsonObject.getJSONObject("fields");
-                        if (!dataExpensesFieldsJsonObject.has("Payment Description")) {
-                            getPropertyExpensesListFailed(Constants.ERROR_COMMON);
-                            return;
-                        }
-                        if (!dataExpensesFieldsJsonObject.has("Date Of Expense")) {
-                            getPropertyExpensesListFailed(Constants.ERROR_COMMON);
-                            return;
-                        }
-                        if (!dataExpensesFieldsJsonObject.has("Currency Iso")) {
-                            getPropertyExpensesListFailed(Constants.ERROR_COMMON);
-                            return;
-                        }
-                        if (!dataExpensesFieldsJsonObject.has("Amount")) {
-                            getPropertyExpensesListFailed(Constants.ERROR_COMMON);
-                            return;
-                        }
-                        propertyExpensesListItemList.add(new PropertyExpensesListItem(dataExpensesJsonObject.getInt("id"), dataExpensesFieldsJsonObject.getString("Payment Description"),
-                                dataFieldsJsonObject.getString("Asset Nickname"), dataExpensesFieldsJsonObject.getString("Date Of Expense"),
-                                dataExpensesFieldsJsonObject.getString("Currency Iso") + dataExpensesFieldsJsonObject.getInt("Amount")));
-                    }
+                    Map<String, String> headerParams = new HashMap<>();
+                    headerParams.put("Accept", "application/json");
+                    headerParams.put("Content-Type", "application/json");
+                    headerParams.put("X-Requested-With", "XMLHttpRequest");
+                    headerParams.put("Authorization", SplashActivity.SESSION_ID);
+                    return headerParams;
                 }
-                getPropertyExpensesListSuccess(propertyExpensesListItemList);
-            } catch (JSONException e) {
-                e.printStackTrace();
-                getPropertyExpensesListFailed(Constants.ERROR_COMMON);
-            }
-        }, error -> getPropertyExpensesListFailed(Constants.ERROR_COMMON)) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                if (SplashActivity.SESSION_ID.isEmpty()) {
-                    SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-                    SplashActivity.SESSION_ID = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, "");
-                }
-                Map<String, String> headerParams = new HashMap<>();
-                headerParams.put("Accept", "application/json");
-                headerParams.put("Content-Type", "application/json");
-                headerParams.put("X-Requested-With", "XMLHttpRequest");
-                headerParams.put("Authorization", SplashActivity.SESSION_ID);
-                return headerParams;
-            }
-        };
-        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        this.requestQueue.add(jsonObjectRequest);
+            };
+            jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            this.requestQueue.add(jsonObjectRequest);
+        }
     }
 
     private void getPropertyExpensesListSuccess(List<PropertyExpensesListItem> propertyExpensesListItemList) {

@@ -28,6 +28,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.nambimobile.widgets.efab.FabOption;
 import com.propster.R;
+import com.propster.allRoles.PropertyExpensesListActivity;
+import com.propster.allRoles.PropertyTenureContractsListActivity;
 import com.propster.content.NotificationActivity;
 import com.propster.content.UserProfileActivity;
 import com.propster.login.SplashActivity;
@@ -61,7 +63,9 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
 
     private String tenantListAllTenants;
     private int propertyId;
+    private String propertyName;
     private int[] tenantIdArray;
+    private int[] propertyExpensesIdArray;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,11 +76,15 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
         if(extras == null) {
             this.tenantIdArray = null;
             this.propertyId = -1;
+            this.propertyName = null;
             this.tenantListAllTenants = null;
+            this.propertyExpensesIdArray = null;
         } else {
             this.propertyId = extras.getInt(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_PROPERTY_ID, -1);
+            this.propertyName = extras.getString(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_NAME, null);
             this.tenantIdArray = extras.getIntArray(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST);
             this.tenantListAllTenants = extras.getString(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_ALL_TENANTS, null);
+            this.propertyExpensesIdArray = extras.getIntArray(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_EXPENSES_ID);
         }
 
         this.backgroundView = findViewById(R.id.landlordPropertyTenantListBackground);
@@ -123,7 +131,11 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
         });
         this.landlordManagePropertyExpensesButton = findViewById(R.id.landlordManagePropertyAddTenantExpensesButton);
         this.landlordManagePropertyExpensesButton.setOnClickListener(view -> {
-
+            Intent propertyExpensesIntent = new Intent(LandlordPropertyTenantListActivity.this, PropertyExpensesListActivity.class);
+            propertyExpensesIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST_PROPERTY_ID, this.propertyId);
+            propertyExpensesIntent.putExtra(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_NAME, this.propertyName);
+            propertyExpensesIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST_PROPERTY_EXPENSES_ID, this.propertyExpensesIdArray);
+            startActivity(propertyExpensesIntent);
         });
         this.landlordManagePropertyPaymentRecordsButton = findViewById(R.id.landlordManagePropertyAddTenantPaymentRecordsButton);
         this.landlordManagePropertyPaymentRecordsButton.setOnClickListener(view -> {
@@ -131,7 +143,8 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
         });
         this.landlordManagePropertyTenureContractButton = findViewById(R.id.landlordManagePropertyAddTenantTenureContractButton);
         this.landlordManagePropertyTenureContractButton.setOnClickListener(view -> {
-
+            Intent propertyTenureContractsIntent = new Intent(LandlordPropertyTenantListActivity.this, PropertyTenureContractsListActivity.class);
+            startActivity(propertyTenureContractsIntent);
         });
         this.landlordManagePropertyRemovePropertyButton = findViewById(R.id.landlordManagePropertyAddTenantRemovePropertyButton);
         this.landlordManagePropertyRemovePropertyButton.setOnClickListener(view -> {
@@ -157,7 +170,11 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
         Toolbar mainToolbar = findViewById(R.id.landlordManagePropertyTenantListToolbar);
         setSupportActionBar(mainToolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(R.string.app_name);
+            if (this.tenantListAllTenants != null && this.tenantListAllTenants.equals(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_ALL_TENANTS)) {
+                getSupportActionBar().setTitle(R.string.app_name);
+            } else {
+                getSupportActionBar().setTitle(this.propertyName);
+            }
         }
         mainToolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.mainMenuUser) {

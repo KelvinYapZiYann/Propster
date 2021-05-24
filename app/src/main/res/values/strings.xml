@@ -185,6 +185,27 @@
     <!-- PROPERTY EXPENSES -->
     <string name="add_property_expenses">Add Property Expenses</string>
 
+    <string name="property_expenses_payment_description">Payment Description</string>
+    <string name="property_expenses_property_name">From Asset</string>
+    <string name="property_expenses_expense_type">Expense Type</string>
+    <string name="property_expenses_vendor_name">Vendor Name</string>
+    <string name="property_expenses_currency">RM</string>
+    <string name="property_expenses_amount">Amount</string>
+    <string name="property_expenses_date_of_expense">Date of Expense</string>
+    <string name="property_expenses_uploaded_files">Uploaded Files</string>
+
+    <string name="property_expenses_payment_description_label">Payment Description:</string>
+    <string name="property_expenses_property_name_label">From Asset:</string>
+    <string name="property_expenses_expense_type_label">Expense Type:</string>
+    <string name="property_expenses_vendor_name_label">Vendor Name:</string>
+    <string name="property_expenses_currency_label">Currency:</string>
+    <string name="property_expenses_amount_label">Amount:</string>
+    <string name="property_expenses_date_of_expense_label">Date of Expense:</string>
+    <string name="property_expenses_uploaded_files_label">Uploaded Files:</string>
+
+    <!-- PROPERTY TENURE CONTRACTS -->
+    <string name="add_property_tenure_contracts">Add Tenure Contracts</string>
+
     <!-- ERROR -->
     <string name="login_error_username_empty">Username cannot be empty</string>
     <string name="login_error_password_empty">Password cannot be empty</string>

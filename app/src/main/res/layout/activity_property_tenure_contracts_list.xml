@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".allRoles.PropertyTenureContractsListActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/propertyTenureContractsListToolbar"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        android:elevation="@dimen/toolbar_elevation"
+        android:background="@color/white"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/propertyTenureContractsListAddContractsButton"
+        android:layout_below="@id/propertyTenureContractsListToolbar"
+        >
+
+        <!--        android:layout_marginStart="@dimen/min_group_margin"-->
+        <!--        android:layout_marginEnd="@dimen/min_group_margin"-->
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/propertyTenureContractsList"
+            />
+
+        <!--        android:divider="@color/white"-->
+        <!--        android:dividerHeight="0dp"-->
+
+    </RelativeLayout>
+
+    <android.widget.Button
+        android:layout_width="@dimen/large_button_width"
+        android:layout_height="wrap_content"
+        android:id="@+id/propertyTenureContractsListAddContractsButton"
+        android:text="@string/add_property_tenure_contracts"
+        android:textColor="@color/white"
+        android:textSize="@dimen/large_button_font_size"
+        android:background="@drawable/primary_button_background_state"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="@dimen/large_button_padding"
+        android:paddingBottom="@dimen/large_button_padding"
+        android:layout_marginTop="@dimen/group_gap_height"
+        android:layout_marginBottom="@dimen/primary_button_gap_height"
+        android:layout_alignParentBottom="true"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/propertyTenureContractsListBackground"
+        android:background="@color/background_black"
+        android:visibility="gone"
+        />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/propertyTenureContractsListLoadingSpinner"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/secondary_blue"
+        android:visibility="gone"
+        />
+
+</RelativeLayout>

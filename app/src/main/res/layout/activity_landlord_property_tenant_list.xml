@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/landlordManagePropertyAddTenantRemovePropertyButton"
             app:fab_color="@color/alert_red"
-            app:fab_icon="@drawable/detail_ic_white"
+            app:fab_icon="@drawable/remove_ic_white"
             app:label_text="Remove Property"
             app:label_backgroundColor="@color/alert_red"
             />

@@ -38,6 +38,7 @@
     <dimen name="tab_layout_elevation">10dp</dimen>
     <dimen name="tab_layout_font_size">10sp</dimen>
 
+    <dimen name="list_item_text_gap">2dp</dimen>
     <dimen name="list_item_primary_font_size">20sp</dimen>
     <dimen name="list_item_secondary_large_font_size">17sp</dimen>
     <dimen name="list_item_secondary_small_font_size">14sp</dimen>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/min_group_margin"
+        >
+        <!--        android:background="@drawable/edittext_background_unfocused"-->
+        <!--        android:layout_marginBottom="@dimen/min_group_margin"-->
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/propertyTenureContractsListItemName"
+                android:textColor="@color/black"
+                android:text="contract name"
+                android:textSize="@dimen/list_item_primary_font_size"
+                android:layout_centerVertical="true"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/propertyTenureContractsListItemPropertyName"
+                        android:textColor="@color/black"
+                        android:text="property name"
+                        android:textSize="@dimen/list_item_secondary_large_font_size"
+                        android:layout_toStartOf="@id/propertyTenureContractsListItemTenantName"
+                        android:layout_marginEnd="@dimen/list_item_text_gap"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/propertyTenureContractsListItemTenantName"
+                        android:textColor="@color/black"
+                        android:text="tenant name"
+                        android:textSize="@dimen/list_item_secondary_large_font_size"
+                        android:layout_alignParentEnd="true"
+                        />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/propertyTenureContractsListItemEndDate"
+                        android:textColor="@color/black"
+                        android:text="date"
+                        android:textSize="@dimen/list_item_secondary_small_font_size"
+                        android:layout_toStartOf="@id/propertyTenureContractsListItemRentalAmount"
+                        android:layout_marginStart="@dimen/list_item_text_gap"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/propertyTenureContractsListItemRentalAmount"
+                        android:textColor="@color/black"
+                        android:text="rm1000"
+                        android:textSize="@dimen/list_item_secondary_small_font_size"
+                        android:layout_alignParentEnd="true"
+                        />
+
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

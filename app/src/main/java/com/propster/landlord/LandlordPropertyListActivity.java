@@ -78,7 +78,9 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
             LandlordPropertyListItem landlordPropertyListItem = ((LandlordPropertyListAdapter) parent.getAdapter()).getItem(position);
             Intent propertyTenantListIntent = new Intent(LandlordPropertyListActivity.this, LandlordPropertyTenantListActivity.class);
             propertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_PROPERTY_ID, landlordPropertyListItem.getPropertyId());
+            propertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_NAME, landlordPropertyListItem.getPropertyName());
             propertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST, landlordPropertyListItem.getTenantIdArray());
+            propertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_EXPENSES_ID, landlordPropertyListItem.getPropertyExpensesIdArray());
             startActivityForResult(propertyTenantListIntent, Constants.REQUEST_CODE_LANDLORD_PROPERTY_TENANT_LIST);
         });
 
@@ -154,8 +156,11 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
                 JSONObject dataJsonObject;
                 JSONObject dataFieldsJsonObject;
                 int[] tenantIdArray;
+                int[] expensesIdArray;
                 JSONArray dataTenantsJsonArray;
                 JSONObject dataTenantJsonObject;
+                JSONArray dataExpensesJsonArray;
+                JSONObject dataExpensesJsonObject;
                 List<LandlordPropertyListItem> propertyListItems = new ArrayList<>();
                 for (int i = 0; i < dataJsonArray.length(); i++) {
                     dataJsonObject = dataJsonArray.getJSONObject(i);
@@ -181,7 +186,16 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
                         dataTenantJsonObject = dataTenantsJsonArray.getJSONObject(j);
                         tenantIdArray[j] = dataTenantJsonObject.getInt("id");
                     }
-                    propertyListItems.add(new LandlordPropertyListItem(dataFieldsJsonObject.getString("Asset Nickname"), dataJsonObject.getInt("id"), tenantIdArray, 0, 0));
+                    if (!dataFieldsJsonObject.has("Asset Expenses")) {
+                        landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
+                    }
+                    dataExpensesJsonArray = dataFieldsJsonObject.getJSONArray("Asset Expenses");
+                    expensesIdArray = new int[dataExpensesJsonArray.length()];
+                    for (int j = 0; j < dataExpensesJsonArray.length(); j++) {
+                        dataExpensesJsonObject = dataExpensesJsonArray.getJSONObject(j);
+                        expensesIdArray[j] = dataExpensesJsonObject.getInt("id");
+                    }
+                    propertyListItems.add(new LandlordPropertyListItem(dataFieldsJsonObject.getString("Asset Nickname"), dataJsonObject.getInt("id"), tenantIdArray, expensesIdArray,0, 0));
                 }
                 landlordManageGetPropertyListSuccess(propertyListItems);
             } catch (JSONException e) {
