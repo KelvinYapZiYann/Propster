@@ -1,4 +1,4 @@
-zpackage com.propster.allRoles;
+package com.propster.allRoles;
 
 import android.app.Activity;
 import android.content.Context;
@@ -184,7 +184,7 @@ public class PropertyExpensesDetailActivity extends AppCompatActivity {
 
     private void doGetPropertyExpensePropertyName() {
         this.startLoadingSpinner();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY_DETAIL + "/" + this.propertyId, null, response -> {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY + "/" + this.propertyId, null, response -> {
             try {
                 if (!response.has("data")) {
                     getPropertyExpensesDetailFailed(Constants.ERROR_COMMON);

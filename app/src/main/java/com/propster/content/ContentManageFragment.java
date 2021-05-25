@@ -1,38 +1,21 @@
 package com.propster.content;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.propster.R;
 import com.propster.allRoles.PropertyExpensesListActivity;
 import com.propster.landlord.LandlordPropertyListActivity;
-import com.propster.landlord.LandlordPropertyListAdapter;
-import com.propster.landlord.LandlordPropertyListItem;
 import com.propster.landlord.LandlordPropertyTenantListActivity;
 import com.propster.tenant.TenantPropertyListActivity;
 import com.propster.utils.Constants;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 public class ContentManageFragment extends ContentFragment {
 
@@ -90,7 +73,7 @@ public class ContentManageFragment extends ContentFragment {
         Button landlordContentManagePropertyTenantsButton = view.findViewById(R.id.landlordContentManagePropertyTenantsButton);
         landlordContentManagePropertyTenantsButton.setOnClickListener(view1 -> {
             Intent landlordPropertyTenantListIntent = new Intent(getContext(), LandlordPropertyTenantListActivity.class);
-            landlordPropertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_ALL_TENANTS, Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_ALL_TENANTS);
+            landlordPropertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_LIST_ALL_TENANTS, Constants.INTENT_EXTRA_LIST_ALL_TENANTS);
             startActivity(landlordPropertyTenantListIntent);
         });
         Button landlordContentManagePropertyTenureContractsButton = view.findViewById(R.id.landlordContentManagePropertyTenureContractsButton);

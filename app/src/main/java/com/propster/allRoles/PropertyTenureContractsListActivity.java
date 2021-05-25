@@ -68,7 +68,7 @@ public class PropertyTenureContractsListActivity extends AppCompatActivity {
         } else {
             this.propertyTenureContractsAll = extras.getString(Constants.INTENT_EXTRA_PROPERTY_TENURE_CONTRACTS_LIST, null);
             this.propertyId = extras.getInt(Constants.INTENT_EXTRA_PROPERTY_TENURE_CONTRACTS_PROPERTY_ID, -1);
-            this.propertyName = extras.getString(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_NAME, null);
+            this.propertyName = extras.getString(Constants.INTENT_EXTRA_PROPERTY_NAME, null);
             this.propertyExpensesIdArray = extras.getIntArray(Constants.INTENT_EXTRA_PROPERTY_TENURE_CONTRACTS_ID);
         }
 
@@ -146,7 +146,7 @@ public class PropertyTenureContractsListActivity extends AppCompatActivity {
             return;
         }
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY_LIST, null, response -> {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY, null, response -> {
             try {
                 if (!response.has("data")) {
                     getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);

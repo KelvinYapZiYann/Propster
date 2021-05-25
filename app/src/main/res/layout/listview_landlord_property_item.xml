@@ -98,6 +98,7 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/list_item_secondary_small_font_size"
                         android:layout_toStartOf="@id/landlordManagePropertyListItemPayment"
+                        android:layout_marginEnd="@dimen/list_item_text_gap"
                         />
 
                     <TextView

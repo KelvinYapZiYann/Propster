@@ -110,7 +110,7 @@
     <string name="property_name">Asset Nickname</string>
     <string name="unit_name">Unit No</string>
     <string name="floor">Floor</string>
-    <string name="address_line_1">Address Line 1</string>
+    <string name="address_line_1">Address Line</string>
     <string name="address_line_2">Address Line 2</string>
     <string name="city">City</string>
     <string name="postcode">Postcode</string>
@@ -135,16 +135,18 @@
     <string name="latest_rental_date">Latest Rental Date</string>
     <string name="number_of_rooms">Number of Rooms</string>
     <string name="number_of_bathrooms">Number of Bathrooms</string>
+    <string name="property_size">Asset Size (sq. ft.)</string>
     <string name="property_type">Asset Type</string>
     <string name="property_ownership_type">Asset Ownership Type</string>
     <string name="is_loan_active">Is Loan Active</string>
     <string name="outstanding_amount">Loan Outstanding Amount</string>
     <string name="total_year">Total Year</string>
+    <string name="malaysia">Malaysia</string>
 
     <string name="property_name_label">Asset Nickname:</string>
     <string name="unit_name_label">Unit No:</string>
     <string name="floor_label">Floor:</string>
-    <string name="address_line_1_label">Address Line 1:</string>
+    <string name="address_line_1_label">Address Line:</string>
     <string name="address_line_2_label">Address Line 2:</string>
     <string name="city_label">City:</string>
     <string name="postcode_label">Postcode:</string>
@@ -169,6 +171,7 @@
     <string name="latest_rental_date_label">Latest Rental Date:</string>
     <string name="number_of_rooms_label">Number of Rooms:</string>
     <string name="number_of_bathrooms_label">Number of Bathrooms:</string>
+    <string name="property_size_label">Asset Size (sq. ft.):</string>
     <string name="property_type_label">Asset Type:</string>
     <string name="property_ownership_type_label">Asset Ownership Type:</string>
     <string name="is_loan_active_label">Is Loan Active:</string>
@@ -230,6 +233,7 @@
     <string name="add_property_error_country_empty">Country cannot be empty</string>
     <string name="add_property_error_number_of_rooms_empty">Number of rooms cannot be empty</string>
     <string name="add_property_error_number_of_bathrooms_empty">Number of bathrooms cannot be empty</string>
+    <string name="add_property_error_property_size_empty">Asset Size cannot be empty</string>
     <string name="add_property_error_purchase_value_empty">Purchase value cannot be empty</string>
     <string name="add_property_error_current_value_empty">Current value cannot be empty</string>
     <string name="add_property_error_interest_rate_empty">Interest rate cannot be empty</string>

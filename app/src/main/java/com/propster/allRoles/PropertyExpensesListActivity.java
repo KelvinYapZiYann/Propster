@@ -68,7 +68,7 @@ public class PropertyExpensesListActivity extends AppCompatActivity {
         } else {
             this.propertyExpensesAll = extras.getString(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST, null);
             this.propertyId = extras.getInt(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST_PROPERTY_ID, -1);
-            this.propertyName = extras.getString(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_NAME, null);
+            this.propertyName = extras.getString(Constants.INTENT_EXTRA_PROPERTY_NAME, null);
             this.propertyExpensesIdArray = extras.getIntArray(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST_PROPERTY_EXPENSES_ID);
         }
 
@@ -212,7 +212,7 @@ public class PropertyExpensesListActivity extends AppCompatActivity {
                 this.requestQueue.add(jsonObjectRequest);
             }
         } else {
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY_LIST, null, response -> {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY, null, response -> {
                 try {
                     if (!response.has("data")) {
                         getPropertyExpensesListFailed(Constants.ERROR_COMMON);

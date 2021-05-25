@@ -98,7 +98,7 @@ public class LandlordPropertyAddTenantActivity extends AppCompatActivity {
         if(extras == null) {
             this.propertyId = -1;
         } else {
-            this.propertyId = extras.getInt(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_PROPERTY_ID, -1);
+            this.propertyId = extras.getInt(Constants.INTENT_EXTRA_PROPERTY_ID, -1);
         }
 
 
@@ -223,7 +223,7 @@ public class LandlordPropertyAddTenantActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.URL_LANDLORD_PROPERTY_ADD_TENANT, postData, response -> {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.URL_LANDLORD_TENANT, postData, response -> {
             propertyAddTenantSuccess();
         }, error -> {
             try {

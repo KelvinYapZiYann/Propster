@@ -65,7 +65,7 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
     private int propertyId;
     private String propertyName;
     private int[] tenantIdArray;
-    private int[] propertyExpensesIdArray;
+//    private int[] propertyExpensesIdArray;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,13 +78,13 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
             this.propertyId = -1;
             this.propertyName = null;
             this.tenantListAllTenants = null;
-            this.propertyExpensesIdArray = null;
+//            this.propertyExpensesIdArray = null;
         } else {
-            this.propertyId = extras.getInt(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_PROPERTY_ID, -1);
-            this.propertyName = extras.getString(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_NAME, null);
-            this.tenantIdArray = extras.getIntArray(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST);
-            this.tenantListAllTenants = extras.getString(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_ALL_TENANTS, null);
-            this.propertyExpensesIdArray = extras.getIntArray(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_EXPENSES_ID);
+            this.propertyId = extras.getInt(Constants.INTENT_EXTRA_PROPERTY_ID, -1);
+            this.propertyName = extras.getString(Constants.INTENT_EXTRA_PROPERTY_NAME, null);
+            this.tenantIdArray = extras.getIntArray(Constants.INTENT_EXTRA_TENANT_ID);
+            this.tenantListAllTenants = extras.getString(Constants.INTENT_EXTRA_LIST_ALL_TENANTS, null);
+//            this.propertyExpensesIdArray = extras.getIntArray(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_EXPENSES_ID);
         }
 
         this.backgroundView = findViewById(R.id.landlordPropertyTenantListBackground);
@@ -117,7 +117,7 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
                     qrScanIntentIntegrator.initiateScan();
                 } else {
                     Intent landlordPropertyAddTenantIntent = new Intent(LandlordPropertyTenantListActivity.this, LandlordPropertyAddTenantActivity.class);
-                    landlordPropertyAddTenantIntent.putExtra(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_PROPERTY_ID, this.propertyId);
+                    landlordPropertyAddTenantIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_ID, this.propertyId);
                     startActivityForResult(landlordPropertyAddTenantIntent, Constants.REQUEST_CODE_LANDLORD_PROPERTY_ADD_TENANT);
                 }
             });
@@ -126,15 +126,16 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
         this.landlordManagePropertyDetailButton = findViewById(R.id.landlordManagePropertyAddTenantDetailButton);
         this.landlordManagePropertyDetailButton.setOnClickListener(view -> {
             Intent propertyDetailIntent = new Intent(LandlordPropertyTenantListActivity.this, LandlordPropertyDetailActivity.class);
-            propertyDetailIntent.putExtra(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_DETAIL_PROPERTY_ID, this.propertyId);
+            propertyDetailIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_ID, this.propertyId);
+            propertyDetailIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_NAME, this.propertyName);
             startActivity(propertyDetailIntent);
         });
         this.landlordManagePropertyExpensesButton = findViewById(R.id.landlordManagePropertyAddTenantExpensesButton);
         this.landlordManagePropertyExpensesButton.setOnClickListener(view -> {
             Intent propertyExpensesIntent = new Intent(LandlordPropertyTenantListActivity.this, PropertyExpensesListActivity.class);
             propertyExpensesIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST_PROPERTY_ID, this.propertyId);
-            propertyExpensesIntent.putExtra(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_NAME, this.propertyName);
-            propertyExpensesIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST_PROPERTY_EXPENSES_ID, this.propertyExpensesIdArray);
+            propertyExpensesIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_NAME, this.propertyName);
+//            propertyExpensesIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST_PROPERTY_EXPENSES_ID, this.propertyExpensesIdArray);
             startActivity(propertyExpensesIntent);
         });
         this.landlordManagePropertyPaymentRecordsButton = findViewById(R.id.landlordManagePropertyAddTenantPaymentRecordsButton);
@@ -151,7 +152,7 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
             doRemoveProperty();
         });
 
-        if (this.tenantListAllTenants != null && this.tenantListAllTenants.equals(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_ALL_TENANTS)) {
+        if (this.isShowingAllTenantListsOfAllProperties()) {
             this.landlordManagePropertyAddTenantButton.setVisibility(View.GONE);
             this.landlordManagePropertyDetailButton.setVisibility(View.GONE);
             this.landlordManagePropertyExpensesButton.setVisibility(View.GONE);
@@ -170,7 +171,7 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
         Toolbar mainToolbar = findViewById(R.id.landlordManagePropertyTenantListToolbar);
         setSupportActionBar(mainToolbar);
         if (getSupportActionBar() != null) {
-            if (this.tenantListAllTenants != null && this.tenantListAllTenants.equals(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_ALL_TENANTS)) {
+            if (this.isShowingAllTenantListsOfAllProperties()) {
                 getSupportActionBar().setTitle(R.string.app_name);
             } else {
                 getSupportActionBar().setTitle(this.propertyName);
@@ -221,9 +222,9 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
             this.landlordManagePropertyGetTenantListFailed("Please relogin.");
             return;
         }
-        if (this.tenantListAllTenants != null && this.tenantListAllTenants.equals(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_ALL_TENANTS)) {
+        if (this.isShowingAllTenantListsOfAllProperties()) {
             this.refreshTenantList();
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY_TENANT_LIST, null, response -> {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_TENANT, null, response -> {
                 try {
                     if (!response.has("data")) {
                         landlordManagePropertyGetTenantListFailed(Constants.ERROR_COMMON);
@@ -235,16 +236,20 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
                         dataJsonObject = dataJsonArray.getJSONObject(i);
                         if (!dataJsonObject.has("id")) {
                             landlordManagePropertyGetTenantListFailed(Constants.ERROR_COMMON);
+                            return;
                         }
                         if (!dataJsonObject.has("field")) {
                             landlordManagePropertyGetTenantListFailed(Constants.ERROR_COMMON);
+                            return;
                         }
                         JSONObject dataFieldJsonObject = dataJsonObject.getJSONObject("field");
                         if (!dataFieldJsonObject.has("First Name")) {
                             landlordManagePropertyGetTenantListFailed(Constants.ERROR_COMMON);
+                            return;
                         }
                         if (!dataFieldJsonObject.has("Last Name")) {
                             landlordManagePropertyGetTenantListFailed(Constants.ERROR_COMMON);
+                            return;
                         }
                         this.addTenantItemIntoList(new LandlordPropertyTenantListItem(dataJsonObject.getInt("id"), dataFieldJsonObject.getString("First Name"), dataFieldJsonObject.getString("Last Name"), "two months", 0, 30));
                     }
@@ -277,7 +282,7 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
 
             this.refreshTenantList();
             for (int value : this.tenantIdArray) {
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY_TENANT_LIST + "/" + value, null, response -> {
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_TENANT + "/" + value, null, response -> {
                     try {
                         if (!response.has("data")) {
                             landlordManagePropertyGetTenantListFailed(Constants.ERROR_COMMON);
@@ -286,19 +291,23 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
                         JSONObject dataJsonObject = response.getJSONObject("data");
                         if (!dataJsonObject.has("id")) {
                             landlordManagePropertyGetTenantListFailed(Constants.ERROR_COMMON);
+                            return;
                         }
                         if (!dataJsonObject.has("field")) {
                             landlordManagePropertyGetTenantListFailed(Constants.ERROR_COMMON);
+                            return;
                         }
                         JSONObject dataFieldJsonObject = dataJsonObject.getJSONObject("field");
-                        if (!dataFieldJsonObject.has("First Name")) {
+                        if (!dataFieldJsonObject.has("first_name")) {
                             landlordManagePropertyGetTenantListFailed(Constants.ERROR_COMMON);
+                            return;
                         }
-                        if (!dataFieldJsonObject.has("Last Name")) {
+                        if (!dataFieldJsonObject.has("last_name")) {
                             landlordManagePropertyGetTenantListFailed(Constants.ERROR_COMMON);
+                            return;
                         }
                         this.stopLoadingSpinner();
-                        this.addTenantItemIntoList(new LandlordPropertyTenantListItem(dataJsonObject.getInt("id"), dataFieldJsonObject.getString("First Name"), dataFieldJsonObject.getString("Last Name"), "two months", 0, 30));
+                        this.addTenantItemIntoList(new LandlordPropertyTenantListItem(dataJsonObject.getInt("id"), dataFieldJsonObject.getString("first_name"), dataFieldJsonObject.getString("last_name"), "two months", 0, 30));
                     } catch (JSONException e) {
                         landlordManagePropertyGetTenantListFailed(Constants.ERROR_COMMON);
                     }
@@ -331,6 +340,14 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
 //        }
 //    }
 
+    private boolean isShowingAllTenantListsOfAllProperties() {
+        if (this.tenantListAllTenants == null) {
+            return false;
+        } else {
+            return this.tenantListAllTenants.equals(Constants.INTENT_EXTRA_LIST_ALL_TENANTS);
+        }
+    }
+
     private void landlordManagePropertyGetTenantListFailed(String landlordPropertyGetTenantListFailed) {
         this.stopLoadingSpinner();
         AlertDialog.Builder loginFailedDialog = new AlertDialog.Builder(this);
@@ -358,7 +375,7 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
                 this.landlordManagePropertyRemovePropertyFailed(Constants.ERROR_COMMON);
                 return;
             }
-            StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constants.URL_LANDLORD_REMOVE_PROPERTY + "/" + this.propertyId,
+            StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constants.URL_LANDLORD_PROPERTY + "/" + this.propertyId,
                     response -> landlordManagePropertyRemovePropertySuccess(), error -> landlordManagePropertyRemovePropertyFailed(Constants.ERROR_COMMON)) {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {

@@ -47,6 +47,7 @@ public class LandlordPropertyDetailActivity extends AppCompatActivity {
     private EditText landlordPropertyDetailCountry;
     private EditText landlordPropertyDetailNumberOfRooms;
     private EditText landlordPropertyDetailNumberOfBathrooms;
+    private EditText landlordPropertyDetailSize;
     private EditText landlordPropertyDetailType;
     private EditText landlordPropertyDetailOwnershipType;
     private EditText landlordPropertyDetailPurchaseValue;
@@ -60,6 +61,7 @@ public class LandlordPropertyDetailActivity extends AppCompatActivity {
     private Button landlordPropertyDetailEditButton;
 
     private int propertyId;
+    private String propertyName;
 
     private View backgroundView;
     private ProgressBar loadingSpinner;
@@ -74,8 +76,10 @@ public class LandlordPropertyDetailActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if(extras == null) {
             this.propertyId = -1;
+            this.propertyName = null;
         } else {
-            this.propertyId = extras.getInt(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_DETAIL_PROPERTY_ID, -1);
+            this.propertyId = extras.getInt(Constants.INTENT_EXTRA_PROPERTY_ID, -1);
+            this.propertyName = extras.getString(Constants.INTENT_EXTRA_PROPERTY_NAME, null);
         }
 
         this.landlordPropertyDetailName = findViewById(R.id.landlordPropertyDetailName);
@@ -87,6 +91,7 @@ public class LandlordPropertyDetailActivity extends AppCompatActivity {
         this.landlordPropertyDetailCountry = findViewById(R.id.landlordPropertyDetailCountry);
         this.landlordPropertyDetailNumberOfRooms = findViewById(R.id.landlordPropertyDetailNumberOfRooms);
         this.landlordPropertyDetailNumberOfBathrooms = findViewById(R.id.landlordPropertyDetailNumberOfBathrooms);
+        this.landlordPropertyDetailSize = findViewById(R.id.landlordPropertyDetailSize);
         this.landlordPropertyDetailType = findViewById(R.id.landlordPropertyDetailType);
         this.landlordPropertyDetailOwnershipType = findViewById(R.id.landlordPropertyDetailOwnershipType);
         this.landlordPropertyDetailPurchaseValue = findViewById(R.id.landlordPropertyDetailPurchaseValue);
@@ -96,17 +101,28 @@ public class LandlordPropertyDetailActivity extends AppCompatActivity {
         this.landlordPropertyDetailInterestRate = findViewById(R.id.landlordPropertyDetailInterestRate);
         this.landlordPropertyDetailOutstandingAmount = findViewById(R.id.landlordPropertyDetailOutstandingAmount);
         this.landlordPropertyDetailTotalYear = findViewById(R.id.landlordPropertyDetailTotalYear);
-        this.landlordPropertyDetailEditButton = findViewById(R.id.landlordPropertyDetailEditButton);
 
         this.backgroundView = findViewById(R.id.landlordPropertyDetailBackground);
         this.loadingSpinner = findViewById(R.id.landlordPropertyDetailLoadingSpinner);
 
         this.requestQueue = Volley.newRequestQueue(this);
 
+        this.landlordPropertyDetailEditButton = findViewById(R.id.landlordPropertyDetailEditButton);
+        this.landlordPropertyDetailEditButton.setOnClickListener(v -> {
+            Intent propertyDetailIntent = new Intent(LandlordPropertyDetailActivity.this, LandlordPropertyEditActivity.class);
+            propertyDetailIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_ID, this.propertyId);
+            propertyDetailIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_NAME, this.propertyName);
+            startActivityForResult(propertyDetailIntent, Constants.REQUEST_CODE_LANDLORD_PROPERTY_DETAIL);
+        });
+
         Toolbar mainToolbar = findViewById(R.id.landlordPropertyDetailToolbar);
         setSupportActionBar(mainToolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(R.string.app_name);
+            if (this.propertyName != null) {
+                getSupportActionBar().setTitle(this.propertyName);
+            } else {
+                getSupportActionBar().setTitle(R.string.app_name);
+            }
         }
         mainToolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.mainMenuUser) {
@@ -129,9 +145,17 @@ public class LandlordPropertyDetailActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.REQUEST_CODE_LANDLORD_PROPERTY_DETAIL) {
+            this.refreshPropertyDetail();
+        }
+    }
+
     private void refreshPropertyDetail() {
         this.startLoadingSpinner();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY_DETAIL + "/" + this.propertyId, null, response -> {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY + "/" + this.propertyId, null, response -> {
             try {
                 if (!response.has("data")) {
                     landlordGetPropertyDetailFailed(Constants.ERROR_COMMON);
@@ -140,32 +164,35 @@ public class LandlordPropertyDetailActivity extends AppCompatActivity {
                 JSONObject dataJsonObject = response.getJSONObject("data");
                 if (!dataJsonObject.has("id")) {
                     landlordGetPropertyDetailFailed(Constants.ERROR_COMMON);
+                    return;
                 }
                 if (dataJsonObject.getInt("id") != this.propertyId) {
                     landlordGetPropertyDetailFailed(Constants.ERROR_USER_PROPERTY_DETAIL_ID_NOT_MATCHED);
+                    return;
                 }
                 JSONObject dataFieldsJsonObject = dataJsonObject.getJSONObject("fields");
-                this.landlordPropertyDetailName.setText(dataFieldsJsonObject.getString("Asset Nickname"));
-                JSONObject dataFieldsLocationJsonObject = dataFieldsJsonObject.getJSONObject("Location Details");
-                this.landlordPropertyDetailUnitName.setText(dataFieldsLocationJsonObject.getString("Asset Unit Number"));
-                this.landlordPropertyDetailAddressLine1.setText(dataFieldsLocationJsonObject.getString("Asset Addres Line"));
-                this.landlordPropertyDetailCity.setText(dataFieldsLocationJsonObject.getString("Asset City"));
-                this.landlordPropertyDetailState.setText(dataFieldsLocationJsonObject.getString("Asset State"));
-                this.landlordPropertyDetailPostcode.setText(dataFieldsLocationJsonObject.getString("Asset Postal Code"));
-                this.landlordPropertyDetailCountry.setText(dataFieldsLocationJsonObject.getString("Asset Country"));
-                this.landlordPropertyDetailNumberOfRooms.setText(Integer.toString(dataFieldsJsonObject.getInt("Number Of Rooms")));
-                this.landlordPropertyDetailNumberOfBathrooms.setText(Integer.toString(dataFieldsJsonObject.getInt("Number Of Bathroom(s)")));
-                this.landlordPropertyDetailType.setText(dataFieldsJsonObject.getString("Asset Type"));
-                this.landlordPropertyDetailOwnershipType.setText(dataFieldsJsonObject.getString("Asset Ownership Type"));
-                JSONObject dataFieldsFinancialJsonObject = dataFieldsJsonObject.getJSONObject("Financial Details");
-                this.landlordPropertyDetailPurchaseValue.setText(dataFieldsFinancialJsonObject.getString("Asset Purchased Value"));
-                this.landlordPropertyDetailCurrentValue.setText(dataFieldsFinancialJsonObject.getString("Asset Current Calue"));
-                String purchaseDate = dataFieldsFinancialJsonObject.getString("Purchased Date");
+                this.landlordPropertyDetailName.setText(dataFieldsJsonObject.getString("asset_nickname"));
+                JSONObject dataFieldsLocationJsonObject = dataFieldsJsonObject.getJSONObject("location_details");
+                this.landlordPropertyDetailUnitName.setText(dataFieldsLocationJsonObject.getString("asset_unit_no"));
+                this.landlordPropertyDetailAddressLine1.setText(dataFieldsLocationJsonObject.getString("asset_address_line"));
+                this.landlordPropertyDetailCity.setText(dataFieldsLocationJsonObject.getString("asset_city"));
+                this.landlordPropertyDetailState.setText(dataFieldsLocationJsonObject.getString("asset_state"));
+                this.landlordPropertyDetailPostcode.setText(dataFieldsLocationJsonObject.getString("asset_postal_code"));
+                this.landlordPropertyDetailCountry.setText(dataFieldsLocationJsonObject.getString("asset_country").equalsIgnoreCase("MY") ? "Malaysia" : dataFieldsLocationJsonObject.getString("asset_country"));
+                this.landlordPropertyDetailNumberOfRooms.setText(Integer.toString(dataFieldsJsonObject.getInt("number_of_rooms")));
+                this.landlordPropertyDetailNumberOfBathrooms.setText(Integer.toString(dataFieldsJsonObject.getInt("number_of_bathrooms")));
+                this.landlordPropertyDetailSize.setText(Double.toString(dataFieldsJsonObject.getDouble("asset_size")));
+                this.landlordPropertyDetailType.setText(dataFieldsJsonObject.getString("asset_type").equalsIgnoreCase("RESIDENTIAL") ? "Residential" : "Commercial");
+                this.landlordPropertyDetailOwnershipType.setText(dataFieldsJsonObject.getString("asset_ownership_type").equalsIgnoreCase("FREEHOLD") ? "Freehold" : "Leasehold");
+                JSONObject dataFieldsFinancialJsonObject = dataFieldsJsonObject.getJSONObject("financial_details");
+                this.landlordPropertyDetailPurchaseValue.setText(dataFieldsFinancialJsonObject.getString("asset_purchased_value"));
+                this.landlordPropertyDetailCurrentValue.setText(dataFieldsFinancialJsonObject.getString("asset_current_value"));
+                String purchaseDate = dataFieldsFinancialJsonObject.getString("purchased_date");
                 this.landlordPropertyDetailPurchaseDate.setText(purchaseDate.length() > 10 ? purchaseDate.substring(0, 10) : purchaseDate);
-                this.landlordPropertyDetailIsActive.setText(dataFieldsFinancialJsonObject.getInt("Loan Is Active") == 1 ? "Yes" : "No");
-                this.landlordPropertyDetailInterestRate.setText(dataFieldsFinancialJsonObject.getString("Loan Interest Rate"));
-                this.landlordPropertyDetailOutstandingAmount.setText(dataFieldsFinancialJsonObject.getString("Loan Outstanding Amount"));
-                this.landlordPropertyDetailTotalYear.setText(dataFieldsFinancialJsonObject.getString("Loan Total Year"));
+                this.landlordPropertyDetailIsActive.setText(dataFieldsFinancialJsonObject.getInt("loan_is_active") == 1 ? "Yes" : "No");
+                this.landlordPropertyDetailInterestRate.setText(dataFieldsFinancialJsonObject.getString("loan_interest_rate"));
+                this.landlordPropertyDetailOutstandingAmount.setText(dataFieldsFinancialJsonObject.getString("loan_outstanding_amount"));
+                this.landlordPropertyDetailTotalYear.setText(dataFieldsFinancialJsonObject.getString("loan_total_year"));
                 this.landlordGetPropertyDetailSuccess();
             } catch (JSONException e) {
                 e.printStackTrace();

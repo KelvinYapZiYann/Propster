@@ -66,6 +66,8 @@ public class LandlordAddPropertyActivity extends AppCompatActivity {
     private TextView landlordAddPropertyNumberOfRoomsAlert;
     private EditText landlordAddPropertyNumberOfBathrooms;
     private TextView landlordAddPropertyNumberOfBathroomsAlert;
+    private EditText landlordAddPropertySize;
+    private TextView landlordAddPropertySizeAlert;
     private Spinner landlordAddPropertyType;
     private Spinner landlordAddPropertyOwnershipType;
     private EditText landlordAddPropertyPurchaseValue;
@@ -114,6 +116,8 @@ public class LandlordAddPropertyActivity extends AppCompatActivity {
         this.landlordAddPropertyNumberOfRoomsAlert = findViewById(R.id.landlordAddPropertyNumberOfRoomsAlert);
         this.landlordAddPropertyNumberOfBathrooms = findViewById(R.id.landlordAddPropertyNumberOfBathrooms);
         this.landlordAddPropertyNumberOfBathroomsAlert = findViewById(R.id.landlordAddPropertyNumberOfBathroomsAlert);
+        this.landlordAddPropertySize = findViewById(R.id.landlordAddPropertySize);
+        this.landlordAddPropertySizeAlert = findViewById(R.id.landlordAddPropertySizeAlert);
         this.landlordAddPropertyType = findViewById(R.id.landlordAddPropertyType);
         this.landlordAddPropertyOwnershipType = findViewById(R.id.landlordAddPropertyOwnershipType);
         this.landlordAddPropertyPurchaseValue = findViewById(R.id.landlordAddPropertyPurchaseValue);
@@ -198,6 +202,7 @@ public class LandlordAddPropertyActivity extends AppCompatActivity {
             this.landlordAddPropertyCountryAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfRoomsAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfBathroomsAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertySizeAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyCurrentValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseDateAlert.setVisibility(View.INVISIBLE);
@@ -217,6 +222,7 @@ public class LandlordAddPropertyActivity extends AppCompatActivity {
             this.landlordAddPropertyCountryAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfRoomsAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfBathroomsAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertySizeAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyCurrentValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseDateAlert.setVisibility(View.INVISIBLE);
@@ -236,6 +242,7 @@ public class LandlordAddPropertyActivity extends AppCompatActivity {
             this.landlordAddPropertyCountryAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfRoomsAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfBathroomsAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertySizeAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyCurrentValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseDateAlert.setVisibility(View.INVISIBLE);
@@ -255,6 +262,7 @@ public class LandlordAddPropertyActivity extends AppCompatActivity {
             this.landlordAddPropertyCountryAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfRoomsAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfBathroomsAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertySizeAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyCurrentValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseDateAlert.setVisibility(View.INVISIBLE);
@@ -274,6 +282,7 @@ public class LandlordAddPropertyActivity extends AppCompatActivity {
             this.landlordAddPropertyCountryAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfRoomsAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfBathroomsAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertySizeAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyCurrentValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseDateAlert.setVisibility(View.INVISIBLE);
@@ -293,6 +302,7 @@ public class LandlordAddPropertyActivity extends AppCompatActivity {
             this.landlordAddPropertyCountryAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfRoomsAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfBathroomsAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertySizeAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyCurrentValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseDateAlert.setVisibility(View.INVISIBLE);
@@ -312,6 +322,7 @@ public class LandlordAddPropertyActivity extends AppCompatActivity {
             this.landlordAddPropertyCountryAlert.setVisibility(View.VISIBLE);
             this.landlordAddPropertyNumberOfRoomsAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfBathroomsAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertySizeAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyCurrentValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseDateAlert.setVisibility(View.INVISIBLE);
@@ -331,6 +342,7 @@ public class LandlordAddPropertyActivity extends AppCompatActivity {
             this.landlordAddPropertyCountryAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfRoomsAlert.setVisibility(View.VISIBLE);
             this.landlordAddPropertyNumberOfBathroomsAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertySizeAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyCurrentValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseDateAlert.setVisibility(View.INVISIBLE);
@@ -350,6 +362,7 @@ public class LandlordAddPropertyActivity extends AppCompatActivity {
             this.landlordAddPropertyCountryAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfRoomsAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfBathroomsAlert.setVisibility(View.VISIBLE);
+            this.landlordAddPropertySizeAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyCurrentValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseDateAlert.setVisibility(View.INVISIBLE);
@@ -357,6 +370,26 @@ public class LandlordAddPropertyActivity extends AppCompatActivity {
             this.landlordAddPropertyOutstandingAmountAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyTotalYearAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfBathrooms.requestFocus();
+            return;
+        }
+        if (this.landlordAddPropertySize.length() <= 0) {
+            this.landlordAddPropertyNameAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertyUnitNameAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertyAddressLine1Alert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertyCityAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertyPostcodeAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertyStateAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertyCountryAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertyNumberOfRoomsAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertyNumberOfBathroomsAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertySizeAlert.setVisibility(View.VISIBLE);
+            this.landlordAddPropertyPurchaseValueAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertyCurrentValueAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertyPurchaseDateAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertyInterestRateAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertyOutstandingAmountAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertyTotalYearAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertySize.requestFocus();
             return;
         }
         if (this.landlordAddPropertyPurchaseValue.length() <= 0) {
@@ -369,6 +402,7 @@ public class LandlordAddPropertyActivity extends AppCompatActivity {
             this.landlordAddPropertyCountryAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfRoomsAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfBathroomsAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertySizeAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseValueAlert.setVisibility(View.VISIBLE);
             this.landlordAddPropertyCurrentValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseDateAlert.setVisibility(View.INVISIBLE);
@@ -388,6 +422,7 @@ public class LandlordAddPropertyActivity extends AppCompatActivity {
             this.landlordAddPropertyCountryAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfRoomsAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfBathroomsAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertySizeAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyCurrentValueAlert.setVisibility(View.VISIBLE);
             this.landlordAddPropertyPurchaseDateAlert.setVisibility(View.INVISIBLE);
@@ -407,6 +442,7 @@ public class LandlordAddPropertyActivity extends AppCompatActivity {
             this.landlordAddPropertyCountryAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfRoomsAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfBathroomsAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertySizeAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyCurrentValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseDateAlert.setVisibility(View.VISIBLE);
@@ -426,6 +462,7 @@ public class LandlordAddPropertyActivity extends AppCompatActivity {
             this.landlordAddPropertyCountryAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfRoomsAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfBathroomsAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertySizeAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyCurrentValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseDateAlert.setVisibility(View.INVISIBLE);
@@ -445,6 +482,7 @@ public class LandlordAddPropertyActivity extends AppCompatActivity {
             this.landlordAddPropertyCountryAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfRoomsAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfBathroomsAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertySizeAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyCurrentValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseDateAlert.setVisibility(View.INVISIBLE);
@@ -464,6 +502,7 @@ public class LandlordAddPropertyActivity extends AppCompatActivity {
             this.landlordAddPropertyCountryAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfRoomsAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyNumberOfBathroomsAlert.setVisibility(View.INVISIBLE);
+            this.landlordAddPropertySizeAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyCurrentValueAlert.setVisibility(View.INVISIBLE);
             this.landlordAddPropertyPurchaseDateAlert.setVisibility(View.INVISIBLE);
@@ -480,6 +519,7 @@ public class LandlordAddPropertyActivity extends AppCompatActivity {
             postData.put("asset_nickname", this.landlordAddPropertyName.getText().toString());
             postData.put("number_of_rooms", Integer.parseInt(this.landlordAddPropertyNumberOfRooms.getText().toString()));
             postData.put("number_of_bathrooms", Integer.parseInt(this.landlordAddPropertyNumberOfBathrooms.getText().toString()));
+            postData.put("asset_size", Float.parseFloat(this.landlordAddPropertySize.getText().toString()));
             postData.put("asset_type", this.landlordAddPropertyType.getSelectedItemId() == 0 ? "RESIDENTIAL" : "COMMERCIAL");
             postData.put("asset_ownership_type", this.landlordAddPropertyOwnershipType.getSelectedItemId() == 0 ? "FREEHOLD" : "LEASEHOLD");
             postData.put("asset_unit_no", this.landlordAddPropertyUnitName.getText().toString());
@@ -487,18 +527,19 @@ public class LandlordAddPropertyActivity extends AppCompatActivity {
             postData.put("asset_city", this.landlordAddPropertyCity.getText().toString());
             postData.put("asset_state", this.landlordAddPropertyState.getText().toString());
             postData.put("asset_postal_code", this.landlordAddPropertyPostcode.getText().toString());
-            postData.put("asset_country", this.landlordAddPropertyCountry.getText().toString());
+            postData.put("asset_country", "MY");
+//            postData.put("asset_country", this.landlordAddPropertyCountry.getText().toString());
             postData.put("asset_purchased_value", Integer.parseInt(this.landlordAddPropertyPurchaseValue.getText().toString()));
             postData.put("asset_current_value", Integer.parseInt(this.landlordAddPropertyCurrentValue.getText().toString()));
             postData.put("purchased_date", this.landlordAddPropertyPurchaseDate.getText().toString());
             postData.put("loan_is_active", this.landlordAddPropertyIsActive.getSelectedItemId() == 0);
-            postData.put("loan_interest_rate", Integer.parseInt(this.landlordAddPropertyInterestRate.getText().toString()));
+            postData.put("loan_interest_rate", Float.parseFloat(this.landlordAddPropertyInterestRate.getText().toString()));
             postData.put("loan_outstanding_amount", Integer.parseInt(this.landlordAddPropertyOutstandingAmount.getText().toString()));
             postData.put("loan_total_year", Integer.parseInt(this.landlordAddPropertyTotalYear.getText().toString()));
         } catch (JSONException e) {
             addPropertyFailed(Constants.ERROR_COMMON);
         }
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.URL_LANDLORD_ADD_PROPERTY, postData, response -> addPropertySuccess(), error -> {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.URL_LANDLORD_PROPERTY, postData, response -> addPropertySuccess(), error -> {
             try {
                 String errorResponseBody = new String(error.networkResponse.data, StandardCharsets.UTF_8);
                 JSONObject errorResponseBodyJsonObject = new JSONObject(errorResponseBody);

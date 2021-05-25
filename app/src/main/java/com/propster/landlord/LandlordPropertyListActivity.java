@@ -77,10 +77,10 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
         landlordManagePropertyList.setOnItemClickListener((parent, view, position, id) -> {
             LandlordPropertyListItem landlordPropertyListItem = ((LandlordPropertyListAdapter) parent.getAdapter()).getItem(position);
             Intent propertyTenantListIntent = new Intent(LandlordPropertyListActivity.this, LandlordPropertyTenantListActivity.class);
-            propertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_PROPERTY_ID, landlordPropertyListItem.getPropertyId());
-            propertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_NAME, landlordPropertyListItem.getPropertyName());
-            propertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST, landlordPropertyListItem.getTenantIdArray());
-            propertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_EXPENSES_ID, landlordPropertyListItem.getPropertyExpensesIdArray());
+            propertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_ID, landlordPropertyListItem.getPropertyId());
+            propertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_NAME, landlordPropertyListItem.getPropertyName());
+            propertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_TENANT_ID, landlordPropertyListItem.getTenantIdArray());
+//            propertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_EXPENSES_ID, landlordPropertyListItem.getPropertyExpensesIdArray());
             startActivityForResult(propertyTenantListIntent, Constants.REQUEST_CODE_LANDLORD_PROPERTY_TENANT_LIST);
         });
 
@@ -146,7 +146,7 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
             return;
         }
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY_LIST, null, response -> {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY, null, response -> {
             try {
                 if (!response.has("data")) {
                     landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
@@ -156,46 +156,51 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
                 JSONObject dataJsonObject;
                 JSONObject dataFieldsJsonObject;
                 int[] tenantIdArray;
-                int[] expensesIdArray;
+//                int[] expensesIdArray;
                 JSONArray dataTenantsJsonArray;
                 JSONObject dataTenantJsonObject;
-                JSONArray dataExpensesJsonArray;
-                JSONObject dataExpensesJsonObject;
+//                JSONArray dataExpensesJsonArray;
+//                JSONObject dataExpensesJsonObject;
                 List<LandlordPropertyListItem> propertyListItems = new ArrayList<>();
                 for (int i = 0; i < dataJsonArray.length(); i++) {
                     dataJsonObject = dataJsonArray.getJSONObject(i);
                     if (!dataJsonObject.has("id")) {
                         landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
-                    }
-                    if (!dataJsonObject.has("landlord_id")) {
-                        landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
+                        return;
                     }
                     if (!dataJsonObject.has("fields")) {
                         landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
+                        return;
                     }
                     dataFieldsJsonObject = dataJsonObject.getJSONObject("fields");
-                    if (!dataFieldsJsonObject.has("Asset Nickname")) {
+                    if (!dataFieldsJsonObject.has("landlord_id")) {
                         landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
+                        return;
                     }
-                    if (!dataFieldsJsonObject.has("Tenants")) {
+                    if (!dataFieldsJsonObject.has("asset_nickname")) {
                         landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
+                        return;
                     }
-                    dataTenantsJsonArray = dataFieldsJsonObject.getJSONArray("Tenants");
+                    if (!dataJsonObject.has("tenants")) {
+                        landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
+                        return;
+                    }
+                    dataTenantsJsonArray = dataJsonObject.getJSONArray("tenants");
                     tenantIdArray = new int[dataTenantsJsonArray.length()];
                     for (int j = 0; j < dataTenantsJsonArray.length(); j++) {
                         dataTenantJsonObject = dataTenantsJsonArray.getJSONObject(j);
                         tenantIdArray[j] = dataTenantJsonObject.getInt("id");
                     }
-                    if (!dataFieldsJsonObject.has("Asset Expenses")) {
-                        landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
-                    }
-                    dataExpensesJsonArray = dataFieldsJsonObject.getJSONArray("Asset Expenses");
-                    expensesIdArray = new int[dataExpensesJsonArray.length()];
-                    for (int j = 0; j < dataExpensesJsonArray.length(); j++) {
-                        dataExpensesJsonObject = dataExpensesJsonArray.getJSONObject(j);
-                        expensesIdArray[j] = dataExpensesJsonObject.getInt("id");
-                    }
-                    propertyListItems.add(new LandlordPropertyListItem(dataFieldsJsonObject.getString("Asset Nickname"), dataJsonObject.getInt("id"), tenantIdArray, expensesIdArray,0, 0));
+//                    if (!dataFieldsJsonObject.has("asset_expenses")) {
+//                        landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
+//                    }
+//                    dataExpensesJsonArray = dataFieldsJsonObject.getJSONArray("asset_expenses");
+//                    expensesIdArray = new int[dataExpensesJsonArray.length()];
+//                    for (int j = 0; j < dataExpensesJsonArray.length(); j++) {
+//                        dataExpensesJsonObject = dataExpensesJsonArray.getJSONObject(j);
+//                        expensesIdArray[j] = dataExpensesJsonObject.getInt("id");
+//                    }
+                    propertyListItems.add(new LandlordPropertyListItem(dataFieldsJsonObject.getString("asset_nickname"), dataJsonObject.getInt("id"), tenantIdArray, null,0, 0));
                 }
                 landlordManageGetPropertyListSuccess(propertyListItems);
             } catch (JSONException e) {

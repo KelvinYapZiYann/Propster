@@ -121,7 +121,7 @@ public class LandlordPropertyTenantDetailActivity extends AppCompatActivity {
             this.getTenantDetailFailed("Please relogin.");
             return;
         }
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY_TENANT_DETAIL + "/" + this.tenantId, null, response -> getTenantDetailSuccess(response),
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_TENANT + "/" + this.tenantId, null, response -> getTenantDetailSuccess(response),
                 error -> getTenantDetailFailed(Constants.ERROR_COMMON)) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -191,7 +191,7 @@ public class LandlordPropertyTenantDetailActivity extends AppCompatActivity {
                 this.removeTenantFailed("Please relogin.");
                 return;
             }
-            StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constants.URL_LANDLORD_PROPERTY_REMOVE_TENANT + "/" + this.tenantId, response -> removeTenantSuccess(),
+            StringRequest stringRequest = new StringRequest(Request.Method.DELETE, Constants.URL_LANDLORD_TENANT + "/" + this.tenantId, response -> removeTenantSuccess(),
                     error -> removeTenantFailed(Constants.ERROR_COMMON)) {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {

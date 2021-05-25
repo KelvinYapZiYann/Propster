@@ -366,7 +366,7 @@
                 android:id="@+id/landlordAddPropertyCountry"
                 android:autofillHints=""
                 android:hint="@string/country"
-                android:text="MY"
+                android:text="@string/malaysia"
                 android:enabled="false"
                 android:inputType="text"
                 android:textAlignment="textStart"
@@ -466,11 +466,53 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/landlordAddPropertySizeLabel"
+                android:text="@string/property_size_label"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_field_font_size"
+                android:layout_below="@id/landlordAddPropertyNumberOfBathrooms"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/input_field_gap_height"
+                android:id="@+id/landlordAddPropertySizeAlert"
+                android:text="@string/add_property_error_property_size_empty"
+                android:textColor="@color/alert_red"
+                android:textSize="@dimen/input_field_alert_font_size"
+                android:visibility="invisible"
+                android:layout_toEndOf="@id/landlordAddPropertySizeLabel"
+                android:layout_below="@id/landlordAddPropertyNumberOfBathrooms"
+                android:layout_marginStart="@dimen/min_group_margin"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_field_height"
+                android:id="@+id/landlordAddPropertySize"
+                android:autofillHints=""
+                android:hint="@string/property_size"
+                android:inputType="numberDecimal|numberSigned"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/input_field_font_size"
+                android:textColor="@color/black"
+                android:textColorHint="@color/disabled_grey"
+                android:background="@drawable/edittext_background_state"
+                android:layout_below="@id/landlordAddPropertyNumberOfBathroomsLabel"
+                android:paddingStart="@dimen/input_field_gap_height"
+                tools:ignore="RtlSymmetry"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:id="@+id/landlordAddPropertyTypeLabel"
                 android:text="@string/property_type_label"
                 android:textColor="@color/black"
                 android:textSize="@dimen/input_field_font_size"
-                android:layout_below="@id/landlordAddPropertyNumberOfBathrooms"
+                android:layout_below="@id/landlordAddPropertySize"
                 android:layout_marginTop="@dimen/input_field_gap_height"
                 />
 
