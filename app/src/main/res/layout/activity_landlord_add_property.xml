@@ -500,7 +500,7 @@
                 android:textColor="@color/black"
                 android:textColorHint="@color/disabled_grey"
                 android:background="@drawable/edittext_background_state"
-                android:layout_below="@id/landlordAddPropertyNumberOfBathroomsLabel"
+                android:layout_below="@id/landlordAddPropertySizeLabel"
                 android:paddingStart="@dimen/input_field_gap_height"
                 tools:ignore="RtlSymmetry"
                 />

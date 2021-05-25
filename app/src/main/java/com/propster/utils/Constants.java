@@ -31,6 +31,7 @@ public class Constants {
     public static final String INTENT_EXTRA_PROPERTY_ID = "INTENT_EXTRA_PROPERTY_ID";
     public static final String INTENT_EXTRA_PROPERTY_NAME = "INTENT_EXTRA_PROPERTY_NAME";
     public static final String INTENT_EXTRA_TENANT_ID = "INTENT_EXTRA_TENANT_ID";
+    public static final String INTENT_EXTRA_TENANT_NAME = "INTENT_EXTRA_TENANT_NAME";
 
     /* REQUEST CODE */
     public static final int REQUEST_CODE_FIRST_LOGIN_USER_PROFILE_IMAGE = 1000;
@@ -79,6 +80,9 @@ public class Constants {
     public static final String URL_USER = URL_BASE + "users";
     public static final String URL_LANDLORD_PROPERTY = URL_BASE + "assets";
     public static final String URL_LANDLORD_TENANT = URL_BASE + "tenants";
+    public static final String URL_LANDLORD_PROPERTY_TENANT = URL_LANDLORD_PROPERTY + "/tenants";
+    public static final String URL_LANDLORD_PROPERTY_EXPENSES = URL_BASE + "asset-expenses";
+    public static final String URL_LANDLORD_PROPERTY_TENURE_CONTRACTS = URL_BASE + "tenure-contracts";
 
 //    public static final String URL_LANDLORD_PROPERTY_LIST = URL_BASE + "assets";
 //    public static final String URL_LANDLORD_ADD_PROPERTY = URL_BASE + "assets";
@@ -88,8 +92,7 @@ public class Constants {
 //    public static final String URL_LANDLORD_PROPERTY_ADD_TENANT = URL_BASE + "tenants";
 //    public static final String URL_LANDLORD_PROPERTY_TENANT_DETAIL = URL_BASE + "tenants";
 //    public static final String URL_LANDLORD_PROPERTY_REMOVE_TENANT = URL_BASE + "tenants";
-    public static final String URL_LANDLORD_PROPERTY_EXPENSES = URL_BASE + "asset-expenses";
-    public static final String URL_LANDLORD_PROPERTY_TENURE_CONTRACTS = URL_BASE + "tenure-contracts";
+
 
     /* ERROR */
     public static final String ERROR_COMMON = "Error retrieving data from server. Please contact us.";

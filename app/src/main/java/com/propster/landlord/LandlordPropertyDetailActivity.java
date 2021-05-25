@@ -154,6 +154,10 @@ public class LandlordPropertyDetailActivity extends AppCompatActivity {
     }
 
     private void refreshPropertyDetail() {
+        if (this.propertyId == -1) {
+            landlordGetPropertyDetailFailed(Constants.ERROR_COMMON);
+            return;
+        }
         this.startLoadingSpinner();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY + "/" + this.propertyId, null, response -> {
             try {
@@ -171,7 +175,9 @@ public class LandlordPropertyDetailActivity extends AppCompatActivity {
                     return;
                 }
                 JSONObject dataFieldsJsonObject = dataJsonObject.getJSONObject("fields");
-                this.landlordPropertyDetailName.setText(dataFieldsJsonObject.getString("asset_nickname"));
+                this.propertyName = dataFieldsJsonObject.getString("asset_nickname");
+                this.landlordPropertyDetailName.setText(this.propertyName);
+                getSupportActionBar().setTitle(this.propertyName);
                 JSONObject dataFieldsLocationJsonObject = dataFieldsJsonObject.getJSONObject("location_details");
                 this.landlordPropertyDetailUnitName.setText(dataFieldsLocationJsonObject.getString("asset_unit_no"));
                 this.landlordPropertyDetailAddressLine1.setText(dataFieldsLocationJsonObject.getString("asset_address_line"));
@@ -181,7 +187,7 @@ public class LandlordPropertyDetailActivity extends AppCompatActivity {
                 this.landlordPropertyDetailCountry.setText(dataFieldsLocationJsonObject.getString("asset_country").equalsIgnoreCase("MY") ? "Malaysia" : dataFieldsLocationJsonObject.getString("asset_country"));
                 this.landlordPropertyDetailNumberOfRooms.setText(Integer.toString(dataFieldsJsonObject.getInt("number_of_rooms")));
                 this.landlordPropertyDetailNumberOfBathrooms.setText(Integer.toString(dataFieldsJsonObject.getInt("number_of_bathrooms")));
-                this.landlordPropertyDetailSize.setText(Double.toString(dataFieldsJsonObject.getDouble("asset_size")));
+                this.landlordPropertyDetailSize.setText(dataFieldsJsonObject.getString("asset_size"));
                 this.landlordPropertyDetailType.setText(dataFieldsJsonObject.getString("asset_type").equalsIgnoreCase("RESIDENTIAL") ? "Residential" : "Commercial");
                 this.landlordPropertyDetailOwnershipType.setText(dataFieldsJsonObject.getString("asset_ownership_type").equalsIgnoreCase("FREEHOLD") ? "Freehold" : "Leasehold");
                 JSONObject dataFieldsFinancialJsonObject = dataFieldsJsonObject.getJSONObject("financial_details");

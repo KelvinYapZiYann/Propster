@@ -40,6 +40,7 @@
         <com.nambimobile.widgets.efab.ExpandableFab
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/landlordManagePropertyButtonGroup"
             android:layout_gravity="bottom|end"
             app:efab_orientation="portrait"
             android:layout_marginBottom="@dimen/min_group_margin"
@@ -54,27 +55,27 @@
         <com.nambimobile.widgets.efab.FabOption
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/landlordManagePropertyAddTenantRemovePropertyButton"
+            android:id="@+id/landlordManagePropertyRemovePropertyButton"
             app:fab_color="@color/alert_red"
             app:fab_icon="@drawable/remove_ic_white"
-            app:label_text="Remove Property"
+            app:label_text="Remove Asset"
             app:label_backgroundColor="@color/alert_red"
             />
 
         <com.nambimobile.widgets.efab.FabOption
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/landlordManagePropertyAddTenantTenureContractButton"
+            android:id="@+id/landlordManagePropertyTenureContractButton"
             app:fab_color="@color/primary_blue"
             app:fab_icon="@drawable/ic_report_white"
-            app:label_text="Tenure Contract"
+            app:label_text="Tenure Contracts"
             app:label_backgroundColor="@color/primary_blue"
             />
 
         <com.nambimobile.widgets.efab.FabOption
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/landlordManagePropertyAddTenantPaymentRecordsButton"
+            android:id="@+id/landlordManagePropertyPaymentRecordsButton"
             app:fab_color="@color/primary_blue"
             app:fab_icon="@drawable/ic_payment_white"
             app:label_text="Payment Records"
@@ -84,20 +85,20 @@
         <com.nambimobile.widgets.efab.FabOption
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/landlordManagePropertyAddTenantExpensesButton"
+            android:id="@+id/landlordManagePropertyExpensesButton"
             app:fab_color="@color/primary_blue"
             app:fab_icon="@drawable/ic_money_white"
-            app:label_text="Expenses"
+            app:label_text="Asset Expenses"
             app:label_backgroundColor="@color/primary_blue"
             />
 
         <com.nambimobile.widgets.efab.FabOption
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/landlordManagePropertyAddTenantDetailButton"
+            android:id="@+id/landlordManagePropertyDetailButton"
             app:fab_color="@color/primary_blue"
             app:fab_icon="@drawable/detail_ic_white"
-            app:label_text="Details"
+            app:label_text="Asset Details"
             app:label_backgroundColor="@color/primary_blue"
             />
 

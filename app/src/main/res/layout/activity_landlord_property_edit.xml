@@ -669,7 +669,6 @@
                 android:id="@+id/landlordPropertyEditPurchaseDate"
                 android:inputType="date"
                 android:autofillHints=""
-                android:enabled="false"
                 android:textAlignment="textStart"
                 android:textSize="@dimen/input_field_font_size"
                 android:textColor="@color/black"

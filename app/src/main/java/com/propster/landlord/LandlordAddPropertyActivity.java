@@ -36,6 +36,8 @@ import com.propster.utils.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -519,7 +521,7 @@ public class LandlordAddPropertyActivity extends AppCompatActivity {
             postData.put("asset_nickname", this.landlordAddPropertyName.getText().toString());
             postData.put("number_of_rooms", Integer.parseInt(this.landlordAddPropertyNumberOfRooms.getText().toString()));
             postData.put("number_of_bathrooms", Integer.parseInt(this.landlordAddPropertyNumberOfBathrooms.getText().toString()));
-            postData.put("asset_size", Float.parseFloat(this.landlordAddPropertySize.getText().toString()));
+            postData.put("asset_size", this.landlordAddPropertySize.getText().toString());
             postData.put("asset_type", this.landlordAddPropertyType.getSelectedItemId() == 0 ? "RESIDENTIAL" : "COMMERCIAL");
             postData.put("asset_ownership_type", this.landlordAddPropertyOwnershipType.getSelectedItemId() == 0 ? "FREEHOLD" : "LEASEHOLD");
             postData.put("asset_unit_no", this.landlordAddPropertyUnitName.getText().toString());
@@ -533,7 +535,7 @@ public class LandlordAddPropertyActivity extends AppCompatActivity {
             postData.put("asset_current_value", Integer.parseInt(this.landlordAddPropertyCurrentValue.getText().toString()));
             postData.put("purchased_date", this.landlordAddPropertyPurchaseDate.getText().toString());
             postData.put("loan_is_active", this.landlordAddPropertyIsActive.getSelectedItemId() == 0);
-            postData.put("loan_interest_rate", Float.parseFloat(this.landlordAddPropertyInterestRate.getText().toString()));
+            postData.put("loan_interest_rate", this.landlordAddPropertyInterestRate.getText().toString());
             postData.put("loan_outstanding_amount", Integer.parseInt(this.landlordAddPropertyOutstandingAmount.getText().toString()));
             postData.put("loan_total_year", Integer.parseInt(this.landlordAddPropertyTotalYear.getText().toString()));
         } catch (JSONException e) {

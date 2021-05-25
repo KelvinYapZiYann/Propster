@@ -61,6 +61,7 @@
         <activity android:name=".landlord.LandlordPropertyTenantListActivity"/>
         <activity android:name=".landlord.LandlordPropertyAddTenantActivity"/>
         <activity android:name=".landlord.LandlordPropertyTenantDetailActivity"/>
+        <activity android:name=".landlord.LandlordPropertyTenantEditActivity"/>
 
         <activity android:name=".tenant.TenantPropertyListActivity"/>
         <activity android:name=".tenant.TenantPropertyDetailActivity"/>

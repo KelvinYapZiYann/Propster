@@ -19,10 +19,10 @@
     <string name="last_name">Last Name</string>
     <string name="landlord">Landlord</string>
     <string name="tenant">Tenant</string>
-    <string name="add_property">Add Property</string>
+    <string name="add_property">Add Asset</string>
     <string name="add_tenant">Add Tenant</string>
     <string name="skip">Skip</string>
-    <string name="properties">Properties</string>
+    <string name="properties">Assets</string>
     <string name="logout">Logout</string>
 
     <string-array name="title">
@@ -47,7 +47,7 @@
 
     <string-array name="add_property_type">
         <item>Show QR Code</item>
-        <item>Non-existing Property</item>
+        <item>Non-existing Asset</item>
     </string-array>
 
     <string-array name="property_type">
@@ -96,17 +96,17 @@
     <string name="more">More</string>
 
     <!-- LANDLORD -->
-    <string name="property_expenses">Property Expenses</string>
+    <string name="property_expenses">Asset Expenses</string>
     <string name="payment_records">Payment Records</string>
     <string name="tenants">Tenants</string>
     <string name="tenure_contracts">Tenure Contracts</string>
 
     <!-- REMOVE -->
-    <string name="remove_property">Remove Property</string>
+    <string name="remove_property">Remove Asset</string>
     <string name="remove_tenant">Remove Tenant</string>
 
     <!-- PROPERTY -->
-    <string name="property_detail">Property Detail</string>
+    <string name="property_detail">Asset Detail</string>
     <string name="property_name">Asset Nickname</string>
     <string name="unit_name">Unit No</string>
     <string name="floor">Floor</string>
@@ -117,7 +117,7 @@
     <string name="state">State</string>
     <string name="country">Country</string>
     <string name="current_occupancy">Current Occupancy</string>
-    <string name="multi_unit_property">Multi Unit Property</string>
+    <string name="multi_unit_property">Multi Unit Asset</string>
     <string name="no_of_bedroom">No of Bedroom</string>
     <string name="no_of_bath">No of Bath</string>
     <string name="assets_type">Assets Type</string>
@@ -126,7 +126,7 @@
     <string name="purchase_value">Purchased Value</string>
     <string name="purchase_tax">Purchase Tax</string>
     <string name="current_value">Current Value</string>
-    <string name="purchase_date">Purchase Date</string>
+    <string name="purchase_date">Purchased Date</string>
     <string name="under_loan">Under Loan</string>
     <string name="loan_interest_rate">Loan Interest Rate</string>
     <string name="down_payment">Down Payment</string>
@@ -153,7 +153,7 @@
     <string name="state_label">State:</string>
     <string name="country_label">Country:</string>
     <string name="current_occupancy_label">Current Occupancy:</string>
-    <string name="multi_unit_property_label">Multi Unit Property:</string>
+    <string name="multi_unit_property_label">Multi Unit Asset:</string>
     <string name="no_of_bedroom_label">No of Bedroom:</string>
     <string name="no_of_bath_label">No of Bath:</string>
     <string name="assets_type_label">Assets Type:</string>
@@ -162,7 +162,7 @@
     <string name="purchase_value_label">Purchased Value:</string>
     <string name="purchase_tax_label">Purchase Tax:</string>
     <string name="current_value_label">Current Value:</string>
-    <string name="purchase_date_label">Purchase Date:</string>
+    <string name="purchase_date_label">Purchased Date:</string>
     <string name="under_loan_label">Under Loan:</string>
     <string name="loan_interest_rate_label">Loan Interest Rate:</string>
     <string name="down_payment_label">Down Payment:</string>
@@ -186,7 +186,7 @@
     <string name="salary_range_label">Salary Range:</string>
 
     <!-- PROPERTY EXPENSES -->
-    <string name="add_property_expenses">Add Property Expenses</string>
+    <string name="add_property_expenses">Add Asset Expenses</string>
 
     <string name="property_expenses_payment_description">Payment Description</string>
     <string name="property_expenses_property_name">From Asset</string>
@@ -224,7 +224,7 @@
     <string name="user_profile_error_last_name_empty">Last name cannot be empty</string>
     <string name="user_profile_error_date_of_birth_empty">Date of birth cannot be empty</string>
 
-    <string name="add_property_error_name_empty">Property name cannot be empty</string>
+    <string name="add_property_error_name_empty">Asset name cannot be empty</string>
     <string name="add_property_error_unit_name_empty">Unit name cannot be empty</string>
     <string name="add_property_error_address_empty">Address cannot be empty</string>
     <string name="add_property_error_city_empty">City cannot be empty</string>

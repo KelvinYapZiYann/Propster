@@ -48,12 +48,6 @@ public class ContentManageFragment extends ContentFragment {
     }
 
     private void initializeLandlordManageView(View view) {
-        Button landlordContentManagePropertyPropertyExpensesButton = view.findViewById(R.id.landlordContentManagePropertyPropertyExpensesButton);
-        landlordContentManagePropertyPropertyExpensesButton.setOnClickListener(view12 -> {
-            Intent propertyExpensesListIntent = new Intent(getContext(), PropertyExpensesListActivity.class);
-            propertyExpensesListIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST, Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST_ALL);
-            startActivity(propertyExpensesListIntent);
-        });
         Button landlordContentManagePropertyPropertyListButton = view.findViewById(R.id.landlordContentManagePropertyPropertyListButton);
         landlordContentManagePropertyPropertyListButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +57,20 @@ public class ContentManageFragment extends ContentFragment {
                 startActivity(landlordPropertyListIntent);
             }
         });
+        Button landlordContentManagePropertyTenantsButton = view.findViewById(R.id.landlordContentManagePropertyTenantsButton);
+        landlordContentManagePropertyTenantsButton.setOnClickListener(view1 -> {
+            Intent landlordPropertyTenantListIntent = new Intent(getContext(), LandlordPropertyTenantListActivity.class);
+            landlordPropertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_LIST_ALL_TENANTS, Constants.INTENT_EXTRA_LIST_ALL_TENANTS);
+            startActivity(landlordPropertyTenantListIntent);
+        });
+
+        Button landlordContentManagePropertyPropertyExpensesButton = view.findViewById(R.id.landlordContentManagePropertyPropertyExpensesButton);
+        landlordContentManagePropertyPropertyExpensesButton.setOnClickListener(view12 -> {
+            Intent propertyExpensesListIntent = new Intent(getContext(), PropertyExpensesListActivity.class);
+            propertyExpensesListIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST, Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST_ALL);
+            startActivity(propertyExpensesListIntent);
+        });
+
         Button landlordContentManagePropertyPaymentRecordsButton = view.findViewById(R.id.landlordContentManagePropertyPaymentRecordsButton);
         landlordContentManagePropertyPaymentRecordsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,12 +78,7 @@ public class ContentManageFragment extends ContentFragment {
 
             }
         });
-        Button landlordContentManagePropertyTenantsButton = view.findViewById(R.id.landlordContentManagePropertyTenantsButton);
-        landlordContentManagePropertyTenantsButton.setOnClickListener(view1 -> {
-            Intent landlordPropertyTenantListIntent = new Intent(getContext(), LandlordPropertyTenantListActivity.class);
-            landlordPropertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_LIST_ALL_TENANTS, Constants.INTENT_EXTRA_LIST_ALL_TENANTS);
-            startActivity(landlordPropertyTenantListIntent);
-        });
+
         Button landlordContentManagePropertyTenureContractsButton = view.findViewById(R.id.landlordContentManagePropertyTenureContractsButton);
         landlordContentManagePropertyTenureContractsButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -157,6 +157,10 @@ public class LandlordPropertyAddTenantActivity extends AppCompatActivity {
     }
 
     private void doAddTenant() {
+        if (this.propertyId == -1) {
+            this.propertyAddTenantFailed(Constants.ERROR_COMMON);
+            return;
+        }
 //        if (this.landlordAddTenantName.length() <= 0) {
 //            this.landlordAddTenantNameAlert.setVisibility(View.VISIBLE);
 //            this.landlordAddTenantFirstNameAlert.setVisibility(View.INVISIBLE);
@@ -225,14 +229,7 @@ public class LandlordPropertyAddTenantActivity extends AppCompatActivity {
         }
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.URL_LANDLORD_TENANT, postData, response -> {
             propertyAddTenantSuccess();
-        }, error -> {
-            try {
-                System.out.println("error.networkResponse.data = " + new String(error.networkResponse.data));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            propertyAddTenantFailed(Constants.ERROR_COMMON);
-        }) {
+        }, error -> propertyAddTenantFailed(Constants.ERROR_COMMON)) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 if (SplashActivity.SESSION_ID.isEmpty()) {

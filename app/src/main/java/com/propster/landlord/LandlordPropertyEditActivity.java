@@ -36,6 +36,8 @@ import com.propster.utils.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -206,6 +208,10 @@ public class LandlordPropertyEditActivity extends AppCompatActivity {
     }
 
     private void doSaveProperty() {
+        if (this.propertyId == -1) {
+            editPropertyFailed(Constants.ERROR_COMMON);
+            return;
+        }
         if (this.landlordPropertyEditName.length() <= 0) {
             this.landlordPropertyEditNameAlert.setVisibility(View.VISIBLE);
             this.landlordPropertyEditUnitNameAlert.setVisibility(View.INVISIBLE);
@@ -533,7 +539,7 @@ public class LandlordPropertyEditActivity extends AppCompatActivity {
             postData.put("asset_nickname", this.landlordPropertyEditName.getText().toString());
             postData.put("number_of_rooms", Integer.parseInt(this.landlordPropertyEditNumberOfRooms.getText().toString()));
             postData.put("number_of_bathrooms", Integer.parseInt(this.landlordPropertyEditNumberOfBathrooms.getText().toString()));
-            postData.put("asset_size", Float.parseFloat(this.landlordPropertyEditSize.getText().toString()));
+            postData.put("asset_size", this.landlordPropertyEditSize.getText().toString());
             postData.put("asset_type", this.landlordPropertyEditType.getSelectedItemId() == 0 ? "RESIDENTIAL" : "COMMERCIAL");
             postData.put("asset_ownership_type", this.landlordPropertyEditOwnershipType.getSelectedItemId() == 0 ? "FREEHOLD" : "LEASEHOLD");
             postData.put("asset_unit_no", this.landlordPropertyEditUnitName.getText().toString());
@@ -545,14 +551,16 @@ public class LandlordPropertyEditActivity extends AppCompatActivity {
 //            postData.put("asset_country", this.landlordPropertyEditCountry.getText().toString());
             postData.put("asset_purchased_value", Integer.parseInt(this.landlordPropertyEditPurchaseValue.getText().toString()));
             postData.put("asset_current_value", Integer.parseInt(this.landlordPropertyEditCurrentValue.getText().toString()));
-            postData.put("purchased_date", this.landlordPropertyEditPurchaseDate.getText().toString());
+            String purchaseDate = this.landlordPropertyEditPurchaseDate.getText().toString();
+            postData.put("purchased_date", purchaseDate.length() > 10 ? purchaseDate.substring(0, 10) : purchaseDate);
             postData.put("loan_is_active", this.landlordPropertyEditIsActive.getSelectedItemId() == 0);
-            postData.put("loan_interest_rate", Float.parseFloat(this.landlordPropertyEditInterestRate.getText().toString()));
+            postData.put("loan_interest_rate", this.landlordPropertyEditInterestRate.getText().toString());
             postData.put("loan_outstanding_amount", Integer.parseInt(this.landlordPropertyEditOutstandingAmount.getText().toString()));
             postData.put("loan_total_year", Integer.parseInt(this.landlordPropertyEditTotalYear.getText().toString()));
         } catch (JSONException e) {
             editPropertyFailed(Constants.ERROR_COMMON);
         }
+        System.out.println("postData = " + postData.toString());
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, Constants.URL_LANDLORD_PROPERTY + "/" + this.propertyId, postData, response -> editPropertySuccess(), error -> {
             try {
                 String errorResponseBody = new String(error.networkResponse.data, StandardCharsets.UTF_8);
@@ -598,13 +606,17 @@ public class LandlordPropertyEditActivity extends AppCompatActivity {
         this.stopLoadingSpinner();
         AlertDialog.Builder saveUserProfileFailedDialog = new AlertDialog.Builder(this);
         saveUserProfileFailedDialog.setCancelable(false);
-        saveUserProfileFailedDialog.setTitle("Property Edit Failed");
+        saveUserProfileFailedDialog.setTitle("Asset Edit Failed");
         saveUserProfileFailedDialog.setMessage(addPropertyFailedCause);
         saveUserProfileFailedDialog.setPositiveButton("OK", (dialog, which) -> dialog.cancel());
         saveUserProfileFailedDialog.create().show();
     }
 
     private void refreshPropertyInfo() {
+        if (this.propertyId == -1) {
+            getPropertyInfoFailed(Constants.ERROR_COMMON);
+            return;
+        }
         this.startLoadingSpinner();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY + "/" + this.propertyId, null, response -> {
             try {
@@ -632,7 +644,7 @@ public class LandlordPropertyEditActivity extends AppCompatActivity {
                 this.landlordPropertyEditCountry.setText(dataFieldsLocationJsonObject.getString("asset_country").equalsIgnoreCase("MY") ? "Malaysia" : dataFieldsLocationJsonObject.getString("asset_country"));
                 this.landlordPropertyEditNumberOfRooms.setText(Integer.toString(dataFieldsJsonObject.getInt("number_of_rooms")));
                 this.landlordPropertyEditNumberOfBathrooms.setText(Integer.toString(dataFieldsJsonObject.getInt("number_of_bathrooms")));
-                this.landlordPropertyEditSize.setText(Double.toString(dataFieldsJsonObject.getDouble("asset_size")));
+                this.landlordPropertyEditSize.setText(dataFieldsJsonObject.getString("asset_size"));
                 if (dataFieldsJsonObject.getString("asset_type").equalsIgnoreCase("RESIDENTIAL")) {
                     this.landlordPropertyEditType.setSelection(0);
                 } else {
@@ -696,7 +708,7 @@ public class LandlordPropertyEditActivity extends AppCompatActivity {
         this.stopLoadingSpinner();
         AlertDialog.Builder loginFailedDialog = new AlertDialog.Builder(this);
         loginFailedDialog.setCancelable(false);
-        loginFailedDialog.setTitle("Property Info Failed");
+        loginFailedDialog.setTitle("Asset Info Failed");
         loginFailedDialog.setMessage(landlordGetPropertyDetailFailed);
         loginFailedDialog.setPositiveButton("OK", (dialog, which) -> dialog.cancel());
         loginFailedDialog.create().show();

@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
@@ -46,7 +47,7 @@ public class LandlordPropertyTenantDetailActivity extends AppCompatActivity {
     private EditText landlordPropertyTenantDetailIsBusiness;
     private EditText landlordPropertyTenantDetailSalaryRange;
 
-    private FabOption landlordPropertyTenantDetailEditButton;
+    private Button landlordPropertyTenantDetailEditButton;
     private FabOption landlordPropertyTenantDetailRemoveTenantButton;
 
     private View backgroundView;
@@ -55,6 +56,7 @@ public class LandlordPropertyTenantDetailActivity extends AppCompatActivity {
     private RequestQueue requestQueue;
 
     private int tenantId;
+    private String tenantName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,6 +76,12 @@ public class LandlordPropertyTenantDetailActivity extends AppCompatActivity {
         this.requestQueue = Volley.newRequestQueue(this);
 
         this.landlordPropertyTenantDetailEditButton = findViewById(R.id.landlordPropertyTenantDetailEditButton);
+        this.landlordPropertyTenantDetailEditButton.setOnClickListener(v -> {
+            Intent editTenantIntent = new Intent(LandlordPropertyTenantDetailActivity.this, LandlordPropertyTenantEditActivity.class);
+            editTenantIntent.putExtra(Constants.INTENT_EXTRA_TENANT_ID, tenantId);
+            editTenantIntent.putExtra(Constants.INTENT_EXTRA_TENANT_NAME, tenantName);
+            startActivityForResult(editTenantIntent, Constants.REQUEST_CODE_LANDLORD_PROPERTY_TENANT_DETAIL);
+        });
 
 
         this.landlordPropertyTenantDetailRemoveTenantButton = findViewById(R.id.landlordPropertyTenantDetailRemoveTenantButton);
@@ -82,14 +90,21 @@ public class LandlordPropertyTenantDetailActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if(extras == null) {
             this.tenantId = -1;
+            this.tenantName = null;
         } else {
-            this.tenantId = extras.getInt(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_TENANT_ID, -1);
+            this.tenantId = extras.getInt(Constants.INTENT_EXTRA_TENANT_ID, -1);
+            this.tenantName = extras.getString(Constants.INTENT_EXTRA_TENANT_NAME, null);
         }
 
         Toolbar mainToolbar = findViewById(R.id.landlordPropertyTenantDetailToolbar);
         setSupportActionBar(mainToolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(R.string.app_name);
+            if (this.tenantName != null) {
+                getSupportActionBar().setTitle(this.tenantName);
+            } else {
+                getSupportActionBar().setTitle(R.string.app_name);
+            }
+
         }
         mainToolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.mainMenuUser) {
@@ -113,7 +128,19 @@ public class LandlordPropertyTenantDetailActivity extends AppCompatActivity {
         return true;
     }
 
-    public void refreshTenantDetail() {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.REQUEST_CODE_LANDLORD_PROPERTY_TENANT_DETAIL) {
+            this.refreshTenantDetail();
+        }
+    }
+
+    private void refreshTenantDetail() {
+        if (this.tenantId == -1) {
+            getTenantDetailFailed(Constants.ERROR_COMMON);
+            return;
+        }
         this.startLoadingSpinner();
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         String sessionId = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, null);
@@ -155,11 +182,13 @@ public class LandlordPropertyTenantDetailActivity extends AppCompatActivity {
                 getTenantDetailFailed(Constants.ERROR_USER_TENANT_DETAIL_ID_NOT_MATCHED);
             }
             JSONObject dataFieldsJsonObject = dataJsonObject.getJSONObject("field");
-            this.landlordPropertyTenantDetailFirstName.setText(dataFieldsJsonObject.getString("First Name"));
-            this.landlordPropertyTenantDetailLastName.setText(dataFieldsJsonObject.getString("Last Name"));
-            this.landlordPropertyTenantDetailGender.setText(dataFieldsJsonObject.getString("Gender"));
-            this.landlordPropertyTenantDetailIsBusiness.setText(dataFieldsJsonObject.getInt("Is Business") == 1 ? "COMMERCIAL" : "RESIDENTIAL");
-            String dateOfBirth = dataFieldsJsonObject.getString("Date Of Birth");
+            this.tenantName = dataFieldsJsonObject.getString("first_name");
+            this.landlordPropertyTenantDetailFirstName.setText(this.tenantName);
+            getSupportActionBar().setTitle(this.tenantName);
+            this.landlordPropertyTenantDetailLastName.setText(dataFieldsJsonObject.getString("last_name"));
+            this.landlordPropertyTenantDetailGender.setText(dataFieldsJsonObject.getString("gender").equalsIgnoreCase("MALE") ? "Male" : "Female");
+            this.landlordPropertyTenantDetailIsBusiness.setText(dataFieldsJsonObject.getInt("is_business") == 1 ? "Company" : "Personal");
+            String dateOfBirth = dataFieldsJsonObject.getString("date_of_birth");
             this.landlordPropertyTenantDetailDateOfBirth.setText(dateOfBirth.length() > 10 ? dateOfBirth.substring(0, 10) : dateOfBirth);
             this.stopLoadingSpinner();
         } catch (JSONException e) {
