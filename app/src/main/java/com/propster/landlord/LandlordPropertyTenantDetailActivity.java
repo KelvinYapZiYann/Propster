@@ -27,6 +27,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.nambimobile.widgets.efab.FabOption;
 import com.propster.R;
+import com.propster.allRoles.PropertyTenureContractsListActivity;
 import com.propster.content.NotificationActivity;
 import com.propster.content.UserProfileActivity;
 import com.propster.login.SplashActivity;
@@ -49,12 +50,14 @@ public class LandlordPropertyTenantDetailActivity extends AppCompatActivity {
 
     private Button landlordPropertyTenantDetailEditButton;
     private FabOption landlordPropertyTenantDetailRemoveTenantButton;
+    private FabOption landlordPropertyTenantDetailTenureContractButton;
 
     private View backgroundView;
     private ProgressBar loadingSpinner;
 
     private RequestQueue requestQueue;
 
+    private int propertyId;
     private int tenantId;
     private String tenantName;
 
@@ -62,6 +65,17 @@ public class LandlordPropertyTenantDetailActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landlord_property_tenant_detail);
+
+        Bundle extras = getIntent().getExtras();
+        if(extras == null) {
+            this.propertyId = -1;
+            this.tenantId = -1;
+            this.tenantName = null;
+        } else {
+            this.propertyId = extras.getInt(Constants.INTENT_EXTRA_PROPERTY_ID, -1);
+            this.tenantId = extras.getInt(Constants.INTENT_EXTRA_TENANT_ID, -1);
+            this.tenantName = extras.getString(Constants.INTENT_EXTRA_TENANT_NAME, null);
+        }
 
         this.landlordPropertyTenantDetailFirstName = findViewById(R.id.landlordPropertyTenantDetailFirstName);
         this.landlordPropertyTenantDetailLastName = findViewById(R.id.landlordPropertyTenantDetailLastName);
@@ -83,18 +97,18 @@ public class LandlordPropertyTenantDetailActivity extends AppCompatActivity {
             startActivityForResult(editTenantIntent, Constants.REQUEST_CODE_LANDLORD_PROPERTY_TENANT_DETAIL);
         });
 
+        this.landlordPropertyTenantDetailTenureContractButton = findViewById(R.id.landlordPropertyTenantDetailTenureContractButton);
+        this.landlordPropertyTenantDetailTenureContractButton.setOnClickListener(v -> {
+            Intent tenureContractsListIntent = new Intent(LandlordPropertyTenantDetailActivity.this, PropertyTenureContractsListActivity.class);
+            tenureContractsListIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_ID, propertyId);
+            tenureContractsListIntent.putExtra(Constants.INTENT_EXTRA_TENANT_ID, tenantId);
+            tenureContractsListIntent.putExtra(Constants.INTENT_EXTRA_TENANT_NAME, tenantName);
+            startActivity(tenureContractsListIntent);
+        });
+
 
         this.landlordPropertyTenantDetailRemoveTenantButton = findViewById(R.id.landlordPropertyTenantDetailRemoveTenantButton);
         this.landlordPropertyTenantDetailRemoveTenantButton.setOnClickListener(v -> doRemoveTenant());
-
-        Bundle extras = getIntent().getExtras();
-        if(extras == null) {
-            this.tenantId = -1;
-            this.tenantName = null;
-        } else {
-            this.tenantId = extras.getInt(Constants.INTENT_EXTRA_TENANT_ID, -1);
-            this.tenantName = extras.getString(Constants.INTENT_EXTRA_TENANT_NAME, null);
-        }
 
         Toolbar mainToolbar = findViewById(R.id.landlordPropertyTenantDetailToolbar);
         setSupportActionBar(mainToolbar);
@@ -292,6 +306,7 @@ public class LandlordPropertyTenantDetailActivity extends AppCompatActivity {
         this.loadingSpinner.setVisibility(View.VISIBLE);
         this.landlordPropertyTenantDetailEditButton.setEnabled(false);
         this.landlordPropertyTenantDetailRemoveTenantButton.setEnabled(false);
+        this.landlordPropertyTenantDetailTenureContractButton.setEnabled(false);
     }
 
     private void stopLoadingSpinner() {
@@ -300,6 +315,7 @@ public class LandlordPropertyTenantDetailActivity extends AppCompatActivity {
         this.loadingSpinner.setVisibility(View.GONE);
         this.landlordPropertyTenantDetailEditButton.setEnabled(true);
         this.landlordPropertyTenantDetailRemoveTenantButton.setEnabled(true);
+        this.landlordPropertyTenantDetailTenureContractButton.setEnabled(true);
     }
 
 }

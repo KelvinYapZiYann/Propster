@@ -1,9 +1,7 @@
 package com.propster.content;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -11,16 +9,10 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -36,7 +28,6 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.nambimobile.widgets.efab.FabOption;
 import com.propster.R;
-import com.propster.login.FirstTimeRoleSelectionActivity;
 import com.propster.login.LoginActivity;
 import com.propster.login.SplashActivity;
 import com.propster.utils.Constants;
@@ -46,11 +37,7 @@ import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class UserProfileActivity extends AppCompatActivity {
@@ -99,19 +86,19 @@ public class UserProfileActivity extends AppCompatActivity {
 
         this.requestQueue = Volley.newRequestQueue(this);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
-        Calendar currentCalendar = new GregorianCalendar();
-        this.userProfileDateOfBirth.setOnClickListener(v -> {
-            DatePickerDialog datePickerDialog = new DatePickerDialog(UserProfileActivity.this, (view, year, month, dayOfMonth) -> {
-                currentCalendar.set(Calendar.YEAR, year);
-                currentCalendar.set(Calendar.MONTH, month);
-                currentCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                userProfileDateOfBirth.setText(sdf.format(currentCalendar.getTime()));
-            }, currentCalendar.get(Calendar.YEAR), currentCalendar.get(Calendar.MONTH), currentCalendar.get(Calendar.DAY_OF_MONTH));
-            datePickerDialog.show();
-        });
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
+//        Calendar currentCalendar = new GregorianCalendar();
+//        this.userProfileDateOfBirth.setOnClickListener(v -> {
+//            DatePickerDialog datePickerDialog = new DatePickerDialog(UserProfileActivity.this, (view, year, month, dayOfMonth) -> {
+//                currentCalendar.set(Calendar.YEAR, year);
+//                currentCalendar.set(Calendar.MONTH, month);
+//                currentCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+//                userProfileDateOfBirth.setText(sdf.format(currentCalendar.getTime()));
+//            }, currentCalendar.get(Calendar.YEAR), currentCalendar.get(Calendar.MONTH), currentCalendar.get(Calendar.DAY_OF_MONTH));
+//            datePickerDialog.show();
+//        });
 
-        this.userProfileImage.setOnClickListener(view -> doChooseImage());
+//        this.userProfileImage.setOnClickListener(view -> doChooseImage());
 
         this.userProfileEditButton = findViewById(R.id.userProfileEditButton);
         this.userProfileEditButton.setOnClickListener(view -> doEditUserProfile());
@@ -139,71 +126,62 @@ public class UserProfileActivity extends AppCompatActivity {
             finish();
         });
 
-//        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-//        int role = sharedPreferences.getInt(Constants.SHARED_PREFERENCES_ROLE, Constants.ROLE_TENANT);
-//        if (role == Constants.ROLE_TENANT) {
-//            this.userProfileSwitchRoleButton.setText(R.string.switch_role_to_landlord);
-//        } else {
-//            this.userProfileSwitchRoleButton.setText(R.string.switch_role_to_tenant);
-//        }
-
         this.refreshUserProfile();
     }
 
     private void refreshUserProfile() {
-//        this.startLoadingSpinner();
-//        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-//        String sessionId = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, null);
-//        if (sessionId == null) {
-//            this.getUserProfileFailed("Please relogin.");
-//            return;
-//        }
-//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_USER + "/" + this.tenantId, null, response -> getUserProfileSuccess(response),
-//                error -> getUserProfileFailed(Constants.ERROR_COMMON)) {
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                if (SplashActivity.SESSION_ID.isEmpty()) {
-//                    SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-//                    SplashActivity.SESSION_ID = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, "");
-//                }
-//                Map<String, String> headerParams = new HashMap<>();
-//                headerParams.put("Accept", "application/json");
-//                headerParams.put("Content-Type", "application/json");
-//                headerParams.put("X-Requested-With", "XMLHttpRequest");
-//                headerParams.put("Authorization", SplashActivity.SESSION_ID);
-//                return headerParams;
-//            }
-//        };
-//        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-//        this.requestQueue.add(jsonObjectRequest);
+        this.startLoadingSpinner();
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        String sessionId = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, null);
+        if (sessionId == null) {
+            this.getUserProfileFailed("Please relogin.");
+            return;
+        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_USER, null, response -> getUserProfileSuccess(response),
+                error -> getUserProfileFailed(Constants.ERROR_COMMON)) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                if (SplashActivity.SESSION_ID.isEmpty()) {
+                    SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                    SplashActivity.SESSION_ID = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, "");
+                }
+                Map<String, String> headerParams = new HashMap<>();
+                headerParams.put("Accept", "application/json");
+                headerParams.put("Content-Type", "application/json");
+                headerParams.put("X-Requested-With", "XMLHttpRequest");
+                headerParams.put("Authorization", SplashActivity.SESSION_ID);
+                return headerParams;
+            }
+        };
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        this.requestQueue.add(jsonObjectRequest);
     }
 
     private void getUserProfileSuccess(JSONObject response) {
-//        try {
-            System.out.println("response.toString() = " + response.toString());
-//            if (!response.has("data")) {
-//                getUserProfileFailed(Constants.ERROR_COMMON);
-//                return;
-//            }
-//            JSONObject dataJsonObject = response.getJSONObject("data");
-//            if (!dataJsonObject.has("id")) {
-//                getUserProfileFailed(Constants.ERROR_COMMON);
-//            }
-//            if (dataJsonObject.getInt("id") != this.tenantId) {
-//                getUserProfileFailed(Constants.ERROR_USER_TENANT_DETAIL_ID_NOT_MATCHED);
-//            }
-//            JSONObject dataFieldsJsonObject = dataJsonObject.getJSONObject("fields");
-//            this.landlordPropertyTenantDetailFirstName.setText(dataFieldsJsonObject.getString("First Name"));
-//            this.landlordPropertyTenantDetailLastName.setText(dataFieldsJsonObject.getString("Last Name"));
-//            this.landlordPropertyTenantDetailGender.setText(dataFieldsJsonObject.getString("Gender"));
-//            this.landlordPropertyTenantDetailIsBusiness.setText(dataFieldsJsonObject.getInt("Is Business") == 1 ? "COMMERCIAL" : "RESIDENTIAL");
-//            String dateOfBirth = dataFieldsJsonObject.getString("Date Of Birth");
-//            this.landlordPropertyTenantDetailDateOfBirth.setText(dateOfBirth.length() > 10 ? dateOfBirth.substring(0, 10) : dateOfBirth);
+        try {
+            if (!response.has("data")) {
+                getUserProfileFailed(Constants.ERROR_COMMON);
+                return;
+            }
+            JSONObject dataJsonObject = response.getJSONObject("data");
+            if (!dataJsonObject.has("id")) {
+                getUserProfileFailed(Constants.ERROR_COMMON);
+            }
+            JSONObject dataFieldsJsonObject = dataJsonObject.getJSONObject("fields");
+            this.userProfileEmail.setText(dataFieldsJsonObject.getString("email"));
+            this.userProfilePhoneNumber.setText(dataFieldsJsonObject.getString("phone_number"));
+            this.userProfileFirstName.setText(dataFieldsJsonObject.getString("first_name"));
+            this.userProfileLastName.setText(dataFieldsJsonObject.getString("last_name"));
+            this.userProfileGender.setText(dataFieldsJsonObject.getString("gender"));
+            this.userProfileIsBusiness.setText(dataFieldsJsonObject.getInt("is_business") == 1 ? "COMMERCIAL" : "RESIDENTIAL");
+            String dateOfBirth = dataFieldsJsonObject.getString("date_of_birth");
+            this.userProfileDateOfBirth.setText(dateOfBirth.length() > 10 ? dateOfBirth.substring(0, 10) : dateOfBirth);
+            getSupportActionBar().setTitle(dataFieldsJsonObject.getString("Full Name"));
             this.stopLoadingSpinner();
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//            this.getUserProfileFailed(Constants.ERROR_COMMON);
-//        }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            this.getUserProfileFailed(Constants.ERROR_COMMON);
+        }
     }
 
     private void getUserProfileFailed(String getTenantDetailFailedCause) {
@@ -218,29 +196,25 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private void doSwitchRole() {
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
         int role = sharedPreferences.getInt(Constants.SHARED_PREFERENCES_ROLE, Constants.ROLE_TENANT);
-        if (role == Constants.ROLE_LANDLORD) {
-            editor.putInt(Constants.SHARED_PREFERENCES_ROLE, Constants.ROLE_TENANT);
-        } else {
-            editor.putInt(Constants.SHARED_PREFERENCES_ROLE, Constants.ROLE_LANDLORD);
-        }
-        editor.apply();
-        setResult(Activity.RESULT_OK);
-        finish();
-    }
-
-    private void doChooseImage() {
-        Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        getIntent.setType("image/*");
-
-        Intent pickIntent = new Intent(Intent.ACTION_PICK);
-        pickIntent.setType("image/*");
-
-        Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
-
-        startActivityForResult(chooserIntent, Constants.REQUEST_CODE_FIRST_LOGIN_USER_PROFILE_IMAGE);
+        AlertDialog.Builder switchRoleDialog = new AlertDialog.Builder(this);
+        switchRoleDialog.setCancelable(false);
+        switchRoleDialog.setTitle("Switch Role");
+        switchRoleDialog.setMessage("Switch role to " + (role == Constants.ROLE_LANDLORD ? "tenant" : "landlord") + "?");
+        switchRoleDialog.setPositiveButton("OK", (dialog, which) -> {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            if (role == Constants.ROLE_LANDLORD) {
+                editor.putInt(Constants.SHARED_PREFERENCES_ROLE, Constants.ROLE_TENANT);
+            } else {
+                editor.putInt(Constants.SHARED_PREFERENCES_ROLE, Constants.ROLE_LANDLORD);
+            }
+            editor.apply();
+            setResult(Activity.RESULT_OK);
+            finish();
+            dialog.cancel();
+        });
+        switchRoleDialog.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+        switchRoleDialog.create().show();
     }
 
     @Override
@@ -257,6 +231,8 @@ public class UserProfileActivity extends AppCompatActivity {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
+        } else if (requestCode == Constants.REQUEST_CODE_USER_PROFILE_DETAIL) {
+            this.refreshUserProfile();
         }
     }
 
@@ -268,6 +244,8 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void doEditUserProfile() {
+        Intent userProfileEditIntent = new Intent(this, UserProfileEditActivity.class);
+        startActivityForResult(userProfileEditIntent, Constants.REQUEST_CODE_USER_PROFILE_DETAIL);
 //        if (this.userProfileEmail.length() <= 0) {
 //            this.userProfileEmailAlert.setVisibility(View.VISIBLE);
 //            this.userProfilePhoneNumberAlert.setVisibility(View.INVISIBLE);
@@ -402,15 +380,17 @@ public class UserProfileActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         this.backgroundView.setVisibility(View.VISIBLE);
         this.loadingSpinner.setVisibility(View.VISIBLE);
-//        this.userProfileSaveButton.setEnabled(false);
-//        this.userProfileSwitchRoleButton.setEnabled(false);
+        this.userProfileEditButton.setEnabled(false);
+        this.userProfileSwitchRoleButton.setEnabled(false);
+        this.userProfileLogoutButton.setEnabled(false);
     }
 
     private void stopLoadingSpinner() {
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         this.backgroundView.setVisibility(View.GONE);
         this.loadingSpinner.setVisibility(View.GONE);
-//        this.userProfileSaveButton.setEnabled(true);
-//        this.userProfileSwitchRoleButton.setEnabled(true);
+        this.userProfileEditButton.setEnabled(true);
+        this.userProfileSwitchRoleButton.setEnabled(true);
+        this.userProfileLogoutButton.setEnabled(true);
     }
 }

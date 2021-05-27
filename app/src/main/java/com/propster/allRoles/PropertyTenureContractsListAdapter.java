@@ -33,7 +33,7 @@ public class PropertyTenureContractsListAdapter extends ArrayAdapter<PropertyTen
         propertyTenureContractsListItemTenantName.setText(propertyTenureContractsListItemList.getTenantName());
         String date = propertyTenureContractsListItemList.getPropertyTenureContractsEndDate();
         propertyTenureContractsListItemEndDate.setText(date.length() > 10 ? date.substring(0, 10) : date);
-        propertyTenureContractsListItemRentalAmount.setText(Float.toString(propertyTenureContractsListItemList.getPropertyTenureContractsRentalAmount()));
+        propertyTenureContractsListItemRentalAmount.setText(propertyTenureContractsListItemList.getPropertyTenureContractsRentalAmount());
         return convertView;
     }
 

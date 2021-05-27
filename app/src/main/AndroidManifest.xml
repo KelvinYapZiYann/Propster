@@ -53,6 +53,7 @@
         <activity android:name=".content.ContentActivity"/>
         <activity android:name=".content.NotificationActivity"/>
         <activity android:name=".content.UserProfileActivity"/>
+        <activity android:name=".content.UserProfileEditActivity"/>
 
         <activity android:name=".landlord.LandlordPropertyListActivity"/>
         <activity android:name=".landlord.LandlordAddPropertyActivity"/>
@@ -71,6 +72,9 @@
         <activity android:name=".allRoles.AddPropertyExpensesActivity"/>
         <activity android:name=".allRoles.PropertyExpensesDetailActivity"/>
         <activity android:name=".allRoles.PropertyExpensesEditActivity"/>
+
+        <activity android:name=".allRoles.PropertyTenureContractsListActivity"/>
+        <activity android:name=".allRoles.PropertyTenureContractsDetailActivity"/>
 
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"

@@ -129,7 +129,12 @@ public class FirstTimeRoleSelectionActivity extends AppCompatActivity {
 
     private void doSelectUserRole(int roleIndex) {
         this.startLoadingSpinner();
-
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        String sessionId = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, null);
+        if (sessionId == null) {
+            this.selectUserRoleFailed("Please relogin.");
+            return;
+        }
         JSONObject postData = new JSONObject();
         try {
             postData.put("role", roleIndex == Constants.ROLE_LANDLORD ? "LANDLORD" : "TENANT");

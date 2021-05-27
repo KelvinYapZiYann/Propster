@@ -348,6 +348,26 @@
             app:label_backgroundColor="@color/alert_red"
             app:label_text="Remove Tenant" />
 
+        <com.nambimobile.widgets.efab.FabOption
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/landlordPropertyTenantDetailTenureContractButton"
+            app:fab_color="@color/primary_blue"
+            app:fab_icon="@drawable/ic_report_white"
+            app:label_text="Tenure Contracts"
+            app:label_backgroundColor="@color/primary_blue"
+            />
+
+<!--        <com.nambimobile.widgets.efab.FabOption-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/landlordManagePropertyPaymentRecordsButton"-->
+<!--            app:fab_color="@color/primary_blue"-->
+<!--            app:fab_icon="@drawable/ic_payment_white"-->
+<!--            app:label_text="Payment Records"-->
+<!--            app:label_backgroundColor="@color/primary_blue"-->
+<!--            />-->
+
         <!--        <com.nambimobile.widgets.efab.FabOption-->
         <!--            android:layout_width="wrap_content"-->
         <!--            android:layout_height="wrap_content"-->

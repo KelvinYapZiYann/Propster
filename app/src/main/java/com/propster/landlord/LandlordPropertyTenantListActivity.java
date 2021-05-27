@@ -29,7 +29,6 @@ import com.nambimobile.widgets.efab.ExpandableFab;
 import com.nambimobile.widgets.efab.FabOption;
 import com.propster.R;
 import com.propster.allRoles.PropertyExpensesListActivity;
-import com.propster.allRoles.PropertyTenureContractsListActivity;
 import com.propster.content.NotificationActivity;
 import com.propster.content.UserProfileActivity;
 import com.propster.login.SplashActivity;
@@ -54,8 +53,8 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
     private ExpandableFab landlordManagePropertyButtonGroup;
     private FabOption landlordManagePropertyDetailButton;
     private FabOption landlordManagePropertyExpensesButton;
-    private FabOption landlordManagePropertyPaymentRecordsButton;
-    private FabOption landlordManagePropertyTenureContractButton;
+//    private FabOption landlordManagePropertyPaymentRecordsButton;
+//    private FabOption landlordManagePropertyTenureContractButton;
     private FabOption landlordManagePropertyRemovePropertyButton;
 
     private IntentIntegrator qrScanIntentIntegrator;
@@ -106,6 +105,7 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
         propertyTenantListView.setOnItemClickListener((parent, view, position, id) -> {
             LandlordPropertyTenantListItem landlordPropertyTenantListItem = ((LandlordPropertyTenantListAdapter) parent.getAdapter()).getItem(position);
             Intent propertyTenantListDetail = new Intent(LandlordPropertyTenantListActivity.this, LandlordPropertyTenantDetailActivity.class);
+            propertyTenantListDetail.putExtra(Constants.INTENT_EXTRA_PROPERTY_ID, this.propertyId);
             propertyTenantListDetail.putExtra(Constants.INTENT_EXTRA_TENANT_ID, landlordPropertyTenantListItem.getTenantId());
             propertyTenantListDetail.putExtra(Constants.INTENT_EXTRA_TENANT_NAME, landlordPropertyTenantListItem.getTenantFirstName());
             startActivityForResult(propertyTenantListDetail, Constants.REQUEST_CODE_LANDLORD_PROPERTY_TENANT_DETAIL);
@@ -141,15 +141,15 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
 //            propertyExpensesIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST_PROPERTY_EXPENSES_ID, this.propertyExpensesIdArray);
             startActivity(propertyExpensesIntent);
         });
-        this.landlordManagePropertyPaymentRecordsButton = findViewById(R.id.landlordManagePropertyPaymentRecordsButton);
-        this.landlordManagePropertyPaymentRecordsButton.setOnClickListener(view -> {
-
-        });
-        this.landlordManagePropertyTenureContractButton = findViewById(R.id.landlordManagePropertyTenureContractButton);
-        this.landlordManagePropertyTenureContractButton.setOnClickListener(view -> {
-            Intent propertyTenureContractsIntent = new Intent(LandlordPropertyTenantListActivity.this, PropertyTenureContractsListActivity.class);
-            startActivity(propertyTenureContractsIntent);
-        });
+//        this.landlordManagePropertyPaymentRecordsButton = findViewById(R.id.landlordManagePropertyPaymentRecordsButton);
+//        this.landlordManagePropertyPaymentRecordsButton.setOnClickListener(view -> {
+//
+//        });
+//        this.landlordManagePropertyTenureContractButton = findViewById(R.id.landlordManagePropertyTenureContractButton);
+//        this.landlordManagePropertyTenureContractButton.setOnClickListener(view -> {
+//            Intent propertyTenureContractsIntent = new Intent(LandlordPropertyTenantListActivity.this, PropertyTenureContractsListActivity.class);
+//            startActivity(propertyTenureContractsIntent);
+//        });
         this.landlordManagePropertyRemovePropertyButton = findViewById(R.id.landlordManagePropertyRemovePropertyButton);
         this.landlordManagePropertyRemovePropertyButton.setOnClickListener(view -> doRemoveProperty());
 
@@ -158,16 +158,16 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
             this.landlordManagePropertyButtonGroup.setVisibility(View.GONE);
             this.landlordManagePropertyDetailButton.setVisibility(View.GONE);
             this.landlordManagePropertyExpensesButton.setVisibility(View.GONE);
-            this.landlordManagePropertyPaymentRecordsButton.setVisibility(View.GONE);
-            this.landlordManagePropertyTenureContractButton.setVisibility(View.GONE);
+//            this.landlordManagePropertyPaymentRecordsButton.setVisibility(View.GONE);
+//            this.landlordManagePropertyTenureContractButton.setVisibility(View.GONE);
             this.landlordManagePropertyRemovePropertyButton.setVisibility(View.GONE);
         } else {
             this.landlordManagePropertyAddTenantButton.setVisibility(View.VISIBLE);
             this.landlordManagePropertyButtonGroup.setVisibility(View.VISIBLE);
             this.landlordManagePropertyDetailButton.setVisibility(View.VISIBLE);
             this.landlordManagePropertyExpensesButton.setVisibility(View.VISIBLE);
-            this.landlordManagePropertyPaymentRecordsButton.setVisibility(View.VISIBLE);
-            this.landlordManagePropertyTenureContractButton.setVisibility(View.VISIBLE);
+//            this.landlordManagePropertyPaymentRecordsButton.setVisibility(View.VISIBLE);
+//            this.landlordManagePropertyTenureContractButton.setVisibility(View.VISIBLE);
             this.landlordManagePropertyRemovePropertyButton.setVisibility(View.VISIBLE);
         }
 
@@ -492,8 +492,8 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
         this.landlordManagePropertyButtonGroup.setEnabled(false);
         this.landlordManagePropertyDetailButton.setEnabled(false);
         this.landlordManagePropertyExpensesButton.setEnabled(false);
-        this.landlordManagePropertyPaymentRecordsButton.setEnabled(false);
-        this.landlordManagePropertyTenureContractButton.setEnabled(false);
+//        this.landlordManagePropertyPaymentRecordsButton.setEnabled(false);
+//        this.landlordManagePropertyTenureContractButton.setEnabled(false);
         this.landlordManagePropertyRemovePropertyButton.setEnabled(false);
     }
 
@@ -505,8 +505,8 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
         this.landlordManagePropertyButtonGroup.setEnabled(true);
         this.landlordManagePropertyDetailButton.setEnabled(true);
         this.landlordManagePropertyExpensesButton.setEnabled(true);
-        this.landlordManagePropertyPaymentRecordsButton.setEnabled(true);
-        this.landlordManagePropertyTenureContractButton.setEnabled(true);
+//        this.landlordManagePropertyPaymentRecordsButton.setEnabled(true);
+//        this.landlordManagePropertyTenureContractButton.setEnabled(true);
         this.landlordManagePropertyRemovePropertyButton.setEnabled(true);
     }
 }

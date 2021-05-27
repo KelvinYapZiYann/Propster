@@ -28,6 +28,7 @@ public class Constants {
     public static final String INTENT_EXTRA_CONTENT_FIRST_TIME_LOGIN = "INTENT_EXTRA_CONTENT_FIRST_TIME_LOGIN";
     public static final String INTENT_EXTRA_LIST_ALL_TENANTS = "INTENT_EXTRA_LIST_ALL_TENANTS";
     public static final String INTENT_EXTRA_LIST_ALL_PROPERTY_EXPENSES = "INTENT_EXTRA_LIST_ALL_PROPERTY_EXPENSES";
+    public static final String INTENT_EXTRA_LIST_ALL_TENURE_CONTRACTS = "INTENT_EXTRA_LIST_ALL_TENURE_CONTRACTS";
 
     public static final String INTENT_EXTRA_PROPERTY_ID = "INTENT_EXTRA_PROPERTY_ID";
     public static final String INTENT_EXTRA_PROPERTY_NAME = "INTENT_EXTRA_PROPERTY_NAME";
@@ -35,9 +36,12 @@ public class Constants {
     public static final String INTENT_EXTRA_TENANT_NAME = "INTENT_EXTRA_TENANT_NAME";
     public static final String INTENT_EXTRA_PROPERTY_EXPENSES_ID = "INTENT_EXTRA_PROPERTY_EXPENSES_ID";
     public static final String INTENT_EXTRA_PROPERTY_EXPENSES_NAME = "INTENT_EXTRA_PROPERTY_EXPENSES_NAME";
+    public static final String INTENT_EXTRA_TENURE_CONTRACTS_ID = "INTENT_EXTRA_TENURE_CONTRACTS_ID";
+    public static final String INTENT_EXTRA_TENURE_CONTRACTS_NAME = "INTENT_EXTRA_TENURE_CONTRACTS_NAME";
 
     /* REQUEST CODE */
     public static final int REQUEST_CODE_FIRST_LOGIN_USER_PROFILE_IMAGE = 1000;
+    public static final int REQUEST_CODE_USER_PROFILE_DETAIL = 1200;
     public static final int REQUEST_CODE_LANDLORD_ADD_PROPERTY = 2000;
     public static final int REQUEST_CODE_LANDLORD_PROPERTY_DETAIL = 2200;
     public static final int REQUEST_CODE_LANDLORD_PROPERTY_TENANT_LIST = 2500;
@@ -48,6 +52,7 @@ public class Constants {
     public static final int REQUEST_CODE_ADD_PROPERTY_EXPENSES = 6200;
     public static final int REQUEST_CODE_PROPERTY_EXPENSES_DETAIL = 6500;
     public static final int REQUEST_CODE_PROPERTY_EXPENSES_IMAGE_DOCUMENT = 6700;
+    public static final int REQUEST_CODE_TENURE_CONTRACTS_DETAIL = 7000;
 
     /* SHARED PREFERENCES */
     public static final String SHARED_PREFERENCES = "Propster_SP";
@@ -86,9 +91,10 @@ public class Constants {
     public static final String URL_LANDLORD_PROPERTY = URL_BASE + "assets";
     public static final String URL_LANDLORD_TENANT = URL_BASE + "tenants";
     public static final String URL_LANDLORD_PROPERTY_TENANT = URL_LANDLORD_PROPERTY + "/tenants";
-    public static final String URL_LANDLORD_PROPERTY_EXPENSES = URL_BASE + "asset-expenses";
     public static final String URL_LANDLORD_PROPERTY_PROPERTY_EXPENSES = URL_LANDLORD_PROPERTY + "/asset-expenses";
-    public static final String URL_LANDLORD_PROPERTY_TENURE_CONTRACTS = URL_BASE + "tenure-contracts";
+    public static final String URL_LANDLORD_PROPERTY_TENURE_CONTRACTS = URL_LANDLORD_PROPERTY + "/tenure-contract";
+    public static final String URL_LANDLORD_PROPERTY_EXPENSES = URL_BASE + "asset-expenses";
+    public static final String URL_LANDLORD_TENURE_CONTRACTS = URL_BASE + "tenure-contracts";
 
 //    public static final String URL_LANDLORD_PROPERTY_LIST = URL_BASE + "assets";
 //    public static final String URL_LANDLORD_ADD_PROPERTY = URL_BASE + "assets";

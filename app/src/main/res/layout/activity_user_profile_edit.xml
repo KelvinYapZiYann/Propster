@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".content.UserProfileEditActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/userProfileEditToolbar"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        android:elevation="@dimen/toolbar_elevation"
+        android:background="@color/white"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@id/userProfileEditToolbar"
+        android:layout_above="@id/userProfileEditSaveButton"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="@dimen/user_profile_image_width"
+                android:layout_height="@dimen/user_profile_image_height"
+                android:src="@drawable/user_ic"
+                android:id="@+id/userProfileEditImage"
+                app:shapeAppearanceOverlay="@style/user_profile_rounded_image"
+                app:srcCompat="@drawable/user_ic"
+                app:strokeColor="@color/disabled_grey"
+                app:strokeWidth="1dp"
+                android:contentDescription="@string/app_name"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:scaleType="fitCenter"
+                android:padding="@dimen/user_profile_image_padding"
+                android:layout_marginStart="@dimen/min_group_margin"
+                android:layout_marginEnd="@dimen/min_group_margin"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7"
+            android:layout_marginStart="@dimen/min_group_margin"
+            android:layout_marginEnd="@dimen/min_group_margin"
+            android:layout_marginBottom="@dimen/min_group_margin"
+            >
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/userProfileEditEmailLabel"
+                        android:text="@string/email_label"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/input_field_font_size"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/input_field_gap_height"
+                        android:id="@+id/userProfileEditEmailAlert"
+                        android:text="@string/register_error_email_empty"
+                        android:textColor="@color/alert_red"
+                        android:textSize="@dimen/input_field_alert_font_size"
+                        android:visibility="invisible"
+                        android:layout_toEndOf="@id/userProfileEditEmailLabel"
+                        android:layout_marginStart="@dimen/min_group_margin"
+                        />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/input_field_height"
+                        android:id="@+id/userProfileEditEmail"
+                        android:hint="@string/email"
+                        android:enabled="false"
+                        android:autofillHints=""
+                        android:inputType="textEmailAddress"
+                        android:textAlignment="textStart"
+                        android:textSize="@dimen/input_field_font_size"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/disabled_grey"
+                        android:background="@drawable/edittext_background_state"
+                        android:layout_below="@id/userProfileEditEmailLabel"
+                        android:paddingStart="@dimen/input_field_gap_height"
+                        tools:ignore="RtlSymmetry"
+                        />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/userProfileEditPhoneNumberLabel"
+                        android:text="@string/phone_number_label"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/input_field_font_size"
+                        android:layout_below="@id/userProfileEditEmail"
+                        android:layout_marginTop="@dimen/input_field_gap_height"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/input_field_gap_height"
+                        android:id="@+id/userProfileEditPhoneNumberAlert"
+                        android:text="@string/register_error_phone_number_empty"
+                        android:textColor="@color/alert_red"
+                        android:textSize="@dimen/input_field_alert_font_size"
+                        android:visibility="invisible"
+                        android:layout_toEndOf="@id/userProfileEditPhoneNumberLabel"
+                        android:layout_below="@id/userProfileEditEmail"
+                        android:layout_marginStart="@dimen/min_group_margin"
+                        android:layout_marginTop="@dimen/input_field_gap_height"
+                        />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/input_field_height"
+                        android:id="@+id/userProfileEditPhoneNumber"
+                        android:autofillHints=""
+                        android:hint="@string/phone_number"
+                        android:inputType="phone"
+                        android:textAlignment="textStart"
+                        android:textSize="@dimen/input_field_font_size"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/disabled_grey"
+                        android:background="@drawable/edittext_background_state"
+                        android:layout_below="@id/userProfileEditPhoneNumberLabel"
+                        android:paddingStart="@dimen/input_field_gap_height"
+                        tools:ignore="RtlSymmetry"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/userProfileEditFirstNameLabel"
+                        android:text="@string/first_name_label"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/input_field_font_size"
+                        android:layout_below="@id/userProfileEditPhoneNumber"
+                        android:layout_marginTop="@dimen/input_field_gap_height"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/input_field_gap_height"
+                        android:id="@+id/userProfileEditFirstNameAlert"
+                        android:text="@string/user_profile_error_first_name_empty"
+                        android:textColor="@color/alert_red"
+                        android:textSize="@dimen/input_field_alert_font_size"
+                        android:visibility="invisible"
+                        android:layout_toEndOf="@id/userProfileEditFirstNameLabel"
+                        android:layout_below="@id/userProfileEditPhoneNumber"
+                        android:layout_marginStart="@dimen/min_group_margin"
+                        android:layout_marginTop="@dimen/input_field_gap_height"
+                        />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/input_field_height"
+                        android:id="@+id/userProfileEditFirstName"
+                        android:hint="@string/first_name"
+                        android:autofillHints=""
+                        android:inputType="textPersonName"
+                        android:textAlignment="textStart"
+                        android:textSize="@dimen/input_field_font_size"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/disabled_grey"
+                        android:background="@drawable/edittext_background_state"
+                        android:layout_below="@id/userProfileEditFirstNameLabel"
+                        android:paddingStart="@dimen/input_field_gap_height"
+                        tools:ignore="RtlSymmetry"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/userProfileEditLastNameLabel"
+                        android:text="@string/last_name_label"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/input_field_font_size"
+                        android:layout_below="@id/userProfileEditFirstName"
+                        android:layout_marginTop="@dimen/input_field_gap_height"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/input_field_gap_height"
+                        android:id="@+id/userProfileEditLastNameAlert"
+                        android:text="@string/user_profile_error_last_name_empty"
+                        android:textColor="@color/alert_red"
+                        android:textSize="@dimen/input_field_alert_font_size"
+                        android:visibility="invisible"
+                        android:layout_toEndOf="@id/userProfileEditLastNameLabel"
+                        android:layout_below="@id/userProfileEditFirstName"
+                        android:layout_marginStart="@dimen/min_group_margin"
+                        android:layout_marginTop="@dimen/input_field_gap_height"
+                        />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/input_field_height"
+                        android:id="@+id/userProfileEditLastName"
+                        android:hint="@string/last_name"
+                        android:autofillHints=""
+                        android:inputType="textPersonName"
+                        android:textAlignment="textStart"
+                        android:textSize="@dimen/input_field_font_size"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/disabled_grey"
+                        android:background="@drawable/edittext_background_state"
+                        android:layout_below="@id/userProfileEditLastNameLabel"
+                        android:paddingStart="@dimen/input_field_gap_height"
+                        tools:ignore="RtlSymmetry"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/userProfileEditGenderLabel"
+                        android:text="@string/gender_label"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/input_field_font_size"
+                        android:layout_below="@id/userProfileEditLastName"
+                        android:layout_marginTop="@dimen/input_field_gap_height"
+                        />
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/input_field_height"
+                        android:id="@+id/userProfileEditGender"
+                        android:textAlignment="textStart"
+                        android:textSize="@dimen/input_field_font_size"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/disabled_grey"
+                        android:background="@drawable/edittext_background_state"
+                        android:layout_below="@id/userProfileEditGenderLabel"
+                        tools:ignore="RtlSymmetry"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/userProfileEditDateOfBirthLabel"
+                        android:text="@string/date_of_birth_label"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/input_field_font_size"
+                        android:layout_below="@id/userProfileEditGender"
+                        android:layout_marginTop="@dimen/input_field_gap_height"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/input_field_gap_height"
+                        android:id="@+id/userProfileEditDateOfBirthAlert"
+                        android:text="@string/user_profile_error_date_of_birth_empty"
+                        android:textColor="@color/alert_red"
+                        android:textSize="@dimen/input_field_alert_font_size"
+                        android:visibility="invisible"
+                        android:layout_toEndOf="@id/userProfileEditDateOfBirthLabel"
+                        android:layout_below="@id/userProfileEditGender"
+                        android:layout_marginStart="@dimen/min_group_margin"
+                        android:layout_marginTop="@dimen/input_field_gap_height"
+                        />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/input_field_height"
+                        android:id="@+id/userProfileEditDateOfBirth"
+                        android:inputType="date"
+                        android:autofillHints=""
+                        android:textAlignment="textStart"
+                        android:textSize="@dimen/input_field_font_size"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/disabled_grey"
+                        android:background="@drawable/edittext_background_state"
+                        android:layout_below="@id/userProfileEditDateOfBirthLabel"
+                        android:paddingStart="@dimen/input_field_gap_height"
+                        tools:ignore="RtlSymmetry"
+                        android:clickable="false"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/userProfileEditIsBusinessLabel"
+                        android:text="@string/is_business_label"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/input_field_font_size"
+                        android:layout_below="@id/userProfileEditDateOfBirth"
+                        android:layout_marginTop="@dimen/input_field_gap_height"
+                        />
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/input_field_height"
+                        android:id="@+id/userProfileEditIsBusiness"
+                        android:textAlignment="textStart"
+                        android:textSize="@dimen/input_field_font_size"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/disabled_grey"
+                        android:background="@drawable/edittext_background_state"
+                        android:layout_below="@id/userProfileEditIsBusinessLabel"
+                        tools:ignore="RtlSymmetry"
+                        />
+
+                </RelativeLayout>
+
+            </ScrollView>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+<!--    <com.nambimobile.widgets.efab.ExpandableFabLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
+
+<!--        <com.nambimobile.widgets.efab.ExpandableFab-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="bottom|end"-->
+<!--            app:efab_orientation="portrait"-->
+<!--            android:layout_marginBottom="@dimen/min_group_margin"-->
+<!--            android:layout_marginEnd="@dimen/min_group_margin"-->
+<!--            app:efab_color="@color/primary_blue"-->
+<!--            app:efab_icon="@drawable/more_ic_white"-->
+<!--            app:efab_iconAnimationRotationDeg="-180"-->
+<!--            app:efab_closingAnticipateTension="0"-->
+<!--            app:efab_size="normal"-->
+<!--            />-->
+
+<!--        <com.nambimobile.widgets.efab.FabOption-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/userProfileEditLogoutButton"-->
+<!--            app:fab_color="@color/alert_red"-->
+<!--            app:fab_icon="@drawable/ic_logout_white"-->
+<!--            app:label_text="@string/logout"-->
+<!--            app:label_backgroundColor="@color/alert_red"-->
+<!--            />-->
+
+<!--        <com.nambimobile.widgets.efab.FabOption-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/userProfileEditSwitchRoleButton"-->
+<!--            app:fab_color="@color/primary_blue"-->
+<!--            app:fab_icon="@drawable/ic_switch_white"-->
+<!--            app:label_text="@string/switch_role"-->
+<!--            app:label_backgroundColor="@color/primary_blue"-->
+<!--            />-->
+
+<!--        <com.nambimobile.widgets.efab.FabOption-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/userProfileEditEditButton"-->
+<!--            app:fab_color="@color/primary_blue"-->
+<!--            app:fab_icon="@drawable/ic_edit_white"-->
+<!--            app:label_text="@string/edit"-->
+<!--            app:label_backgroundColor="@color/primary_blue"-->
+<!--            />-->
+
+<!--    </com.nambimobile.widgets.efab.ExpandableFabLayout>-->
+
+    <android.widget.Button
+        android:layout_width="@dimen/primary_button_width"
+        android:layout_height="wrap_content"
+        android:id="@+id/userProfileEditSaveButton"
+        android:text="@string/save"
+        android:textColor="@color/white"
+        android:textSize="@dimen/primary_button_font_size"
+        android:background="@drawable/primary_button_background_state"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/primary_button_gap_height"
+        android:layout_marginBottom="@dimen/primary_button_gap_height"
+        android:layout_alignParentBottom="true"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/userProfileEditBackground"
+        android:background="@color/background_black"
+        android:visibility="gone"
+        />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/userProfileEditLoadingSpinner"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/secondary_blue"
+        android:visibility="gone"
+        />
+
+</RelativeLayout>

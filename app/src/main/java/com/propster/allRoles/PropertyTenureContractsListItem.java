@@ -9,10 +9,10 @@ public class PropertyTenureContractsListItem {
     private final int propertyTenureContractsId;
     private final String propertyTenureContractsName;
     private final String propertyTenureContractsEndDate;
-    private final float propertyTenureContractsRentalAmount;
+    private final String propertyTenureContractsRentalAmount;
 
     public PropertyTenureContractsListItem(int propertyId, String propertyName, int tenantId, String tenantName, int propertyTenureContractsId,
-                                           String propertyTenureContractsName, String propertyTenureContractsEndDate, float propertyTenureContractsRentalAmount) {
+                                           String propertyTenureContractsName, String propertyTenureContractsEndDate, String propertyTenureContractsRentalAmount) {
         this.propertyId = propertyId;
         this.propertyName = propertyName;
         this.tenantId = tenantId;
@@ -51,7 +51,7 @@ public class PropertyTenureContractsListItem {
         return propertyTenureContractsEndDate;
     }
 
-    public float getPropertyTenureContractsRentalAmount() {
+    public String getPropertyTenureContractsRentalAmount() {
         return propertyTenureContractsRentalAmount;
     }
 }
