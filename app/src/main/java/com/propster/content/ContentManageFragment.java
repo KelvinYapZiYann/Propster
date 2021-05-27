@@ -67,7 +67,7 @@ public class ContentManageFragment extends ContentFragment {
         Button landlordContentManagePropertyPropertyExpensesButton = view.findViewById(R.id.landlordContentManagePropertyPropertyExpensesButton);
         landlordContentManagePropertyPropertyExpensesButton.setOnClickListener(view12 -> {
             Intent propertyExpensesListIntent = new Intent(getContext(), PropertyExpensesListActivity.class);
-            propertyExpensesListIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST, Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST_ALL);
+            propertyExpensesListIntent.putExtra(Constants.INTENT_EXTRA_LIST_ALL_PROPERTY_EXPENSES, Constants.INTENT_EXTRA_LIST_ALL_PROPERTY_EXPENSES);
             startActivity(propertyExpensesListIntent);
         });
 

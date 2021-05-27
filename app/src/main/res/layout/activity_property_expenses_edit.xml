@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".allRoles.PropertyExpensesDetailActivity">
+    tools:context=".allRoles.PropertyExpensesEditActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/propertyExpensesDetailToolbar"
+        android:id="@+id/propertyExpensesEditToolbar"
         app:navigationIcon="?attr/homeAsUpIndicator"
         android:elevation="@dimen/toolbar_elevation"
         android:background="@color/white"
@@ -21,8 +21,8 @@
         android:layout_marginStart="@dimen/min_group_margin"
         android:layout_marginEnd="@dimen/min_group_margin"
         android:layout_marginTop="@dimen/min_group_margin"
-        android:layout_below="@id/propertyExpensesDetailToolbar"
-        android:layout_above="@id/propertyExpensesDetailEditButton">
+        android:layout_below="@id/propertyExpensesEditToolbar"
+        android:layout_above="@id/propertyExpensesEditSaveButton">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -32,26 +32,37 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/propertyExpensesDetailDescriptionLabel"
+                android:id="@+id/propertyExpensesEditDescriptionLabel"
                 android:text="@string/property_expenses_payment_description_label"
                 android:textColor="@color/black"
                 android:textSize="@dimen/input_field_font_size"
                 />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/input_field_gap_height"
+                android:id="@+id/propertyExpensesEditDescriptionAlert"
+                android:text="@string/property_expenses_description_empty"
+                android:textColor="@color/alert_red"
+                android:textSize="@dimen/input_field_alert_font_size"
+                android:visibility="invisible"
+                android:layout_toEndOf="@id/propertyExpensesEditDescriptionLabel"
+                android:layout_marginStart="@dimen/min_group_margin"
+                />
+
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/input_field_height"
-                android:id="@+id/propertyExpensesDetailDescription"
+                android:id="@+id/propertyExpensesEditDescription"
                 android:autofillHints=""
                 android:hint="@string/property_expenses_payment_description"
                 android:inputType="text"
-                android:enabled="false"
                 android:textAlignment="textStart"
                 android:textSize="@dimen/input_field_font_size"
                 android:textColor="@color/black"
                 android:textColorHint="@color/disabled_grey"
                 android:background="@drawable/edittext_background_state"
-                android:layout_below="@id/propertyExpensesDetailDescriptionLabel"
+                android:layout_below="@id/propertyExpensesEditDescriptionLabel"
                 android:paddingStart="@dimen/input_field_gap_height"
                 tools:ignore="RtlSymmetry"
                 />
@@ -59,28 +70,42 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/propertyExpensesDetailPropertyNameLabel"
+                android:id="@+id/propertyExpensesEditPropertyNameLabel"
                 android:text="@string/property_expenses_property_name_label"
                 android:textColor="@color/black"
                 android:textSize="@dimen/input_field_font_size"
-                android:layout_below="@id/propertyExpensesDetailDescription"
+                android:layout_below="@id/propertyExpensesEditDescription"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/input_field_gap_height"
+                android:id="@+id/propertyExpensesEditPropertyNameAlert"
+                android:text="@string/property_expenses_from_property_empty"
+                android:textColor="@color/alert_red"
+                android:textSize="@dimen/input_field_alert_font_size"
+                android:visibility="invisible"
+                android:layout_below="@id/propertyExpensesEditDescription"
+                android:layout_toEndOf="@id/propertyExpensesEditPropertyNameLabel"
+                android:layout_marginStart="@dimen/min_group_margin"
                 android:layout_marginTop="@dimen/input_field_gap_height"
                 />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/input_field_height"
-                android:id="@+id/propertyExpensesDetailPropertyName"
+                android:id="@+id/propertyExpensesEditPropertyName"
                 android:autofillHints=""
                 android:hint="@string/property_expenses_property_name"
-                android:enabled="false"
                 android:inputType="text"
+                android:enabled="false"
                 android:textAlignment="textStart"
                 android:textSize="@dimen/input_field_font_size"
                 android:textColor="@color/black"
                 android:textColorHint="@color/disabled_grey"
                 android:background="@drawable/edittext_background_state"
-                android:layout_below="@id/propertyExpensesDetailPropertyNameLabel"
+                android:layout_below="@id/propertyExpensesEditPropertyNameLabel"
                 android:paddingStart="@dimen/input_field_gap_height"
                 tools:ignore="RtlSymmetry"
                 />
@@ -88,28 +113,41 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/propertyExpensesDetailTypeLabel"
+                android:id="@+id/propertyExpensesEditTypeLabel"
                 android:text="@string/property_expenses_expense_type_label"
                 android:textColor="@color/black"
                 android:textSize="@dimen/input_field_font_size"
-                android:layout_below="@id/propertyExpensesDetailPropertyName"
+                android:layout_below="@id/propertyExpensesEditPropertyName"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/input_field_gap_height"
+                android:id="@+id/propertyExpensesEditTypeAlert"
+                android:text="@string/property_expenses_property_type_empty"
+                android:textColor="@color/alert_red"
+                android:textSize="@dimen/input_field_alert_font_size"
+                android:visibility="invisible"
+                android:layout_below="@id/propertyExpensesEditPropertyName"
+                android:layout_toEndOf="@id/propertyExpensesEditTypeLabel"
+                android:layout_marginStart="@dimen/min_group_margin"
                 android:layout_marginTop="@dimen/input_field_gap_height"
                 />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/input_field_height"
-                android:id="@+id/propertyExpensesDetailType"
+                android:id="@+id/propertyExpensesEditType"
                 android:autofillHints=""
                 android:inputType="text"
                 android:hint="@string/property_expenses_expense_type"
-                android:enabled="false"
                 android:textAlignment="textStart"
                 android:textSize="@dimen/input_field_font_size"
                 android:textColor="@color/black"
                 android:textColorHint="@color/disabled_grey"
                 android:background="@drawable/edittext_background_state"
-                android:layout_below="@id/propertyExpensesDetailTypeLabel"
+                android:layout_below="@id/propertyExpensesEditTypeLabel"
                 android:paddingStart="@dimen/input_field_gap_height"
                 tools:ignore="RtlSymmetry"
                 />
@@ -117,28 +155,41 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/propertyExpensesDetailVendorLabel"
+                android:id="@+id/propertyExpensesEditVendorLabel"
                 android:text="@string/property_expenses_vendor_name_label"
                 android:textColor="@color/black"
                 android:textSize="@dimen/input_field_font_size"
-                android:layout_below="@id/propertyExpensesDetailType"
+                android:layout_below="@id/propertyExpensesEditType"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/input_field_gap_height"
+                android:id="@+id/propertyExpensesEditVendorAlert"
+                android:text="@string/property_expenses_vendor_name_empty"
+                android:textColor="@color/alert_red"
+                android:textSize="@dimen/input_field_alert_font_size"
+                android:visibility="invisible"
+                android:layout_below="@id/propertyExpensesEditType"
+                android:layout_toEndOf="@id/propertyExpensesEditVendorLabel"
+                android:layout_marginStart="@dimen/min_group_margin"
                 android:layout_marginTop="@dimen/input_field_gap_height"
                 />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/input_field_height"
-                android:id="@+id/propertyExpensesDetailVendor"
+                android:id="@+id/propertyExpensesEditVendor"
                 android:autofillHints=""
                 android:hint="@string/property_expenses_vendor_name"
                 android:inputType="text"
-                android:enabled="false"
                 android:textAlignment="textStart"
                 android:textSize="@dimen/input_field_font_size"
                 android:textColor="@color/black"
                 android:textColorHint="@color/disabled_grey"
                 android:background="@drawable/edittext_background_state"
-                android:layout_below="@id/propertyExpensesDetailVendorLabel"
+                android:layout_below="@id/propertyExpensesEditVendorLabel"
                 android:paddingStart="@dimen/input_field_gap_height"
                 tools:ignore="RtlSymmetry"
                 />
@@ -146,28 +197,41 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/propertyExpensesDetailAmountLabel"
+                android:id="@+id/propertyExpensesEditAmountLabel"
                 android:text="@string/property_expenses_amount_label"
                 android:textColor="@color/black"
                 android:textSize="@dimen/input_field_font_size"
-                android:layout_below="@id/propertyExpensesDetailVendor"
+                android:layout_below="@id/propertyExpensesEditVendor"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/input_field_gap_height"
+                android:id="@+id/propertyExpensesEditAmountAlert"
+                android:text="@string/property_expenses_amount_empty"
+                android:textColor="@color/alert_red"
+                android:textSize="@dimen/input_field_alert_font_size"
+                android:visibility="invisible"
+                android:layout_below="@id/propertyExpensesEditVendor"
+                android:layout_toEndOf="@id/propertyExpensesEditAmountLabel"
+                android:layout_marginStart="@dimen/min_group_margin"
                 android:layout_marginTop="@dimen/input_field_gap_height"
                 />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/input_field_height"
-                android:id="@+id/propertyExpensesDetailAmount"
+                android:id="@+id/propertyExpensesEditAmount"
                 android:autofillHints=""
                 android:hint="@string/property_expenses_amount"
-                android:inputType="number"
-                android:enabled="false"
+                android:inputType="numberDecimal|numberSigned"
                 android:textAlignment="textStart"
                 android:textSize="@dimen/input_field_font_size"
                 android:textColor="@color/black"
                 android:textColorHint="@color/disabled_grey"
                 android:background="@drawable/edittext_background_state"
-                android:layout_below="@id/propertyExpensesDetailAmountLabel"
+                android:layout_below="@id/propertyExpensesEditAmountLabel"
                 android:paddingStart="@dimen/input_field_gap_height"
                 tools:ignore="RtlSymmetry"
                 />
@@ -175,27 +239,40 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/propertyExpensesDetailDateOfExpenseLabel"
+                android:id="@+id/propertyExpensesEditDateOfExpenseLabel"
                 android:text="@string/property_expenses_date_of_expense_label"
                 android:textColor="@color/black"
                 android:textSize="@dimen/input_field_font_size"
-                android:layout_below="@id/propertyExpensesDetailAmount"
+                android:layout_below="@id/propertyExpensesEditAmount"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/input_field_gap_height"
+                android:id="@+id/propertyExpensesEditDateOfExpenseAlert"
+                android:text="@string/property_expenses_date_of_expense_empty"
+                android:textColor="@color/alert_red"
+                android:textSize="@dimen/input_field_alert_font_size"
+                android:visibility="invisible"
+                android:layout_below="@id/propertyExpensesEditAmount"
+                android:layout_toEndOf="@id/propertyExpensesEditDateOfExpenseLabel"
+                android:layout_marginStart="@dimen/min_group_margin"
                 android:layout_marginTop="@dimen/input_field_gap_height"
                 />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/input_field_height"
-                android:id="@+id/propertyExpensesDetailDateOfExpense"
+                android:id="@+id/propertyExpensesEditDateOfExpense"
                 android:inputType="date"
-                android:enabled="false"
                 android:autofillHints=""
                 android:textAlignment="textStart"
                 android:textSize="@dimen/input_field_font_size"
                 android:textColor="@color/black"
                 android:textColorHint="@color/disabled_grey"
                 android:background="@drawable/edittext_background_state"
-                android:layout_below="@id/propertyExpensesDetailDateOfExpenseLabel"
+                android:layout_below="@id/propertyExpensesEditDateOfExpenseLabel"
                 android:paddingStart="@dimen/input_field_gap_height"
                 tools:ignore="RtlSymmetry"
                 android:clickable="false"
@@ -207,11 +284,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/propertyExpensesDetailUploadedFileLabel"
+                android:id="@+id/propertyExpensesEditUploadedFileLabel"
                 android:text="@string/property_expenses_uploaded_files_label"
                 android:textColor="@color/black"
                 android:textSize="@dimen/input_field_font_size"
-                android:layout_below="@id/propertyExpensesDetailDateOfExpense"
+                android:layout_below="@id/propertyExpensesEditDateOfExpense"
                 android:layout_marginTop="@dimen/input_field_gap_height"
                 />
 
@@ -219,7 +296,7 @@
                 android:layout_width="@dimen/user_profile_image_width"
                 android:layout_height="@dimen/user_profile_image_height"
                 android:src="@drawable/file_ic"
-                android:id="@+id/propertyExpensesDetailUploadedFile"
+                android:id="@+id/propertyExpensesEditUploadedFile"
                 app:shapeAppearanceOverlay="@style/property_expenses_uploaded_file_image"
                 app:srcCompat="@drawable/file_ic"
                 app:strokeColor="@color/disabled_grey"
@@ -227,58 +304,58 @@
                 android:contentDescription="@string/app_name"
                 android:scaleType="fitCenter"
                 android:padding="@dimen/user_profile_image_padding"
-                android:layout_below="@id/propertyExpensesDetailUploadedFileLabel"
+                android:layout_below="@id/propertyExpensesEditUploadedFileLabel"
                 />
 
         </RelativeLayout>
 
     </ScrollView>
 
-    <com.nambimobile.widgets.efab.ExpandableFabLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<!--    <com.nambimobile.widgets.efab.ExpandableFabLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
 
-        <com.nambimobile.widgets.efab.ExpandableFab
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            app:efab_orientation="portrait"
-            android:layout_marginBottom="@dimen/min_group_margin"
-            android:layout_marginEnd="@dimen/min_group_margin"
-            app:efab_color="@color/primary_blue"
-            app:efab_icon="@drawable/more_ic_white"
-            app:efab_iconAnimationRotationDeg="-180"
-            app:efab_closingAnticipateTension="0"
-            app:efab_size="normal"
-            />
-
-        <com.nambimobile.widgets.efab.FabOption
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/propertyExpensesDetailRemoveExpenseButton"
-            app:fab_color="@color/alert_red"
-            app:fab_icon="@drawable/remove_ic_white"
-            app:label_text="Remove Asset Expenses"
-            app:label_backgroundColor="@color/alert_red"
-            />
+<!--        <com.nambimobile.widgets.efab.ExpandableFab-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="bottom|end"-->
+<!--            app:efab_orientation="portrait"-->
+<!--            android:layout_marginBottom="@dimen/min_group_margin"-->
+<!--            android:layout_marginEnd="@dimen/min_group_margin"-->
+<!--            app:efab_color="@color/primary_blue"-->
+<!--            app:efab_icon="@drawable/more_ic_white"-->
+<!--            app:efab_iconAnimationRotationDeg="-180"-->
+<!--            app:efab_closingAnticipateTension="0"-->
+<!--            app:efab_size="normal"-->
+<!--            />-->
 
 <!--        <com.nambimobile.widgets.efab.FabOption-->
 <!--            android:layout_width="wrap_content"-->
 <!--            android:layout_height="wrap_content"-->
-<!--            android:id="@+id/propertyExpensesDetailEditButton"-->
-<!--            app:fab_color="@color/primary_blue"-->
-<!--            app:fab_icon="@drawable/ic_edit_white"-->
-<!--            app:label_text="Edit"-->
-<!--            app:label_backgroundColor="@color/primary_blue"-->
+<!--            android:id="@+id/propertyExpensesEditRemoveExpenseButton"-->
+<!--            app:fab_color="@color/alert_red"-->
+<!--            app:fab_icon="@drawable/remove_ic_white"-->
+<!--            app:label_text="Remove Asset Expenses"-->
+<!--            app:label_backgroundColor="@color/alert_red"-->
 <!--            />-->
 
-    </com.nambimobile.widgets.efab.ExpandableFabLayout>
+        <!--        <com.nambimobile.widgets.efab.FabOption-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:id="@+id/propertyExpensesEditEditButton"-->
+        <!--            app:fab_color="@color/primary_blue"-->
+        <!--            app:fab_icon="@drawable/ic_edit_white"-->
+        <!--            app:label_text="Edit"-->
+        <!--            app:label_backgroundColor="@color/primary_blue"-->
+        <!--            />-->
+
+<!--    </com.nambimobile.widgets.efab.ExpandableFabLayout>-->
 
     <android.widget.Button
         android:layout_width="@dimen/large_button_width"
         android:layout_height="wrap_content"
-        android:id="@+id/propertyExpensesDetailEditButton"
-        android:text="@string/edit"
+        android:id="@+id/propertyExpensesEditSaveButton"
+        android:text="@string/save"
         android:textColor="@color/white"
         android:textSize="@dimen/large_button_font_size"
         android:background="@drawable/primary_button_background_state"
@@ -293,7 +370,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/propertyExpensesDetailBackground"
+        android:id="@+id/propertyExpensesEditBackground"
         android:background="@color/background_black"
         android:visibility="gone"
         />
@@ -301,7 +378,7 @@
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/propertyExpensesDetailLoadingSpinner"
+        android:id="@+id/propertyExpensesEditLoadingSpinner"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:indeterminate="true"

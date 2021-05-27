@@ -136,7 +136,7 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
         this.landlordManagePropertyExpensesButton = findViewById(R.id.landlordManagePropertyExpensesButton);
         this.landlordManagePropertyExpensesButton.setOnClickListener(view -> {
             Intent propertyExpensesIntent = new Intent(LandlordPropertyTenantListActivity.this, PropertyExpensesListActivity.class);
-            propertyExpensesIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST_PROPERTY_ID, this.propertyId);
+            propertyExpensesIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_ID, this.propertyId);
             propertyExpensesIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_NAME, this.propertyName);
 //            propertyExpensesIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST_PROPERTY_EXPENSES_ID, this.propertyExpensesIdArray);
             startActivity(propertyExpensesIntent);
@@ -245,11 +245,11 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
                             landlordManagePropertyGetTenantListFailed(Constants.ERROR_COMMON);
                             return;
                         }
-                        if (!dataJsonObject.has("field")) {
+                        if (!dataJsonObject.has("fields")) {
                             landlordManagePropertyGetTenantListFailed(Constants.ERROR_COMMON);
                             return;
                         }
-                        JSONObject dataFieldJsonObject = dataJsonObject.getJSONObject("field");
+                        JSONObject dataFieldJsonObject = dataJsonObject.getJSONObject("fields");
                         if (!dataFieldJsonObject.has("first_name")) {
                             landlordManagePropertyGetTenantListFailed(Constants.ERROR_COMMON);
                             return;
@@ -302,11 +302,11 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
                             landlordManagePropertyGetTenantListFailed(Constants.ERROR_COMMON);
                             return;
                         }
-                        if (!dataJsonObject.has("field")) {
+                        if (!dataJsonObject.has("fields")) {
                             landlordManagePropertyGetTenantListFailed(Constants.ERROR_COMMON);
                             return;
                         }
-                        JSONObject dataFieldJsonObject = dataJsonObject.getJSONObject("field");
+                        JSONObject dataFieldJsonObject = dataJsonObject.getJSONObject("fields");
                         if (!dataFieldJsonObject.has("first_name")) {
                             landlordManagePropertyGetTenantListFailed(Constants.ERROR_COMMON);
                             return;

@@ -48,7 +48,7 @@ public class NotificationActivity extends AppCompatActivity {
         notificationToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.mainMenuNotification) {
+                if (item.getItemId() == R.id.notificationMenuUser) {
                     Intent userProfileIntent = new Intent(NotificationActivity.this, UserProfileActivity.class);
                     startActivityForResult(userProfileIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
                 }

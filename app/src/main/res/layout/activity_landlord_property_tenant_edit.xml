@@ -49,7 +49,6 @@
                 android:visibility="invisible"
                 android:layout_toEndOf="@id/landlordPropertyTenantEditFirstNameLabel"
                 android:layout_marginStart="@dimen/min_group_margin"
-                android:layout_marginTop="@dimen/input_field_gap_height"
                 />
 
             <EditText
@@ -229,20 +228,16 @@
                 android:layout_marginTop="@dimen/input_field_gap_height"
                 />
 
-            <EditText
+            <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/input_field_height"
                 android:id="@+id/landlordPropertyTenantEditSalaryRange"
-                android:autofillHints=""
-                android:hint="@string/salary_range"
-                android:inputType="number"
                 android:textAlignment="textStart"
                 android:textSize="@dimen/input_field_font_size"
                 android:textColor="@color/black"
                 android:textColorHint="@color/disabled_grey"
                 android:background="@drawable/edittext_background_state"
                 android:layout_below="@id/landlordPropertyTenantEditSalaryRangeLabel"
-                android:paddingStart="@dimen/input_field_gap_height"
                 tools:ignore="RtlSymmetry"
                 />
 

@@ -24,6 +24,7 @@
     <string name="skip">Skip</string>
     <string name="properties">Assets</string>
     <string name="logout">Logout</string>
+    <string name="empty">Empty</string>
 
     <string-array name="title">
         <item>Mr</item>
@@ -63,6 +64,12 @@
     <string-array name="loan_is_active">
         <item>Yes</item>
         <item>No</item>
+    </string-array>
+
+    <string-array name="salary_range">
+        <item>RM1 to RM5000</item>
+        <item>RM5001 to RM10000</item>
+        <item>Above RM10000</item>
     </string-array>
 
     <!-- USER PROFILE -->
@@ -188,7 +195,7 @@
     <!-- PROPERTY EXPENSES -->
     <string name="add_property_expenses">Add Asset Expenses</string>
 
-    <string name="property_expenses_payment_description">Payment Description</string>
+    <string name="property_expenses_payment_description">Expense Description</string>
     <string name="property_expenses_property_name">From Asset</string>
     <string name="property_expenses_expense_type">Expense Type</string>
     <string name="property_expenses_vendor_name">Vendor Name</string>
@@ -197,7 +204,7 @@
     <string name="property_expenses_date_of_expense">Date of Expense</string>
     <string name="property_expenses_uploaded_files">Uploaded Files</string>
 
-    <string name="property_expenses_payment_description_label">Payment Description:</string>
+    <string name="property_expenses_payment_description_label">Expense Description:</string>
     <string name="property_expenses_property_name_label">From Asset:</string>
     <string name="property_expenses_expense_type_label">Expense Type:</string>
     <string name="property_expenses_vendor_name_label">Vendor Name:</string>
@@ -243,6 +250,13 @@
 
     <string name="add_tenant_error_name_empty">Tenant name cannot be empty</string>
     <string name="add_tenant_error_salary_range_empty">Salary range cannot be empty</string>
+
+    <string name="property_expenses_description_empty">Description cannot be empty</string>
+    <string name="property_expenses_from_property_empty">From asset cannot be empty</string>
+    <string name="property_expenses_property_type_empty">Asset type cannot be empty</string>
+    <string name="property_expenses_vendor_name_empty">Vendor name cannot be empty</string>
+    <string name="property_expenses_amount_empty">Amount cannot be empty</string>
+    <string name="property_expenses_date_of_expense_empty">Date of expense cannot be empty</string>
 
 
 

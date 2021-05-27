@@ -28,7 +28,7 @@ public class PropertyExpensesListAdapter extends ArrayAdapter<PropertyExpensesLi
         TextView propertyExpensesListItemDate = convertView.findViewById(R.id.propertyExpensesListItemDate);
         TextView propertyExpensesListItemAmount = convertView.findViewById(R.id.propertyExpensesListItemAmount);
         propertyExpensesListItemDescription.setText(propertyExpensesListItem.getPropertyExpensesDescription());
-        propertyExpensesListItemPropertyName.setText(propertyExpensesListItem.getPropertyExpensesPropertyName());
+        propertyExpensesListItemPropertyName.setText(propertyExpensesListItem.getPropertyName());
         String date = propertyExpensesListItem.getPropertyExpensesDate();
         propertyExpensesListItemDate.setText(date.length() > 10 ? date.substring(0, 10) : date);
         propertyExpensesListItemAmount.setText(propertyExpensesListItem.getPropertyExpensesAmount());

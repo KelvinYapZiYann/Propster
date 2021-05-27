@@ -181,15 +181,41 @@ public class LandlordPropertyTenantDetailActivity extends AppCompatActivity {
             if (dataJsonObject.getInt("id") != this.tenantId) {
                 getTenantDetailFailed(Constants.ERROR_USER_TENANT_DETAIL_ID_NOT_MATCHED);
             }
-            JSONObject dataFieldsJsonObject = dataJsonObject.getJSONObject("field");
+            JSONObject dataFieldsJsonObject = dataJsonObject.getJSONObject("fields");
             this.tenantName = dataFieldsJsonObject.getString("first_name");
             this.landlordPropertyTenantDetailFirstName.setText(this.tenantName);
             getSupportActionBar().setTitle(this.tenantName);
             this.landlordPropertyTenantDetailLastName.setText(dataFieldsJsonObject.getString("last_name"));
             this.landlordPropertyTenantDetailGender.setText(dataFieldsJsonObject.getString("gender").equalsIgnoreCase("MALE") ? "Male" : "Female");
-            this.landlordPropertyTenantDetailIsBusiness.setText(dataFieldsJsonObject.getInt("is_business") == 1 ? "Company" : "Personal");
+            this.landlordPropertyTenantDetailIsBusiness.setText(dataFieldsJsonObject.getBoolean("is_business") ? "Company" : "Personal");
             String dateOfBirth = dataFieldsJsonObject.getString("date_of_birth");
             this.landlordPropertyTenantDetailDateOfBirth.setText(dateOfBirth.length() > 10 ? dateOfBirth.substring(0, 10) : dateOfBirth);
+            String salaryRange = dataFieldsJsonObject.getString("salary_range");
+            switch (salaryRange) {
+                case "1_TO_5000":
+                    this.landlordPropertyTenantDetailSalaryRange.setText("RM1 to RM5000");
+                    break;
+                case "5001_TO_10000":
+                    this.landlordPropertyTenantDetailSalaryRange.setText("RM50001 to RM10000");
+                    break;
+                case "ABOVE_10000":
+                    this.landlordPropertyTenantDetailSalaryRange.setText("Above RM10000");
+                    break;
+                default:
+                    try {
+                        float tmpSalaryRange = Float.parseFloat(salaryRange);
+                        if (tmpSalaryRange <= 5000) {
+                            this.landlordPropertyTenantDetailSalaryRange.setText("RM1 to RM5000");
+                        } else if (tmpSalaryRange <= 10000) {
+                            this.landlordPropertyTenantDetailSalaryRange.setText("RM50001 to RM10000");
+                        } else {
+                            this.landlordPropertyTenantDetailSalaryRange.setText("Above RM10000");
+                        }
+                    } catch (Exception e) {
+                        this.landlordPropertyTenantDetailSalaryRange.setText(salaryRange);
+                    }
+                    break;
+            }
             this.stopLoadingSpinner();
         } catch (JSONException e) {
             e.printStackTrace();

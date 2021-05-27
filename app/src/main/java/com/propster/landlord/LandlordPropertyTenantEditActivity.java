@@ -52,8 +52,8 @@ public class LandlordPropertyTenantEditActivity extends AppCompatActivity {
     private TextView landlordPropertyTenantEditLastNameAlert;
     private EditText landlordPropertyTenantEditDateOfBirth;
     private TextView landlordPropertyTenantEditDateOfBirthAlert;
-    private EditText landlordPropertyTenantEditSalaryRange;
-    private TextView landlordPropertyTenantEditSalaryRangeAlert;
+    private Spinner landlordPropertyTenantEditSalaryRange;
+//    private TextView landlordPropertyTenantEditSalaryRangeAlert;
     private Spinner landlordPropertyTenantEditIsBusiness;
 
     private Button landlordPropertyTenantEditSaveButton;
@@ -79,7 +79,7 @@ public class LandlordPropertyTenantEditActivity extends AppCompatActivity {
         this.landlordPropertyTenantEditDateOfBirth = findViewById(R.id.landlordPropertyTenantEditDateOfBirth);
         this.landlordPropertyTenantEditDateOfBirthAlert = findViewById(R.id.landlordPropertyTenantEditDateOfBirthAlert);
         this.landlordPropertyTenantEditSalaryRange = findViewById(R.id.landlordPropertyTenantEditSalaryRange);
-        this.landlordPropertyTenantEditSalaryRangeAlert = findViewById(R.id.landlordPropertyTenantEditSalaryRangeAlert);
+//        this.landlordPropertyTenantEditSalaryRangeAlert = findViewById(R.id.landlordPropertyTenantEditSalaryRangeAlert);
         this.landlordPropertyTenantEditIsBusiness = findViewById(R.id.landlordPropertyTenantEditIsBusiness);
 
         this.backgroundView = findViewById(R.id.landlordPropertyTenantEditBackground);
@@ -103,6 +103,10 @@ public class LandlordPropertyTenantEditActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> isBusinessArrayAdapter = ArrayAdapter.createFromResource(this, R.array.is_business, R.layout.spinner_item);
         isBusinessArrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         this.landlordPropertyTenantEditIsBusiness.setAdapter(isBusinessArrayAdapter);
+
+        ArrayAdapter<CharSequence> salaryRangeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.salary_range, R.layout.spinner_item);
+        salaryRangeArrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        this.landlordPropertyTenantEditSalaryRange.setAdapter(salaryRangeArrayAdapter);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
         Date currentDate = new Date();
@@ -154,7 +158,7 @@ public class LandlordPropertyTenantEditActivity extends AppCompatActivity {
             this.landlordPropertyTenantEditFirstNameAlert.setVisibility(View.VISIBLE);
             this.landlordPropertyTenantEditLastNameAlert.setVisibility(View.INVISIBLE);
             this.landlordPropertyTenantEditDateOfBirthAlert.setVisibility(View.INVISIBLE);
-            this.landlordPropertyTenantEditSalaryRangeAlert.setVisibility(View.INVISIBLE);
+//            this.landlordPropertyTenantEditSalaryRangeAlert.setVisibility(View.INVISIBLE);
             this.landlordPropertyTenantEditFirstName.requestFocus();
             return;
         }
@@ -162,7 +166,7 @@ public class LandlordPropertyTenantEditActivity extends AppCompatActivity {
             this.landlordPropertyTenantEditFirstNameAlert.setVisibility(View.INVISIBLE);
             this.landlordPropertyTenantEditLastNameAlert.setVisibility(View.VISIBLE);
             this.landlordPropertyTenantEditDateOfBirthAlert.setVisibility(View.INVISIBLE);
-            this.landlordPropertyTenantEditSalaryRangeAlert.setVisibility(View.INVISIBLE);
+//            this.landlordPropertyTenantEditSalaryRangeAlert.setVisibility(View.INVISIBLE);
             this.landlordPropertyTenantEditLastName.requestFocus();
             return;
         }
@@ -170,18 +174,18 @@ public class LandlordPropertyTenantEditActivity extends AppCompatActivity {
             this.landlordPropertyTenantEditFirstNameAlert.setVisibility(View.INVISIBLE);
             this.landlordPropertyTenantEditLastNameAlert.setVisibility(View.INVISIBLE);
             this.landlordPropertyTenantEditDateOfBirthAlert.setVisibility(View.VISIBLE);
-            this.landlordPropertyTenantEditSalaryRangeAlert.setVisibility(View.INVISIBLE);
+//            this.landlordPropertyTenantEditSalaryRangeAlert.setVisibility(View.INVISIBLE);
             this.landlordPropertyTenantEditDateOfBirth.requestFocus();
             return;
         }
-        if (this.landlordPropertyTenantEditSalaryRange.length() <= 0) {
-            this.landlordPropertyTenantEditFirstNameAlert.setVisibility(View.INVISIBLE);
-            this.landlordPropertyTenantEditLastNameAlert.setVisibility(View.INVISIBLE);
-            this.landlordPropertyTenantEditDateOfBirthAlert.setVisibility(View.INVISIBLE);
-            this.landlordPropertyTenantEditSalaryRangeAlert.setVisibility(View.VISIBLE);
-            this.landlordPropertyTenantEditSalaryRange.requestFocus();
-            return;
-        }
+//        if (this.landlordPropertyTenantEditSalaryRange.length() <= 0) {
+//            this.landlordPropertyTenantEditFirstNameAlert.setVisibility(View.INVISIBLE);
+//            this.landlordPropertyTenantEditLastNameAlert.setVisibility(View.INVISIBLE);
+//            this.landlordPropertyTenantEditDateOfBirthAlert.setVisibility(View.INVISIBLE);
+//            this.landlordPropertyTenantEditSalaryRangeAlert.setVisibility(View.VISIBLE);
+//            this.landlordPropertyTenantEditSalaryRange.requestFocus();
+//            return;
+//        }
         this.startLoadingSpinner();
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         String sessionId = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, null);
@@ -195,10 +199,19 @@ public class LandlordPropertyTenantEditActivity extends AppCompatActivity {
             postData.put("first_name", this.landlordPropertyTenantEditFirstName.getText().toString());
             postData.put("last_name", this.landlordPropertyTenantEditLastName.getText().toString());
             postData.put("date_of_birth", this.landlordPropertyTenantEditDateOfBirth.getText().toString());
-//            postData.put("salary_range", this.landlordPropertyTenantEditSalaryRange.getText().toString() + "_TO_" + (Integer.parseInt(this.landlordPropertyTenantEditSalaryRange.getText().toString()) + 1000));
-            postData.put("salary_range", "1_TO_5000");
+            switch (this.landlordPropertyTenantEditSalaryRange.getSelectedItemPosition()) {
+                case 1:
+                    postData.put("salary_range", "5001_TO_10000");
+                    break;
+                case 2:
+                    postData.put("salary_range", "ABOVE_10000");
+                    break;
+                case 0:
+                default:
+                    postData.put("salary_range", "1_TO_5000");
+                    break;
+            }
             postData.put("is_business", this.landlordPropertyTenantEditIsBusiness.getSelectedItemId() != 0);
-//            postData.put("is_business", true);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -284,15 +297,41 @@ public class LandlordPropertyTenantEditActivity extends AppCompatActivity {
             if (dataJsonObject.getInt("id") != this.tenantId) {
                 getTenantDetailFailed(Constants.ERROR_USER_TENANT_DETAIL_ID_NOT_MATCHED);
             }
-            JSONObject dataFieldsJsonObject = dataJsonObject.getJSONObject("field");
+            JSONObject dataFieldsJsonObject = dataJsonObject.getJSONObject("fields");
             this.tenantName = dataFieldsJsonObject.getString("first_name");
             this.landlordPropertyTenantEditFirstName.setText(this.tenantName);
             getSupportActionBar().setTitle(this.tenantName);
             this.landlordPropertyTenantEditLastName.setText(dataFieldsJsonObject.getString("last_name"));
             this.landlordPropertyTenantEditGender.setSelection(dataFieldsJsonObject.getString("gender").equalsIgnoreCase("MALE") ? 0 : 1);
-            this.landlordPropertyTenantEditIsBusiness.setSelection(dataFieldsJsonObject.getInt("is_business"));
+            this.landlordPropertyTenantEditIsBusiness.setSelection(dataFieldsJsonObject.getBoolean("is_business") ? 1 : 0);
             String dateOfBirth = dataFieldsJsonObject.getString("date_of_birth");
             this.landlordPropertyTenantEditDateOfBirth.setText(dateOfBirth.length() > 10 ? dateOfBirth.substring(0, 10) : dateOfBirth);
+            String salaryRange = dataFieldsJsonObject.getString("salary_range");
+            switch (salaryRange) {
+                case "1_TO_5000":
+                    this.landlordPropertyTenantEditSalaryRange.setSelection(0);
+                    break;
+                case "5001_TO_10000":
+                    this.landlordPropertyTenantEditSalaryRange.setSelection(1);
+                    break;
+                case "ABOVE_10000":
+                    this.landlordPropertyTenantEditSalaryRange.setSelection(2);
+                    break;
+                default:
+                    try {
+                        float tmpSalaryRange = Float.parseFloat(salaryRange);
+                        if (tmpSalaryRange <= 5000) {
+                            this.landlordPropertyTenantEditSalaryRange.setSelection(0);
+                        } else if (tmpSalaryRange <= 10000) {
+                            this.landlordPropertyTenantEditSalaryRange.setSelection(1);
+                        } else {
+                            this.landlordPropertyTenantEditSalaryRange.setSelection(2);
+                        }
+                    } catch (Exception e) {
+                        this.landlordPropertyTenantEditSalaryRange.setSelection(0);
+                    }
+                    break;
+            }
             this.stopLoadingSpinner();
         } catch (JSONException e) {
             e.printStackTrace();

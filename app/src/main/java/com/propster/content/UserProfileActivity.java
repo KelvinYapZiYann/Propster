@@ -192,7 +192,7 @@ public class UserProfileActivity extends AppCompatActivity {
 //            if (dataJsonObject.getInt("id") != this.tenantId) {
 //                getUserProfileFailed(Constants.ERROR_USER_TENANT_DETAIL_ID_NOT_MATCHED);
 //            }
-//            JSONObject dataFieldsJsonObject = dataJsonObject.getJSONObject("field");
+//            JSONObject dataFieldsJsonObject = dataJsonObject.getJSONObject("fields");
 //            this.landlordPropertyTenantDetailFirstName.setText(dataFieldsJsonObject.getString("First Name"));
 //            this.landlordPropertyTenantDetailLastName.setText(dataFieldsJsonObject.getString("Last Name"));
 //            this.landlordPropertyTenantDetailGender.setText(dataFieldsJsonObject.getString("Gender"));

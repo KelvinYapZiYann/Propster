@@ -57,8 +57,8 @@ public class LandlordPropertyAddTenantActivity extends AppCompatActivity {
     private TextView landlordAddTenantLastNameAlert;
     private EditText landlordAddTenantDateOfBirth;
     private TextView landlordAddTenantDateOfBirthAlert;
-    private EditText landlordAddTenantSalaryRange;
-    private TextView landlordAddTenantSalaryRangeAlert;
+    private Spinner landlordAddTenantSalaryRange;
+//    private TextView landlordAddTenantSalaryRangeAlert;
     private Spinner landlordAddTenantIsBusiness;
 
     private Button landlordAddTenantButton;
@@ -86,7 +86,7 @@ public class LandlordPropertyAddTenantActivity extends AppCompatActivity {
         this.landlordAddTenantDateOfBirth = findViewById(R.id.landlordPropertyAddTenantDateOfBirth);
         this.landlordAddTenantDateOfBirthAlert = findViewById(R.id.landlordPropertyAddTenantDateOfBirthAlert);
         this.landlordAddTenantSalaryRange = findViewById(R.id.landlordPropertyAddTenantSalaryRange);
-        this.landlordAddTenantSalaryRangeAlert = findViewById(R.id.landlordPropertyAddTenantSalaryRangeAlert);
+//        this.landlordAddTenantSalaryRangeAlert = findViewById(R.id.landlordPropertyAddTenantSalaryRangeAlert);
         this.landlordAddTenantIsBusiness = findViewById(R.id.landlordPropertyAddTenantIsBusiness);
 
         this.backgroundView = findViewById(R.id.landlordPropertyAddTenantBackground);
@@ -113,6 +113,10 @@ public class LandlordPropertyAddTenantActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> isBusinessArrayAdapter = ArrayAdapter.createFromResource(this, R.array.is_business, R.layout.spinner_item);
         isBusinessArrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         this.landlordAddTenantIsBusiness.setAdapter(isBusinessArrayAdapter);
+
+        ArrayAdapter<CharSequence> salaryRangeArrayAdapter = ArrayAdapter.createFromResource(this, R.array.salary_range, R.layout.spinner_item);
+        salaryRangeArrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        this.landlordAddTenantSalaryRange.setAdapter(salaryRangeArrayAdapter);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
         Date currentDate = new Date();
@@ -175,7 +179,7 @@ public class LandlordPropertyAddTenantActivity extends AppCompatActivity {
             this.landlordAddTenantFirstNameAlert.setVisibility(View.VISIBLE);
             this.landlordAddTenantLastNameAlert.setVisibility(View.INVISIBLE);
             this.landlordAddTenantDateOfBirthAlert.setVisibility(View.INVISIBLE);
-            this.landlordAddTenantSalaryRangeAlert.setVisibility(View.INVISIBLE);
+//            this.landlordAddTenantSalaryRangeAlert.setVisibility(View.INVISIBLE);
             this.landlordAddTenantFirstName.requestFocus();
             return;
         }
@@ -184,7 +188,7 @@ public class LandlordPropertyAddTenantActivity extends AppCompatActivity {
             this.landlordAddTenantFirstNameAlert.setVisibility(View.INVISIBLE);
             this.landlordAddTenantLastNameAlert.setVisibility(View.VISIBLE);
             this.landlordAddTenantDateOfBirthAlert.setVisibility(View.INVISIBLE);
-            this.landlordAddTenantSalaryRangeAlert.setVisibility(View.INVISIBLE);
+//            this.landlordAddTenantSalaryRangeAlert.setVisibility(View.INVISIBLE);
             this.landlordAddTenantLastName.requestFocus();
             return;
         }
@@ -193,19 +197,19 @@ public class LandlordPropertyAddTenantActivity extends AppCompatActivity {
             this.landlordAddTenantFirstNameAlert.setVisibility(View.INVISIBLE);
             this.landlordAddTenantLastNameAlert.setVisibility(View.INVISIBLE);
             this.landlordAddTenantDateOfBirthAlert.setVisibility(View.VISIBLE);
-            this.landlordAddTenantSalaryRangeAlert.setVisibility(View.INVISIBLE);
+//            this.landlordAddTenantSalaryRangeAlert.setVisibility(View.INVISIBLE);
             this.landlordAddTenantDateOfBirth.requestFocus();
             return;
         }
-        if (this.landlordAddTenantSalaryRange.length() <= 0) {
-//            this.landlordAddTenantNameAlert.setVisibility(View.INVISIBLE);
-            this.landlordAddTenantFirstNameAlert.setVisibility(View.INVISIBLE);
-            this.landlordAddTenantLastNameAlert.setVisibility(View.INVISIBLE);
-            this.landlordAddTenantDateOfBirthAlert.setVisibility(View.INVISIBLE);
-            this.landlordAddTenantSalaryRangeAlert.setVisibility(View.VISIBLE);
-            this.landlordAddTenantSalaryRange.requestFocus();
-            return;
-        }
+//        if (this.landlordAddTenantSalaryRange.length() <= 0) {
+////            this.landlordAddTenantNameAlert.setVisibility(View.INVISIBLE);
+//            this.landlordAddTenantFirstNameAlert.setVisibility(View.INVISIBLE);
+//            this.landlordAddTenantLastNameAlert.setVisibility(View.INVISIBLE);
+//            this.landlordAddTenantDateOfBirthAlert.setVisibility(View.INVISIBLE);
+//            this.landlordAddTenantSalaryRangeAlert.setVisibility(View.VISIBLE);
+//            this.landlordAddTenantSalaryRange.requestFocus();
+//            return;
+//        }
         this.startLoadingSpinner();
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         String sessionId = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, null);
@@ -219,10 +223,19 @@ public class LandlordPropertyAddTenantActivity extends AppCompatActivity {
             postData.put("first_name", this.landlordAddTenantFirstName.getText().toString());
             postData.put("last_name", this.landlordAddTenantLastName.getText().toString());
             postData.put("date_of_birth", this.landlordAddTenantDateOfBirth.getText().toString());
-//            postData.put("salary_range", this.landlordAddTenantSalaryRange.getText().toString() + "_TO_" + (Integer.parseInt(this.landlordAddTenantSalaryRange.getText().toString()) + 1000));
-            postData.put("salary_range", "1_TO_5000");
-//            postData.put("is_business", this.landlordAddTenantIsBusiness.getSelectedItemId() != 0);
-            postData.put("is_business", true);
+            switch (this.landlordAddTenantSalaryRange.getSelectedItemPosition()) {
+                case 1:
+                    postData.put("salary_range", "5001_TO_10000");
+                    break;
+                case 2:
+                    postData.put("salary_range", "ABOVE_10000");
+                    break;
+                case 0:
+                default:
+                    postData.put("salary_range", "1_TO_5000");
+                    break;
+            }
+            postData.put("is_business", this.landlordAddTenantIsBusiness.getSelectedItemId() != 0);
             postData.put("asset_id", this.propertyId);
         } catch (JSONException e) {
             e.printStackTrace();

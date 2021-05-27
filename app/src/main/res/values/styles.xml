@@ -22,7 +22,7 @@
     <style name="property_tenant_user_icon" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/property_tenant_user_icon</item>
         <item name="android:minHeight">23dip</item>
-        <item name="android:maxHeight">25dip</item>
+        <item name="android:maxHeight">23dip</item>
     </style>
 
 </resources>
