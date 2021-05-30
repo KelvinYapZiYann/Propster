@@ -19,10 +19,10 @@
         <item name="strokeWidth">1dp</item>
     </style>
 
-    <style name="property_tenant_user_icon" parent="@android:style/Widget.RatingBar">
+    <style name="property_tenant_user_icon" parent="Widget.AppCompat.RatingBar">
         <item name="android:progressDrawable">@drawable/property_tenant_user_icon</item>
-        <item name="android:minHeight">23dip</item>
-        <item name="android:maxHeight">23dip</item>
+        <item name="android:minHeight">20dp</item>
+        <item name="android:maxHeight">20dp</item>
     </style>
 
 </resources>
