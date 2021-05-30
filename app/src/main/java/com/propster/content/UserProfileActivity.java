@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
@@ -26,7 +27,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.imageview.ShapeableImageView;
-import com.nambimobile.widgets.efab.FabOption;
 import com.propster.R;
 import com.propster.login.LoginActivity;
 import com.propster.login.SplashActivity;
@@ -57,9 +57,9 @@ public class UserProfileActivity extends AppCompatActivity {
 //    private TextView userProfileDateOfBirthAlert;
     private EditText userProfileIsBusiness;
 
-    private FabOption userProfileEditButton;
-    private FabOption userProfileSwitchRoleButton;
-    private FabOption userProfileLogoutButton;
+    private Button userProfileEditButton;
+//    private FabOption userProfileSwitchRoleButton;
+//    private FabOption userProfileLogoutButton;
 
     private View backgroundView;
     private ProgressBar loadingSpinner;
@@ -103,11 +103,11 @@ public class UserProfileActivity extends AppCompatActivity {
         this.userProfileEditButton = findViewById(R.id.userProfileEditButton);
         this.userProfileEditButton.setOnClickListener(view -> doEditUserProfile());
 
-        this.userProfileSwitchRoleButton = findViewById(R.id.userProfileSwitchRoleButton);
-        this.userProfileSwitchRoleButton.setOnClickListener(v -> doSwitchRole());
-
-        this.userProfileLogoutButton = findViewById(R.id.userProfileLogoutButton);
-        this.userProfileLogoutButton.setOnClickListener(v -> doLogout());
+//        this.userProfileSwitchRoleButton = findViewById(R.id.userProfileSwitchRoleButton);
+//        this.userProfileSwitchRoleButton.setOnClickListener(v -> doSwitchRole());
+//
+//        this.userProfileLogoutButton = findViewById(R.id.userProfileLogoutButton);
+//        this.userProfileLogoutButton.setOnClickListener(v -> doLogout());
 
         Toolbar userProfileToolbar = findViewById(R.id.userProfileToolbar);
         setSupportActionBar(userProfileToolbar);
@@ -173,10 +173,10 @@ public class UserProfileActivity extends AppCompatActivity {
             this.userProfileFirstName.setText(dataFieldsJsonObject.getString("first_name"));
             this.userProfileLastName.setText(dataFieldsJsonObject.getString("last_name"));
             this.userProfileGender.setText(dataFieldsJsonObject.getString("gender"));
-            this.userProfileIsBusiness.setText(dataFieldsJsonObject.getInt("is_business") == 1 ? "COMMERCIAL" : "RESIDENTIAL");
+            this.userProfileIsBusiness.setText(dataFieldsJsonObject.getBoolean("is_business") ? "COMMERCIAL" : "RESIDENTIAL");
             String dateOfBirth = dataFieldsJsonObject.getString("date_of_birth");
             this.userProfileDateOfBirth.setText(dateOfBirth.length() > 10 ? dateOfBirth.substring(0, 10) : dateOfBirth);
-            getSupportActionBar().setTitle(dataFieldsJsonObject.getString("Full Name"));
+            getSupportActionBar().setTitle(dataFieldsJsonObject.getString("full_name"));
             this.stopLoadingSpinner();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -192,29 +192,6 @@ public class UserProfileActivity extends AppCompatActivity {
         saveUserProfileFailedDialog.setMessage(getTenantDetailFailedCause);
         saveUserProfileFailedDialog.setPositiveButton("OK", (dialog, which) -> dialog.cancel());
         saveUserProfileFailedDialog.create().show();
-    }
-
-    private void doSwitchRole() {
-        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        int role = sharedPreferences.getInt(Constants.SHARED_PREFERENCES_ROLE, Constants.ROLE_TENANT);
-        AlertDialog.Builder switchRoleDialog = new AlertDialog.Builder(this);
-        switchRoleDialog.setCancelable(false);
-        switchRoleDialog.setTitle("Switch Role");
-        switchRoleDialog.setMessage("Switch role to " + (role == Constants.ROLE_LANDLORD ? "tenant" : "landlord") + "?");
-        switchRoleDialog.setPositiveButton("OK", (dialog, which) -> {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            if (role == Constants.ROLE_LANDLORD) {
-                editor.putInt(Constants.SHARED_PREFERENCES_ROLE, Constants.ROLE_TENANT);
-            } else {
-                editor.putInt(Constants.SHARED_PREFERENCES_ROLE, Constants.ROLE_LANDLORD);
-            }
-            editor.apply();
-            setResult(Activity.RESULT_OK);
-            finish();
-            dialog.cancel();
-        });
-        switchRoleDialog.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
-        switchRoleDialog.create().show();
     }
 
     @Override
@@ -323,42 +300,6 @@ public class UserProfileActivity extends AppCompatActivity {
 //        saveUserProfileSuccess();
     }
 
-    private void doLogout() {
-        this.startLoadingSpinner();
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.URL_LOGOUT, null, response -> logoutSuccess(), error -> logoutSuccess()) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                if (SplashActivity.SESSION_ID.isEmpty()) {
-                    SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-                    SplashActivity.SESSION_ID = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, "");
-                }
-                Map<String, String> headerParams = new HashMap<>();
-                headerParams.put("Accept", "application/json");
-                headerParams.put("Content-Type", "application/json");
-                headerParams.put("X-Requested-With", "XMLHttpRequest");
-                headerParams.put("Authorization", SplashActivity.SESSION_ID);
-                return headerParams;
-            }
-        };
-        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        this.requestQueue.add(jsonObjectRequest);
-    }
-
-    private void logoutSuccess() {
-        this.stopLoadingSpinner();
-        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove(Constants.SHARED_PREFERENCES_EMAIL);
-        editor.remove(Constants.SHARED_PREFERENCES_PASSWORD);
-        editor.remove(Constants.SHARED_PREFERENCES_SESSION_ID);
-        editor.apply();
-        SplashActivity.SESSION_ID = "";
-        Intent loginIntent = new Intent(this, LoginActivity.class);
-        startActivity(loginIntent);
-        finish();
-    }
-
 //    private void saveUserProfileSuccess() {
 //        this.stopLoadingSpinner();
 //        Intent roleSelectionIntent = new Intent(this, FirstTimeRoleSelectionActivity.class);
@@ -381,8 +322,8 @@ public class UserProfileActivity extends AppCompatActivity {
         this.backgroundView.setVisibility(View.VISIBLE);
         this.loadingSpinner.setVisibility(View.VISIBLE);
         this.userProfileEditButton.setEnabled(false);
-        this.userProfileSwitchRoleButton.setEnabled(false);
-        this.userProfileLogoutButton.setEnabled(false);
+//        this.userProfileSwitchRoleButton.setEnabled(false);
+//        this.userProfileLogoutButton.setEnabled(false);
     }
 
     private void stopLoadingSpinner() {
@@ -390,7 +331,7 @@ public class UserProfileActivity extends AppCompatActivity {
         this.backgroundView.setVisibility(View.GONE);
         this.loadingSpinner.setVisibility(View.GONE);
         this.userProfileEditButton.setEnabled(true);
-        this.userProfileSwitchRoleButton.setEnabled(true);
-        this.userProfileLogoutButton.setEnabled(true);
+//        this.userProfileSwitchRoleButton.setEnabled(true);
+//        this.userProfileLogoutButton.setEnabled(true);
     }
 }

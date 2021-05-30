@@ -5,7 +5,6 @@ public class LandlordPropertyListItem {
     private final String propertyName;
     private final int propertyId;
     private final int[] tenantIdArray;
-    private final int[] propertyExpensesIdArray;
 //    private final int tenantCount;
 //    private final int totalTenantCount;
     private final float payment;
@@ -20,11 +19,10 @@ public class LandlordPropertyListItem {
 //        this.age = age;
 //    }
 
-    public LandlordPropertyListItem(String propertyName, int propertyId, int[] tenantIdArray, int[] propertyExpensesIdArray, float payment, int age) {
+    public LandlordPropertyListItem(String propertyName, int propertyId, int[] tenantIdArray, float payment, int age) {
         this.propertyName = propertyName;
         this.propertyId = propertyId;
         this.tenantIdArray = tenantIdArray;
-        this.propertyExpensesIdArray = propertyExpensesIdArray;
         this.payment = payment;
         this.age = age;
     }
@@ -39,10 +37,6 @@ public class LandlordPropertyListItem {
 
     public int[] getTenantIdArray() {
         return tenantIdArray;
-    }
-
-    public int[] getPropertyExpensesIdArray() {
-        return propertyExpensesIdArray;
     }
 
     //    public int getTenantCount() {

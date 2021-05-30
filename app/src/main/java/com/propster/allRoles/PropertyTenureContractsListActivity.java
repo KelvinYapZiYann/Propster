@@ -25,7 +25,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.propster.R;
 import com.propster.content.NotificationActivity;
-import com.propster.content.UserProfileActivity;
 import com.propster.login.SplashActivity;
 import com.propster.utils.Constants;
 import com.propster.utils.CurrencyConverter;
@@ -89,7 +88,9 @@ public class PropertyTenureContractsListActivity extends AppCompatActivity {
             PropertyTenureContractsListItem propertyTenureContractsListItem = ((PropertyTenureContractsListAdapter) parent.getAdapter()).getItem(position);
             Intent propertyTenantDetailIntent = new Intent(PropertyTenureContractsListActivity.this, PropertyTenureContractsDetailActivity.class);
             propertyTenantDetailIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_ID, propertyTenureContractsListItem.getPropertyId());
+            propertyTenantDetailIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_NAME, propertyTenureContractsListItem.getPropertyName());
             propertyTenantDetailIntent.putExtra(Constants.INTENT_EXTRA_TENANT_ID, propertyTenureContractsListItem.getTenantId());
+            propertyTenantDetailIntent.putExtra(Constants.INTENT_EXTRA_TENANT_NAME, propertyTenureContractsListItem.getTenantName());
             propertyTenantDetailIntent.putExtra(Constants.INTENT_EXTRA_TENURE_CONTRACTS_ID, propertyTenureContractsListItem.getPropertyTenureContractsId());
             propertyTenantDetailIntent.putExtra(Constants.INTENT_EXTRA_TENURE_CONTRACTS_NAME, propertyTenureContractsListItem.getPropertyTenureContractsName());
             startActivityForResult(propertyTenantDetailIntent, Constants.REQUEST_CODE_TENURE_CONTRACTS_DETAIL);
@@ -97,9 +98,12 @@ public class PropertyTenureContractsListActivity extends AppCompatActivity {
 
         this.propertyTenureContractsListAddContractsButton = findViewById(R.id.propertyTenureContractsListAddContractsButton);
         this.propertyTenureContractsListAddContractsButton.setOnClickListener(v -> {
-//            Intent landlordAddPropertyIntent = new Intent(LandlordPropertyListActivity.this, LandlordAddPropertyActivity.class);
-//            startActivityForResult(landlordAddPropertyIntent, Constants.REQUEST_CODE_LANDLORD_ADD_PROPERTY);
-//            landlordManageFirstTimeLoginLabel.setVisibility(View.GONE);
+            Intent addPropertyTenureContractsIntent = new Intent(PropertyTenureContractsListActivity.this, AddPropertyTenureContractsActivity.class);
+            addPropertyTenureContractsIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_ID, this.propertyId);
+            addPropertyTenureContractsIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_NAME, this.propertyName);
+            addPropertyTenureContractsIntent.putExtra(Constants.INTENT_EXTRA_TENANT_ID, this.tenantId);
+            addPropertyTenureContractsIntent.putExtra(Constants.INTENT_EXTRA_TENANT_NAME, this.tenantName);
+            startActivityForResult(addPropertyTenureContractsIntent, Constants.REQUEST_CODE_ADD_TENURE_CONTRACTS);
         });
 
         if (this.isShowingAllTenureContactsOfAllPropertiesAndTenants()) {
@@ -118,10 +122,11 @@ public class PropertyTenureContractsListActivity extends AppCompatActivity {
             }
         }
         mainToolbar.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.mainMenuUser) {
-                Intent userProfileIntent = new Intent(PropertyTenureContractsListActivity.this, UserProfileActivity.class);
-                startActivityForResult(userProfileIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
-            } else if (item.getItemId() == R.id.mainMenuNotification) {
+//            if (item.getItemId() == R.id.mainMenuUser) {
+//                Intent userProfileIntent = new Intent(PropertyTenureContractsListActivity.this, UserProfileActivity.class);
+//                startActivityForResult(userProfileIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
+//            } else
+            if (item.getItemId() == R.id.mainMenuNotification) {
                 Intent notificationIntent = new Intent(PropertyTenureContractsListActivity.this, NotificationActivity.class);
                 startActivityForResult(notificationIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
             }
@@ -143,6 +148,8 @@ public class PropertyTenureContractsListActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.REQUEST_CODE_TENURE_CONTRACTS_DETAIL) {
+            this.refreshPropertyTenureContractsList();
+        } else if (requestCode == Constants.REQUEST_CODE_ADD_TENURE_CONTRACTS) {
             this.refreshPropertyTenureContractsList();
         }
     }
@@ -172,20 +179,20 @@ public class PropertyTenureContractsListActivity extends AppCompatActivity {
                             getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
                             return;
                         }
-                        if (!dataJsonObject.has("asset_id")) {
-                            getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
-                            return;
-                        }
-                        if (!dataJsonObject.has("tenant_id")) {
-                            getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
-                            return;
-                        }
-                        if (dataJsonObject.getInt("asset_id") != this.propertyId) {
-                            continue;
-                        }
-                        if (dataJsonObject.getInt("tenant_id") != this.tenantId) {
-                            continue;
-                        }
+//                        if (!dataJsonObject.has("asset_id")) {
+//                            getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
+//                            return;
+//                        }
+//                        if (!dataJsonObject.has("tenant_id")) {
+//                            getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
+//                            return;
+//                        }
+//                        if (dataJsonObject.getInt("asset_id") != this.propertyId) {
+//                            continue;
+//                        }
+//                        if (dataJsonObject.getInt("tenant_id") != this.tenantId) {
+//                            continue;
+//                        }
                         if (!dataJsonObject.has("fields")) {
                             getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
                             return;
@@ -235,7 +242,7 @@ public class PropertyTenureContractsListActivity extends AppCompatActivity {
             jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             this.requestQueue.add(jsonObjectRequest);
         } else {
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY_TENURE_CONTRACTS + "/" + this.propertyId, null, response -> {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_TENANT + "/" + this.tenantId + "/" + Constants.TENURE_CONTRACTS, null, response -> {
                 try {
                     if (!response.has("data")) {
                         getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
@@ -251,25 +258,25 @@ public class PropertyTenureContractsListActivity extends AppCompatActivity {
                             getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
                             return;
                         }
-                        if (!dataJsonObject.has("asset_id")) {
-                            getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
-                            return;
-                        }
-                        if (!dataJsonObject.has("tenant_id")) {
-                            getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
-                            return;
-                        }
-                        if (dataJsonObject.getInt("asset_id") != this.propertyId) {
-                            continue;
-                        }
-                        if (dataJsonObject.getInt("tenant_id") != this.tenantId) {
-                            continue;
-                        }
                         if (!dataJsonObject.has("fields")) {
                             getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
                             return;
                         }
                         dataFieldsJsonObject = dataJsonObject.getJSONObject("fields");
+                        if (!dataFieldsJsonObject.has("asset_id")) {
+                            getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
+                            return;
+                        }
+                        if (!dataFieldsJsonObject.has("tenant_id")) {
+                            getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
+                            return;
+                        }
+                        if (dataFieldsJsonObject.getInt("asset_id") != this.propertyId) {
+                            continue;
+                        }
+                        if (dataFieldsJsonObject.getInt("tenant_id") != this.tenantId) {
+                            continue;
+                        }
                         if (!dataFieldsJsonObject.has("contract_name")) {
                             getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
                             return;

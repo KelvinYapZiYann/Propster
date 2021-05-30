@@ -135,10 +135,11 @@ public class LandlordPropertyTenantEditActivity extends AppCompatActivity {
             }
         }
         mainToolbar.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.mainMenuUser) {
-                Intent userProfileIntent = new Intent(LandlordPropertyTenantEditActivity.this, UserProfileActivity.class);
-                startActivityForResult(userProfileIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
-            } else if (item.getItemId() == R.id.mainMenuNotification) {
+//            if (item.getItemId() == R.id.mainMenuUser) {
+//                Intent userProfileIntent = new Intent(LandlordPropertyTenantEditActivity.this, UserProfileActivity.class);
+//                startActivityForResult(userProfileIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
+//            } else
+            if (item.getItemId() == R.id.mainMenuNotification) {
                 Intent notificationIntent = new Intent(LandlordPropertyTenantEditActivity.this, NotificationActivity.class);
                 startActivityForResult(notificationIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
             }

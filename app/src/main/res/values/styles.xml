@@ -13,7 +13,7 @@
         <item name="cornerSize">50%</item>
     </style>
 
-    <style name="property_expenses_uploaded_file_image">
+    <style name="uploaded_file_image">
         <item name="backgroundColor">@color/white</item>
         <item name="strokeColor">@color/disabled_grey</item>
         <item name="strokeWidth">1dp</item>

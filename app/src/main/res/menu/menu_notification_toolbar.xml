@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".content.NotificationActivity">
 
-    <item
-        android:id="@+id/notificationMenuUser"
-        android:orderInCategory="100"
-        android:title="@string/user"
-        android:icon="@drawable/user_ic"
-        app:showAsAction="ifRoom"
-        />
+<!--    <item-->
+<!--        android:id="@+id/notificationMenuUser"-->
+<!--        android:orderInCategory="100"-->
+<!--        android:title="@string/user"-->
+<!--        android:icon="@drawable/user_ic"-->
+<!--        app:showAsAction="ifRoom"-->
+<!--        />-->
 
 </menu>

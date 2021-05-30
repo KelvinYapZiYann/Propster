@@ -86,6 +86,10 @@
     <string name="switch_role_to_tenant">Switch Role To Tenant</string>
     <string name="switch_role_to_landlord">Switch Role To Landlord</string>
 
+    <string name="salary_range_1_to_5000">RM1 to RM5000</string>
+    <string name="salary_range_5001_to_10000">RM5001 to RM10000</string>
+    <string name="salary_range_above_10000">Above RM10000</string>
+
     <!-- FIRST TIME ROLE SELECTION -->
     <string name="select_your_role">Select Your Role</string>
     <string name="first_time_login_as_landlord">First time login as landlord?</string>
@@ -216,6 +220,26 @@
     <!-- PROPERTY TENURE CONTRACTS -->
     <string name="add_property_tenure_contracts">Add Tenure Contracts</string>
 
+    <string name="tenure_contracts_property_name">From Asset</string>
+    <string name="tenure_contracts_tenant_name">From Tenant</string>
+    <string name="tenure_contracts_name">Contract Name</string>
+    <string name="tenure_contracts_description">Contract Description</string>
+    <string name="tenure_contracts_monthly_rental_amount">Monthly Rental Amount</string>
+    <string name="tenure_contracts_monthly_rental_currency_iso">Monthly Rental Currency ISO</string>
+    <string name="tenure_contracts_tenure_start_date">Tenure Start Date</string>
+    <string name="tenure_contracts_tenure_end_date">Tenure End Date</string>
+    <string name="tenure_contracts_uploaded_files">Uploaded Files</string>
+
+    <string name="tenure_contracts_property_name_label">From Asset:</string>
+    <string name="tenure_contracts_tenant_name_label">From Tenant:</string>
+    <string name="tenure_contracts_name_label">Contract Name:</string>
+    <string name="tenure_contracts_description_label">Contract Description:</string>
+    <string name="tenure_contracts_monthly_rental_amount_label">Monthly Rental Amount:</string>
+    <string name="tenure_contracts_monthly_rental_currency_iso_label">Monthly Rental Currency ISO:</string>
+    <string name="tenure_contracts_tenure_start_date_label">Tenure Start Date:</string>
+    <string name="tenure_contracts_tenure_end_date_label">Tenure End Date:</string>
+    <string name="tenure_contracts_uploaded_files_label">Uploaded Files:</string>
+
     <!-- ERROR -->
     <string name="login_error_username_empty">Username cannot be empty</string>
     <string name="login_error_password_empty">Password cannot be empty</string>
@@ -257,6 +281,12 @@
     <string name="property_expenses_vendor_name_empty">Vendor name cannot be empty</string>
     <string name="property_expenses_amount_empty">Amount cannot be empty</string>
     <string name="property_expenses_date_of_expense_empty">Date of expense cannot be empty</string>
+
+    <string name="tenure_contracts_name_empty">Name cannot be empty</string>
+    <string name="tenure_contracts_description_empty">Description cannot be empty</string>
+    <string name="tenure_contracts_monthly_rental_amount_empty">Monthly rental amount cannot be empty</string>
+    <string name="tenure_contracts_tenure_start_date_empty">Tenure start date cannot be empty</string>
+    <string name="tenure_contracts_tenure_end_date_empty">Tenure end date cannot be empty</string>
 
 
 

@@ -15,15 +15,30 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.propster.R;
+import com.propster.login.SplashActivity;
 import com.propster.utils.Constants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ContentActivity extends AppCompatActivity {
 
     private ViewPager2 contentTabPager;
     private ContentTabPageAdapter contentTabPageAdapter;
+
+    private RequestQueue requestQueue;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +53,8 @@ public class ContentActivity extends AppCompatActivity {
             firstTime = extras.getBoolean(Constants.INTENT_EXTRA_CONTENT_FIRST_TIME_LOGIN);
         }
 
+        this.requestQueue = Volley.newRequestQueue(this);
+
         Toolbar mainToolbar = findViewById(R.id.mainToolbar);
         setSupportActionBar(mainToolbar);
         if (getSupportActionBar() != null) {
@@ -46,10 +63,11 @@ public class ContentActivity extends AppCompatActivity {
         mainToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.mainMenuUser) {
-                    Intent userProfileIntent = new Intent(ContentActivity.this, UserProfileActivity.class);
-                    startActivityForResult(userProfileIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
-                } else if (item.getItemId() == R.id.mainMenuNotification) {
+//                if (item.getItemId() == R.id.mainMenuUser) {
+//                    Intent userProfileIntent = new Intent(ContentActivity.this, UserProfileActivity.class);
+//                    startActivityForResult(userProfileIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
+//                } else
+                if (item.getItemId() == R.id.mainMenuNotification) {
                     Intent notificationIntent = new Intent(ContentActivity.this, NotificationActivity.class);
                     startActivityForResult(notificationIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
                 }
@@ -126,6 +144,8 @@ public class ContentActivity extends AppCompatActivity {
         if (firstTime) {
             this.contentTabPager.setCurrentItem(2);
         }
+
+        this.getInitializeParameters();
     }
 
     @Override
@@ -138,21 +158,66 @@ public class ContentActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Constants.REQUEST_CODE_SWITCH_ROLE) {
-            if (resultCode == Activity.RESULT_OK) {
-                SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-                int role = sharedPreferences.getInt(Constants.SHARED_PREFERENCES_ROLE, Constants.ROLE_TENANT);
-                if (role == Constants.ROLE_LANDLORD) {
-                    this.contentTabPageAdapter.setRole(Constants.ROLE_LANDLORD);
-                } else {
-                    this.contentTabPageAdapter.setRole(Constants.ROLE_TENANT);
-                }
-                this.contentTabPageAdapter.reloadContentFragments();
-                if (this.contentTabPager.getCurrentItem() == 0) {
-                    this.contentTabPager.setCurrentItem(1);
-                }
-                this.contentTabPager.setCurrentItem(0);
-            }
+//        if (requestCode == Constants.REQUEST_CODE_SWITCH_ROLE) {
+//            if (resultCode == Activity.RESULT_OK) {
+//                SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+//                int role = sharedPreferences.getInt(Constants.SHARED_PREFERENCES_ROLE, Constants.ROLE_TENANT);
+//                if (role == Constants.ROLE_LANDLORD) {
+//                    this.contentTabPageAdapter.setRole(Constants.ROLE_LANDLORD);
+//                } else {
+//                    this.contentTabPageAdapter.setRole(Constants.ROLE_TENANT);
+//                }
+//                this.contentTabPageAdapter.reloadContentFragments();
+//                if (this.contentTabPager.getCurrentItem() == 0) {
+//                    this.contentTabPager.setCurrentItem(1);
+//                }
+//                this.contentTabPager.setCurrentItem(0);
+//            }
+//        }
+    }
+
+    private void getInitializeParameters() {
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        String sessionId = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, null);
+        if (sessionId == null) {
+            return;
         }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_USER, null, response -> {
+            try {
+                if (!response.has("data")) {
+                    return;
+                }
+                JSONObject dataJsonObject = response.getJSONObject("data");
+                if (!dataJsonObject.has("selected_role")) {
+                    return;
+                }
+                String selectedRole = dataJsonObject.getString("selected_role");
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                if (selectedRole.equals("TENANT")) {
+                    editor.putInt(Constants.SHARED_PREFERENCES_ROLE, Constants.ROLE_TENANT);
+                } else {
+                    editor.putInt(Constants.SHARED_PREFERENCES_ROLE, Constants.ROLE_LANDLORD);
+                }
+                editor.apply();
+            } catch (JSONException ignored) {}
+        }, error -> {
+
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                if (SplashActivity.SESSION_ID.isEmpty()) {
+                    SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                    SplashActivity.SESSION_ID = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, "");
+                }
+                Map<String, String> headerParams = new HashMap<>();
+                headerParams.put("Accept", "application/json");
+                headerParams.put("Content-Type", "application/json");
+                headerParams.put("X-Requested-With", "XMLHttpRequest");
+                headerParams.put("Authorization", SplashActivity.SESSION_ID);
+                return headerParams;
+            }
+        };
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        this.requestQueue.add(jsonObjectRequest);
     }
 }

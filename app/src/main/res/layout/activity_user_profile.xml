@@ -20,6 +20,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_below="@id/userProfileToolbar"
+        android:layout_above="@id/userProfileEditButton"
         >
 
         <RelativeLayout
@@ -347,55 +348,69 @@
 
     </LinearLayout>
 
-    <com.nambimobile.widgets.efab.ExpandableFabLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<!--    <com.nambimobile.widgets.efab.ExpandableFabLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
 
-        <com.nambimobile.widgets.efab.ExpandableFab
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            app:efab_orientation="portrait"
-            android:layout_marginBottom="@dimen/min_group_margin"
-            android:layout_marginEnd="@dimen/min_group_margin"
-            app:efab_color="@color/primary_blue"
-            app:efab_icon="@drawable/more_ic_white"
-            app:efab_iconAnimationRotationDeg="-180"
-            app:efab_closingAnticipateTension="0"
-            app:efab_size="normal"
-            />
+<!--        <com.nambimobile.widgets.efab.ExpandableFab-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="bottom|end"-->
+<!--            app:efab_orientation="portrait"-->
+<!--            android:layout_marginBottom="@dimen/min_group_margin"-->
+<!--            android:layout_marginEnd="@dimen/min_group_margin"-->
+<!--            app:efab_color="@color/primary_blue"-->
+<!--            app:efab_icon="@drawable/more_ic_white"-->
+<!--            app:efab_iconAnimationRotationDeg="-180"-->
+<!--            app:efab_closingAnticipateTension="0"-->
+<!--            app:efab_size="normal"-->
+<!--            />-->
 
-        <com.nambimobile.widgets.efab.FabOption
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/userProfileLogoutButton"
-            app:fab_color="@color/alert_red"
-            app:fab_icon="@drawable/ic_logout_white"
-            app:label_text="@string/logout"
-            app:label_backgroundColor="@color/alert_red"
-            />
+<!--        <com.nambimobile.widgets.efab.FabOption-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/userProfileLogoutButton"-->
+<!--            app:fab_color="@color/alert_red"-->
+<!--            app:fab_icon="@drawable/ic_logout_white"-->
+<!--            app:label_text="@string/logout"-->
+<!--            app:label_backgroundColor="@color/alert_red"-->
+<!--            />-->
 
-        <com.nambimobile.widgets.efab.FabOption
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/userProfileSwitchRoleButton"
-            app:fab_color="@color/primary_blue"
-            app:fab_icon="@drawable/ic_switch_white"
-            app:label_text="@string/switch_role"
-            app:label_backgroundColor="@color/primary_blue"
-            />
+<!--        <com.nambimobile.widgets.efab.FabOption-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/userProfileSwitchRoleButton"-->
+<!--            app:fab_color="@color/primary_blue"-->
+<!--            app:fab_icon="@drawable/ic_switch_white"-->
+<!--            app:label_text="@string/switch_role"-->
+<!--            app:label_backgroundColor="@color/primary_blue"-->
+<!--            />-->
 
-        <com.nambimobile.widgets.efab.FabOption
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/userProfileEditButton"
-            app:fab_color="@color/primary_blue"
-            app:fab_icon="@drawable/ic_edit_white"
-            app:label_text="@string/edit"
-            app:label_backgroundColor="@color/primary_blue"
-            />
+<!--        <com.nambimobile.widgets.efab.FabOption-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/userProfileEditButton"-->
+<!--            app:fab_color="@color/primary_blue"-->
+<!--            app:fab_icon="@drawable/ic_edit_white"-->
+<!--            app:label_text="@string/edit"-->
+<!--            app:label_backgroundColor="@color/primary_blue"-->
+<!--            />-->
 
-    </com.nambimobile.widgets.efab.ExpandableFabLayout>
+<!--    </com.nambimobile.widgets.efab.ExpandableFabLayout>-->
+
+    <android.widget.Button
+        android:layout_width="@dimen/primary_button_width"
+        android:layout_height="wrap_content"
+        android:id="@+id/userProfileEditButton"
+        android:text="@string/edit"
+        android:textColor="@color/white"
+        android:textSize="@dimen/primary_button_font_size"
+        android:background="@drawable/primary_button_background_state"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/primary_button_gap_height"
+        android:layout_marginBottom="@dimen/primary_button_gap_height"
+        android:layout_alignParentBottom="true"
+        />
 
     <View
         android:layout_width="match_parent"

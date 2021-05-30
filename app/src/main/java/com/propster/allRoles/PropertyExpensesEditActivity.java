@@ -138,10 +138,11 @@ public class PropertyExpensesEditActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(this.expenseName);
         }
         mainToolbar.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.mainMenuUser) {
-                Intent userProfileIntent = new Intent(PropertyExpensesEditActivity.this, UserProfileActivity.class);
-                startActivityForResult(userProfileIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
-            } else if (item.getItemId() == R.id.mainMenuNotification) {
+//            if (item.getItemId() == R.id.mainMenuUser) {
+//                Intent userProfileIntent = new Intent(PropertyExpensesEditActivity.this, UserProfileActivity.class);
+//                startActivityForResult(userProfileIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
+//            } else
+            if (item.getItemId() == R.id.mainMenuNotification) {
                 Intent notificationIntent = new Intent(PropertyExpensesEditActivity.this, NotificationActivity.class);
                 startActivityForResult(notificationIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
             }

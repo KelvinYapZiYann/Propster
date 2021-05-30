@@ -297,7 +297,7 @@
                 android:layout_height="@dimen/user_profile_image_height"
                 android:src="@drawable/file_ic"
                 android:id="@+id/propertyExpensesAddUploadedFile"
-                app:shapeAppearanceOverlay="@style/property_expenses_uploaded_file_image"
+                app:shapeAppearanceOverlay="@style/uploaded_file_image"
                 app:srcCompat="@drawable/file_ic"
                 app:strokeColor="@color/disabled_grey"
                 app:strokeWidth="1dp"

@@ -39,7 +39,7 @@ public class ContentTabPageAdapter extends FragmentStateAdapter {
             case 3:
                 return this.contentCommunityFragment = new ContentCommunityFragment();
             case 4:
-                return this.contentMoreFragment = new ContentMoreFragment();
+                return this.contentMoreFragment = new ContentMoreFragment(this.activity, this);
             default:
                 return this.contentHomeFragment = new ContentHomeFragment();
         }

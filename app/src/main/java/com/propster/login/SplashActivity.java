@@ -6,7 +6,8 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
 import android.os.Bundle;
-import android.view.WindowManager;
+import android.view.WindowInsets;
+import android.view.WindowInsetsController;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -44,9 +45,13 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//        WindowInsetsController insetsController = getWindow().getInsetsController();
+//        if (insetsController != null) {
+//            insetsController.hide(WindowInsets.Type.statusBars());
+//        }
 
         Animation splashAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_splash);
         ImageView splashLogo = findViewById(R.id.splashLogo);
@@ -84,30 +89,70 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void checkAppVersion() {
-//        JSONObject postData = new JSONObject();
-//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.URL_CHECK_SESSION_ID, postData, new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject response) {
-//                System.out.println(response);
-//                try {
-//                    if (getPackageManager().getPackageInfo(getPackageName(), 0).versionName.equals("")) {
-//                        checkAppVersionSuccess();
-//                    } else {
-//                        checkAppVersionFailed();
-//                    }
-//                } catch (Exception e) {
-//                    checkAppVersionFailed();
-//                }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_APP_VERSION, null, response -> {
+            try {
+                if (!response.has("minimum_version")) {
+                    checkAppVersionFailed();
+                    return;
+                }
+                if (this.compareAppVersionString(getPackageManager().getPackageInfo(getPackageName(), 0).versionName, response.getString("minimum_version"))) {
+                    checkAppVersionSuccess();
+                } else {
+                    checkAppVersionFailed();
+                }
+            } catch (Exception e) {
+                checkAppVersionFailed();
+            }
+        }, error -> {
+//            try {
+//                System.out.println("status code ==> " + error.networkResponse.statusCode);
+//                System.out.println("error ==> " + new String(error.networkResponse.data));
+//            } catch (Exception e) {
+//                e.printStackTrace();
 //            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                checkAppVersionFailed();
-//                error.printStackTrace();
-//            }
-//        });
-//        this.requestQueue.add(jsonObjectRequest);
-        checkAppVersionSuccess();
+//            System.out.println("bruh pls...");
+            checkAppVersionFailed();
+        });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        this.requestQueue.add(jsonObjectRequest);
+//        checkAppVersionSuccess();
+    }
+
+    private boolean compareAppVersionString(String appVersion, String responseFromServer) {
+        int appVersionIndex = appVersion.indexOf("-");
+        int responseFromServerIndex = responseFromServer.indexOf("-");
+
+        if (appVersionIndex == 0) {
+            return false;
+        }
+        if (responseFromServerIndex == 0) {
+            return false;
+        }
+        String appVersionName = appVersion.substring(0, appVersionIndex);
+        String responseFromServerName = appVersion.substring(0, responseFromServerIndex);
+        byte[] appVersionNameByteArray = appVersionName.getBytes(StandardCharsets.UTF_8);
+        byte[] responseFromServerNameByteArray = responseFromServerName.getBytes(StandardCharsets.UTF_8);
+        if ((appVersionNameByteArray[0] & (0xFF)) > (responseFromServerNameByteArray[0]  & (0xFF))) {
+            return true;
+        } else if ((appVersionNameByteArray[0] & (0xFF)) < (responseFromServerNameByteArray[0]  & (0xFF))) {
+            return false;
+        } else {
+            String appVersionNumber = appVersion.substring(appVersionIndex + 1);
+            String responseFromServerNumber = responseFromServer.substring(responseFromServerIndex + 1);
+            String[] appVersionNumberArray = appVersionNumber.split("\\.");
+            String[] responseFromServerNumberArray = responseFromServerNumber.split("\\.");
+            if (appVersionNumberArray.length != responseFromServerNumberArray.length) {
+                return false;
+            }
+            for (int i = 0; i < appVersionNumberArray.length; i++) {
+                if (Integer.parseInt(appVersionNumberArray[i]) > Integer.parseInt(responseFromServerNumberArray[i])) {
+                    return true;
+                } else if (Integer.parseInt(appVersionNumberArray[i]) < Integer.parseInt(responseFromServerNumberArray[i])) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     private void checkAppVersionSuccess() {

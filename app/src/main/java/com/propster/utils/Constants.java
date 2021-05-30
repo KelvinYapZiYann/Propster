@@ -52,7 +52,9 @@ public class Constants {
     public static final int REQUEST_CODE_ADD_PROPERTY_EXPENSES = 6200;
     public static final int REQUEST_CODE_PROPERTY_EXPENSES_DETAIL = 6500;
     public static final int REQUEST_CODE_PROPERTY_EXPENSES_IMAGE_DOCUMENT = 6700;
-    public static final int REQUEST_CODE_TENURE_CONTRACTS_DETAIL = 7000;
+    public static final int REQUEST_CODE_ADD_TENURE_CONTRACTS = 7000;
+    public static final int REQUEST_CODE_TENURE_CONTRACTS_DETAIL = 7200;
+    public static final int REQUEST_CODE_TENURE_CONTRACTS_IMAGE_DOCUMENT = 7500;
 
     /* SHARED PREFERENCES */
     public static final String SHARED_PREFERENCES = "Propster_SP";
@@ -76,9 +78,14 @@ public class Constants {
     public static final String SESSION_ID_PREFIX = "Bearer ";
 
     /* URL */
+    public static final String PROPERTY = "assets";
+    public static final String TENANTS = "tenants";
+    public static final String PROPERTY_EXPENSES = "asset-expenses";
+    public static final String TENURE_CONTRACTS = "tenure-contracts";
     public static final String URL_BASE = "https://propster.io/api/dashboard/";
 
     public static final String URL_LOGIN = URL_BASE + "login";
+    public static final String URL_APP_VERSION = URL_BASE + "app-version?os_type=android";
     public static final String URL_CHECK_MIDDLEWARE_VERIFICATION = URL_BASE + "middleware-verification";
     public static final String URL_RESEND_EMAIL_VERIFICATION = URL_BASE + "email-not-verified";
     public static final String URL_UPDATE_FCM_TOKEN = URL_BASE + "";
@@ -91,8 +98,8 @@ public class Constants {
     public static final String URL_LANDLORD_PROPERTY = URL_BASE + "assets";
     public static final String URL_LANDLORD_TENANT = URL_BASE + "tenants";
     public static final String URL_LANDLORD_PROPERTY_TENANT = URL_LANDLORD_PROPERTY + "/tenants";
-    public static final String URL_LANDLORD_PROPERTY_PROPERTY_EXPENSES = URL_LANDLORD_PROPERTY + "/asset-expenses";
-    public static final String URL_LANDLORD_PROPERTY_TENURE_CONTRACTS = URL_LANDLORD_PROPERTY + "/tenure-contract";
+//    public static final String URL_LANDLORD_PROPERTY_PROPERTY_EXPENSES = URL_LANDLORD_PROPERTY + "/asset-expenses";
+//    public static final String URL_LANDLORD_PROPERTY_TENURE_CONTRACTS = URL_LANDLORD_PROPERTY + "/tenure-contract";
     public static final String URL_LANDLORD_PROPERTY_EXPENSES = URL_BASE + "asset-expenses";
     public static final String URL_LANDLORD_TENURE_CONTRACTS = URL_BASE + "tenure-contracts";
 

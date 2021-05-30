@@ -12,11 +12,11 @@
         app:showAsAction="ifRoom"
         />
 
-    <item
-        android:id="@+id/mainMenuUser"
-        android:orderInCategory="200"
-        android:title="@string/user"
-        android:icon="@drawable/user_ic"
-        app:showAsAction="ifRoom"
-        />
+<!--    <item-->
+<!--        android:id="@+id/mainMenuUser"-->
+<!--        android:orderInCategory="200"-->
+<!--        android:title="@string/user"-->
+<!--        android:icon="@drawable/user_ic"-->
+<!--        app:showAsAction="ifRoom"-->
+<!--        />-->
 </menu>

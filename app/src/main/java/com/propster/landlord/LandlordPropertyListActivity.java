@@ -26,7 +26,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.propster.R;
 import com.propster.content.NotificationActivity;
-import com.propster.content.UserProfileActivity;
 import com.propster.login.SplashActivity;
 import com.propster.utils.Constants;
 
@@ -105,10 +104,11 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(R.string.app_name);
         }
         mainToolbar.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.mainMenuUser) {
-                Intent userProfileIntent = new Intent(LandlordPropertyListActivity.this, UserProfileActivity.class);
-                startActivityForResult(userProfileIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
-            } else if (item.getItemId() == R.id.mainMenuNotification) {
+//            if (item.getItemId() == R.id.mainMenuUser) {
+//                Intent userProfileIntent = new Intent(LandlordPropertyListActivity.this, UserProfileActivity.class);
+//                startActivityForResult(userProfileIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
+//            } else
+            if (item.getItemId() == R.id.mainMenuNotification) {
                 Intent notificationIntent = new Intent(LandlordPropertyListActivity.this, NotificationActivity.class);
                 startActivityForResult(notificationIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
             }
@@ -200,7 +200,7 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
 //                        dataExpensesJsonObject = dataExpensesJsonArray.getJSONObject(j);
 //                        expensesIdArray[j] = dataExpensesJsonObject.getInt("id");
 //                    }
-                    propertyListItems.add(new LandlordPropertyListItem(dataFieldsJsonObject.getString("asset_nickname"), dataJsonObject.getInt("id"), tenantIdArray, null,0, 0));
+                    propertyListItems.add(new LandlordPropertyListItem(dataFieldsJsonObject.getString("asset_nickname"), dataJsonObject.getInt("id"), tenantIdArray,0, 0));
                 }
                 landlordManageGetPropertyListSuccess(propertyListItems);
             } catch (JSONException e) {

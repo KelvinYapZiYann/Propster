@@ -3,10 +3,61 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <android.widget.Button
+        android:layout_width="@dimen/primary_button_width"
+        android:layout_height="wrap_content"
+        android:id="@+id/contentMoreUserProfileButton"
+        android:text="@string/user"
+        android:textColor="@color/white"
+        android:textSize="@dimen/primary_button_font_size"
+        android:background="@drawable/primary_button_background_state"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/primary_button_gap_height"
+        />
+
+    <android.widget.Button
+        android:layout_width="@dimen/primary_button_width"
+        android:layout_height="wrap_content"
+        android:id="@+id/contentMoreSwitchRoleButton"
+        android:text="@string/switch_role"
+        android:textColor="@color/white"
+        android:textSize="@dimen/primary_button_font_size"
+        android:background="@drawable/primary_button_background_state"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/primary_button_gap_height"
+        android:layout_below="@id/contentMoreUserProfileButton"
+        />
+
+    <android.widget.Button
+        android:layout_width="@dimen/primary_button_width"
+        android:layout_height="wrap_content"
+        android:id="@+id/contentMoreLogoutButton"
+        android:text="@string/logout"
+        android:textColor="@color/white"
+        android:textSize="@dimen/primary_button_font_size"
+        android:background="@drawable/alert_button_background_state"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/primary_button_gap_height"
+        android:layout_below="@id/contentMoreSwitchRoleButton"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/contentMoreBackground"
+        android:background="@color/background_black"
+        android:visibility="gone"
+        />
+
+    <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="more"
+        android:id="@+id/contentMoreLoadingSpinner"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/secondary_blue"
+        android:visibility="gone"
         />
 
 </RelativeLayout>

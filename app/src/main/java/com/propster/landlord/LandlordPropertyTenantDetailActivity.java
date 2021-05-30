@@ -58,6 +58,7 @@ public class LandlordPropertyTenantDetailActivity extends AppCompatActivity {
     private RequestQueue requestQueue;
 
     private int propertyId;
+    private String propertyName;
     private int tenantId;
     private String tenantName;
 
@@ -69,10 +70,12 @@ public class LandlordPropertyTenantDetailActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if(extras == null) {
             this.propertyId = -1;
+            this.propertyName = null;
             this.tenantId = -1;
             this.tenantName = null;
         } else {
             this.propertyId = extras.getInt(Constants.INTENT_EXTRA_PROPERTY_ID, -1);
+            this.propertyName = extras.getString(Constants.INTENT_EXTRA_PROPERTY_NAME, null);
             this.tenantId = extras.getInt(Constants.INTENT_EXTRA_TENANT_ID, -1);
             this.tenantName = extras.getString(Constants.INTENT_EXTRA_TENANT_NAME, null);
         }
@@ -101,6 +104,7 @@ public class LandlordPropertyTenantDetailActivity extends AppCompatActivity {
         this.landlordPropertyTenantDetailTenureContractButton.setOnClickListener(v -> {
             Intent tenureContractsListIntent = new Intent(LandlordPropertyTenantDetailActivity.this, PropertyTenureContractsListActivity.class);
             tenureContractsListIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_ID, propertyId);
+            tenureContractsListIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_NAME, propertyName);
             tenureContractsListIntent.putExtra(Constants.INTENT_EXTRA_TENANT_ID, tenantId);
             tenureContractsListIntent.putExtra(Constants.INTENT_EXTRA_TENANT_NAME, tenantName);
             startActivity(tenureContractsListIntent);
@@ -121,10 +125,11 @@ public class LandlordPropertyTenantDetailActivity extends AppCompatActivity {
 
         }
         mainToolbar.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.mainMenuUser) {
-                Intent userProfileIntent = new Intent(LandlordPropertyTenantDetailActivity.this, UserProfileActivity.class);
-                startActivityForResult(userProfileIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
-            } else if (item.getItemId() == R.id.mainMenuNotification) {
+//            if (item.getItemId() == R.id.mainMenuUser) {
+//                Intent userProfileIntent = new Intent(LandlordPropertyTenantDetailActivity.this, UserProfileActivity.class);
+//                startActivityForResult(userProfileIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
+//            } else
+            if (item.getItemId() == R.id.mainMenuNotification) {
                 Intent notificationIntent = new Intent(LandlordPropertyTenantDetailActivity.this, NotificationActivity.class);
                 startActivityForResult(notificationIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
             }
@@ -207,23 +212,23 @@ public class LandlordPropertyTenantDetailActivity extends AppCompatActivity {
             String salaryRange = dataFieldsJsonObject.getString("salary_range");
             switch (salaryRange) {
                 case "1_TO_5000":
-                    this.landlordPropertyTenantDetailSalaryRange.setText("RM1 to RM5000");
+                    this.landlordPropertyTenantDetailSalaryRange.setText(R.string.salary_range_1_to_5000);
                     break;
                 case "5001_TO_10000":
-                    this.landlordPropertyTenantDetailSalaryRange.setText("RM50001 to RM10000");
+                    this.landlordPropertyTenantDetailSalaryRange.setText(R.string.salary_range_5001_to_10000);
                     break;
                 case "ABOVE_10000":
-                    this.landlordPropertyTenantDetailSalaryRange.setText("Above RM10000");
+                    this.landlordPropertyTenantDetailSalaryRange.setText(R.string.salary_range_above_10000);
                     break;
                 default:
                     try {
                         float tmpSalaryRange = Float.parseFloat(salaryRange);
                         if (tmpSalaryRange <= 5000) {
-                            this.landlordPropertyTenantDetailSalaryRange.setText("RM1 to RM5000");
+                            this.landlordPropertyTenantDetailSalaryRange.setText(R.string.salary_range_1_to_5000);
                         } else if (tmpSalaryRange <= 10000) {
-                            this.landlordPropertyTenantDetailSalaryRange.setText("RM50001 to RM10000");
+                            this.landlordPropertyTenantDetailSalaryRange.setText(R.string.salary_range_5001_to_10000);
                         } else {
-                            this.landlordPropertyTenantDetailSalaryRange.setText("Above RM10000");
+                            this.landlordPropertyTenantDetailSalaryRange.setText(R.string.salary_range_above_10000);
                         }
                     } catch (Exception e) {
                         this.landlordPropertyTenantDetailSalaryRange.setText(salaryRange);

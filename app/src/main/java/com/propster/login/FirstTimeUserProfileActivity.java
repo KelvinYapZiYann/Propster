@@ -125,7 +125,7 @@ public class FirstTimeUserProfileActivity extends AppCompatActivity {
             datePickerDialog.show();
         });
 
-        this.userProfileImage.setOnClickListener(view -> doChooseImage());
+//        this.userProfileImage.setOnClickListener(view -> doChooseImage());
 
         this.userProfileSaveButton = findViewById(R.id.firstTimeUserProfileSaveButton);
         this.userProfileSaveButton.setOnClickListener(view -> doSaveUserProfile());

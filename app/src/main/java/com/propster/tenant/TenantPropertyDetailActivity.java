@@ -29,10 +29,11 @@ public class TenantPropertyDetailActivity extends AppCompatActivity {
         mainToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.mainMenuUser) {
-                    Intent userProfileIntent = new Intent(TenantPropertyDetailActivity.this, UserProfileActivity.class);
-                    startActivityForResult(userProfileIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
-                } else if (item.getItemId() == R.id.mainMenuNotification) {
+//                if (item.getItemId() == R.id.mainMenuUser) {
+//                    Intent userProfileIntent = new Intent(TenantPropertyDetailActivity.this, UserProfileActivity.class);
+//                    startActivityForResult(userProfileIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
+//                } else
+                if (item.getItemId() == R.id.mainMenuNotification) {
                     Intent notificationIntent = new Intent(TenantPropertyDetailActivity.this, NotificationActivity.class);
                     startActivityForResult(notificationIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
                 }

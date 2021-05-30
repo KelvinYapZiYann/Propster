@@ -28,7 +28,7 @@ public class NotificationActivity extends AppCompatActivity {
 
     private RequestQueue requestQueue;
 
-    private boolean doesUserSwitchRole = false;
+//    private boolean doesUserSwitchRole = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,21 +48,21 @@ public class NotificationActivity extends AppCompatActivity {
         notificationToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.notificationMenuUser) {
-                    Intent userProfileIntent = new Intent(NotificationActivity.this, UserProfileActivity.class);
-                    startActivityForResult(userProfileIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
-                }
+//                if (item.getItemId() == R.id.notificationMenuUser) {
+//                    Intent userProfileIntent = new Intent(NotificationActivity.this, UserProfileActivity.class);
+//                    startActivityForResult(userProfileIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
+//                }
                 return false;
             }
         });
         notificationToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (doesUserSwitchRole) {
-                    setResult(Activity.RESULT_OK);
-                } else {
-                    setResult(Activity.RESULT_CANCELED);
-                }
+//                if (doesUserSwitchRole) {
+//                    setResult(Activity.RESULT_OK);
+//                } else {
+//                    setResult(Activity.RESULT_CANCELED);
+//                }
                 finish();
             }
         });
@@ -78,11 +78,11 @@ public class NotificationActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Constants.REQUEST_CODE_SWITCH_ROLE) {
-            if (resultCode == Activity.RESULT_OK) {
-                this.doesUserSwitchRole = true;
-            }
-        }
+//        if (requestCode == Constants.REQUEST_CODE_SWITCH_ROLE) {
+//            if (resultCode == Activity.RESULT_OK) {
+//                this.doesUserSwitchRole = true;
+//            }
+//        }
     }
 
     private void startLoadingSpinner() {

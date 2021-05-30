@@ -117,7 +117,7 @@ public class UserProfileEditActivity extends AppCompatActivity {
             datePickerDialog.show();
         });
 
-        this.userProfileEditImage.setOnClickListener(view -> doChooseImage());
+//        this.userProfileEditImage.setOnClickListener(view -> doChooseImage());
 
         this.userProfileEditSaveButton = findViewById(R.id.userProfileEditSaveButton);
         this.userProfileEditSaveButton.setOnClickListener(v -> this.doSaveUserProfile());
@@ -245,12 +245,33 @@ public class UserProfileEditActivity extends AppCompatActivity {
             postData.put("last_name", this.userProfileEditLastName.getText().toString());
             postData.put("date_of_birth", this.userProfileEditDateOfBirth.getText().toString());
             postData.put("is_business", this.userProfileEditIsBusiness.getSelectedItemId() != 0);
+            System.out.println("postData ++ > " + postData.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        System.out.println("this.userId ==> " + this.userId);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, Constants.URL_USER + "/" + this.userId, postData, response -> saveUserProfileSuccess(), error -> {
+            try {
+                System.out.println("error = " + new String(error.networkResponse.data));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             saveUserProfileFailed(Constants.ERROR_COMMON);
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                if (SplashActivity.SESSION_ID.isEmpty()) {
+                    SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                    SplashActivity.SESSION_ID = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, "");
+                }
+                Map<String, String> headerParams = new HashMap<>();
+                headerParams.put("Accept", "application/json");
+                headerParams.put("Content-Type", "application/json");
+                headerParams.put("X-Requested-With", "XMLHttpRequest");
+                headerParams.put("Authorization", SplashActivity.SESSION_ID);
+                return headerParams;
+            }
+        };
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         this.requestQueue.add(jsonObjectRequest);
     }
@@ -301,10 +322,10 @@ public class UserProfileEditActivity extends AppCompatActivity {
             this.userProfileEditFirstName.setText(dataFieldsJsonObject.getString("first_name"));
             this.userProfileEditLastName.setText(dataFieldsJsonObject.getString("last_name"));
             this.userProfileEditGender.setSelection(dataFieldsJsonObject.getString("gender").equalsIgnoreCase("male") ? 0 : 1);
-            this.userProfileEditIsBusiness.setSelection(dataFieldsJsonObject.getInt("is_business"));
+            this.userProfileEditIsBusiness.setSelection(dataFieldsJsonObject.getBoolean("is_business") ? 1 : 0);
             String dateOfBirth = dataFieldsJsonObject.getString("date_of_birth");
             this.userProfileEditDateOfBirth.setText(dateOfBirth.length() > 10 ? dateOfBirth.substring(0, 10) : dateOfBirth);
-            getSupportActionBar().setTitle(dataFieldsJsonObject.getString("Full Name"));
+            getSupportActionBar().setTitle(dataFieldsJsonObject.getString("full_name"));
             this.stopLoadingSpinner();
         } catch (JSONException e) {
             e.printStackTrace();

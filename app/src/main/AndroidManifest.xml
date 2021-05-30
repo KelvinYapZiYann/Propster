@@ -74,7 +74,9 @@
         <activity android:name=".allRoles.PropertyExpensesEditActivity"/>
 
         <activity android:name=".allRoles.PropertyTenureContractsListActivity"/>
+        <activity android:name=".allRoles.AddPropertyTenureContractsActivity"/>
         <activity android:name=".allRoles.PropertyTenureContractsDetailActivity"/>
+        <activity android:name=".allRoles.PropertyTenureContractsEditActivity"/>
 
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"

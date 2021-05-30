@@ -25,7 +25,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.propster.R;
 import com.propster.content.NotificationActivity;
-import com.propster.content.UserProfileActivity;
 import com.propster.login.SplashActivity;
 import com.propster.utils.Constants;
 
@@ -115,10 +114,11 @@ public class PropertyExpensesListActivity extends AppCompatActivity {
             }
         }
         mainToolbar.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.mainMenuUser) {
-                Intent userProfileIntent = new Intent(PropertyExpensesListActivity.this, UserProfileActivity.class);
-                startActivityForResult(userProfileIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
-            } else if (item.getItemId() == R.id.mainMenuNotification) {
+//            if (item.getItemId() == R.id.mainMenuUser) {
+//                Intent userProfileIntent = new Intent(PropertyExpensesListActivity.this, UserProfileActivity.class);
+//                startActivityForResult(userProfileIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
+//            } else
+            if (item.getItemId() == R.id.mainMenuNotification) {
                 Intent notificationIntent = new Intent(PropertyExpensesListActivity.this, NotificationActivity.class);
                 startActivityForResult(notificationIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
             }
@@ -234,7 +234,7 @@ public class PropertyExpensesListActivity extends AppCompatActivity {
                 getPropertyExpensesListFailed(Constants.ERROR_COMMON);
                 return;
             }
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY_PROPERTY_EXPENSES + "/" + this.propertyId, null, response -> {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY + "/" + this.propertyId + "/" + Constants.PROPERTY_EXPENSES, null, response -> {
                 try {
                     if (!response.has("data")) {
                         getPropertyExpensesListFailed(Constants.ERROR_COMMON);

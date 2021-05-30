@@ -29,7 +29,6 @@ import com.google.android.material.imageview.ShapeableImageView;
 import com.nambimobile.widgets.efab.FabOption;
 import com.propster.R;
 import com.propster.content.NotificationActivity;
-import com.propster.content.UserProfileActivity;
 import com.propster.login.SplashActivity;
 import com.propster.utils.Constants;
 
@@ -117,10 +116,11 @@ public class PropertyExpensesDetailActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(this.expenseName);
         }
         mainToolbar.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.mainMenuUser) {
-                Intent userProfileIntent = new Intent(PropertyExpensesDetailActivity.this, UserProfileActivity.class);
-                startActivityForResult(userProfileIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
-            } else if (item.getItemId() == R.id.mainMenuNotification) {
+//            if (item.getItemId() == R.id.mainMenuUser) {
+//                Intent userProfileIntent = new Intent(PropertyExpensesDetailActivity.this, UserProfileActivity.class);
+//                startActivityForResult(userProfileIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
+//            } else
+            if (item.getItemId() == R.id.mainMenuNotification) {
                 Intent notificationIntent = new Intent(PropertyExpensesDetailActivity.this, NotificationActivity.class);
                 startActivityForResult(notificationIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
             }
@@ -160,7 +160,6 @@ public class PropertyExpensesDetailActivity extends AppCompatActivity {
         }
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY_EXPENSES + "/" + this.expenseId, null, response -> {
             try {
-                System.out.println("response = " + response.toString());
                 if (!response.has("data")) {
                     getPropertyExpensesDetailFailed(Constants.ERROR_COMMON);
                     return;

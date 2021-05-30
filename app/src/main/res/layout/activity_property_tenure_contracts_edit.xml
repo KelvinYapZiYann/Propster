@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".allRoles.PropertyExpensesEditActivity">
+    tools:context=".allRoles.PropertyTenureContractsEditActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/propertyExpensesEditToolbar"
+        android:id="@+id/tenureContractsEditToolbar"
         app:navigationIcon="?attr/homeAsUpIndicator"
         android:elevation="@dimen/toolbar_elevation"
         android:background="@color/white"
@@ -21,8 +21,9 @@
         android:layout_marginStart="@dimen/min_group_margin"
         android:layout_marginEnd="@dimen/min_group_margin"
         android:layout_marginTop="@dimen/min_group_margin"
-        android:layout_below="@id/propertyExpensesEditToolbar"
-        android:layout_above="@id/propertyExpensesEditSaveButton">
+        android:layout_below="@id/tenureContractsEditToolbar"
+        android:layout_above="@id/tenureContractsEditSaveButton"
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -32,72 +33,30 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/propertyExpensesEditDescriptionLabel"
-                android:text="@string/property_expenses_payment_description_label"
+                android:id="@+id/tenureContractsEditPropertyNameLabel"
+                android:text="@string/tenure_contracts_property_name_label"
                 android:textColor="@color/black"
                 android:textSize="@dimen/input_field_font_size"
                 />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/input_field_gap_height"
-                android:id="@+id/propertyExpensesEditDescriptionAlert"
-                android:text="@string/property_expenses_description_empty"
-                android:textColor="@color/alert_red"
-                android:textSize="@dimen/input_field_alert_font_size"
-                android:visibility="invisible"
-                android:layout_toEndOf="@id/propertyExpensesEditDescriptionLabel"
-                android:layout_marginStart="@dimen/min_group_margin"
-                />
+            <!--            <TextView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="@dimen/input_field_gap_height"-->
+            <!--                android:id="@+id/tenureContractsEditPropertyNameAlert"-->
+            <!--                android:text="@string/property_expenses_description_empty"-->
+            <!--                android:textColor="@color/alert_red"-->
+            <!--                android:textSize="@dimen/input_field_alert_font_size"-->
+            <!--                android:visibility="invisible"-->
+            <!--                android:layout_toEndOf="@id/tenureContractsEditPropertyNameLabel"-->
+            <!--                android:layout_marginStart="@dimen/min_group_margin"-->
+            <!--                />-->
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/input_field_height"
-                android:id="@+id/propertyExpensesEditDescription"
+                android:id="@+id/tenureContractsEditPropertyName"
                 android:autofillHints=""
-                android:hint="@string/property_expenses_payment_description"
-                android:inputType="text"
-                android:textAlignment="textStart"
-                android:textSize="@dimen/input_field_font_size"
-                android:textColor="@color/black"
-                android:textColorHint="@color/disabled_grey"
-                android:background="@drawable/edittext_background_state"
-                android:layout_below="@id/propertyExpensesEditDescriptionLabel"
-                android:paddingStart="@dimen/input_field_gap_height"
-                tools:ignore="RtlSymmetry"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/propertyExpensesEditPropertyNameLabel"
-                android:text="@string/property_expenses_property_name_label"
-                android:textColor="@color/black"
-                android:textSize="@dimen/input_field_font_size"
-                android:layout_below="@id/propertyExpensesEditDescription"
-                android:layout_marginTop="@dimen/input_field_gap_height"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/input_field_gap_height"
-                android:id="@+id/propertyExpensesEditPropertyNameAlert"
-                android:text="@string/property_expenses_from_property_empty"
-                android:textColor="@color/alert_red"
-                android:textSize="@dimen/input_field_alert_font_size"
-                android:visibility="invisible"
-                android:layout_below="@id/propertyExpensesEditDescription"
-                android:layout_toEndOf="@id/propertyExpensesEditPropertyNameLabel"
-                android:layout_marginStart="@dimen/min_group_margin"
-                android:layout_marginTop="@dimen/input_field_gap_height"
-                />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/input_field_height"
-                android:id="@+id/propertyExpensesEditPropertyName"
-                android:autofillHints=""
-                android:hint="@string/property_expenses_property_name"
+                android:hint="@string/tenure_contracts_property_name"
                 android:inputType="text"
                 android:enabled="false"
                 android:textAlignment="textStart"
@@ -105,7 +64,7 @@
                 android:textColor="@color/black"
                 android:textColorHint="@color/disabled_grey"
                 android:background="@drawable/edittext_background_state"
-                android:layout_below="@id/propertyExpensesEditPropertyNameLabel"
+                android:layout_below="@id/tenureContractsEditPropertyNameLabel"
                 android:paddingStart="@dimen/input_field_gap_height"
                 tools:ignore="RtlSymmetry"
                 />
@@ -113,83 +72,42 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/propertyExpensesEditTypeLabel"
-                android:text="@string/property_expenses_expense_type_label"
+                android:id="@+id/tenureContractsEditTenantNameLabel"
+                android:text="@string/tenure_contracts_tenant_name_label"
                 android:textColor="@color/black"
                 android:textSize="@dimen/input_field_font_size"
-                android:layout_below="@id/propertyExpensesEditPropertyName"
+                android:layout_below="@id/tenureContractsEditPropertyName"
                 android:layout_marginTop="@dimen/input_field_gap_height"
                 />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/input_field_gap_height"
-                android:id="@+id/propertyExpensesEditTypeAlert"
-                android:text="@string/property_expenses_property_type_empty"
-                android:textColor="@color/alert_red"
-                android:textSize="@dimen/input_field_alert_font_size"
-                android:visibility="invisible"
-                android:layout_below="@id/propertyExpensesEditPropertyName"
-                android:layout_toEndOf="@id/propertyExpensesEditTypeLabel"
-                android:layout_marginStart="@dimen/min_group_margin"
-                android:layout_marginTop="@dimen/input_field_gap_height"
-                />
+            <!--            <TextView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="@dimen/input_field_gap_height"-->
+            <!--                android:id="@+id/tenureContractsEditTenantNameAlert"-->
+            <!--                android:text="@string/tenure_contracts_name_empty"-->
+            <!--                android:textColor="@color/alert_red"-->
+            <!--                android:textSize="@dimen/input_field_alert_font_size"-->
+            <!--                android:visibility="invisible"-->
+            <!--                android:layout_below="@id/tenureContractsEditPropertyName"-->
+            <!--                android:layout_toEndOf="@id/tenureContractsEditTenantNameLabel"-->
+            <!--                android:layout_marginStart="@dimen/min_group_margin"-->
+            <!--                android:layout_marginTop="@dimen/input_field_gap_height"-->
+            <!--                />-->
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/input_field_height"
-                android:id="@+id/propertyExpensesEditType"
+                android:id="@+id/tenureContractsEditTenantName"
                 android:autofillHints=""
-                android:inputType="text"
-                android:hint="@string/property_expenses_expense_type"
-                android:textAlignment="textStart"
-                android:textSize="@dimen/input_field_font_size"
-                android:textColor="@color/black"
-                android:textColorHint="@color/disabled_grey"
-                android:background="@drawable/edittext_background_state"
-                android:layout_below="@id/propertyExpensesEditTypeLabel"
-                android:paddingStart="@dimen/input_field_gap_height"
-                tools:ignore="RtlSymmetry"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/propertyExpensesEditVendorLabel"
-                android:text="@string/property_expenses_vendor_name_label"
-                android:textColor="@color/black"
-                android:textSize="@dimen/input_field_font_size"
-                android:layout_below="@id/propertyExpensesEditType"
-                android:layout_marginTop="@dimen/input_field_gap_height"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/input_field_gap_height"
-                android:id="@+id/propertyExpensesEditVendorAlert"
-                android:text="@string/property_expenses_vendor_name_empty"
-                android:textColor="@color/alert_red"
-                android:textSize="@dimen/input_field_alert_font_size"
-                android:visibility="invisible"
-                android:layout_below="@id/propertyExpensesEditType"
-                android:layout_toEndOf="@id/propertyExpensesEditVendorLabel"
-                android:layout_marginStart="@dimen/min_group_margin"
-                android:layout_marginTop="@dimen/input_field_gap_height"
-                />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/input_field_height"
-                android:id="@+id/propertyExpensesEditVendor"
-                android:autofillHints=""
-                android:hint="@string/property_expenses_vendor_name"
+                android:hint="@string/tenure_contracts_tenant_name"
+                android:enabled="false"
                 android:inputType="text"
                 android:textAlignment="textStart"
                 android:textSize="@dimen/input_field_font_size"
                 android:textColor="@color/black"
                 android:textColorHint="@color/disabled_grey"
                 android:background="@drawable/edittext_background_state"
-                android:layout_below="@id/propertyExpensesEditVendorLabel"
+                android:layout_below="@id/tenureContractsEditTenantNameLabel"
                 android:paddingStart="@dimen/input_field_gap_height"
                 tools:ignore="RtlSymmetry"
                 />
@@ -197,24 +115,24 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/propertyExpensesEditAmountLabel"
-                android:text="@string/property_expenses_amount_label"
+                android:id="@+id/tenureContractsEditNameLabel"
+                android:text="@string/tenure_contracts_name_label"
                 android:textColor="@color/black"
                 android:textSize="@dimen/input_field_font_size"
-                android:layout_below="@id/propertyExpensesEditVendor"
+                android:layout_below="@id/tenureContractsEditTenantName"
                 android:layout_marginTop="@dimen/input_field_gap_height"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/input_field_gap_height"
-                android:id="@+id/propertyExpensesEditAmountAlert"
-                android:text="@string/property_expenses_amount_empty"
+                android:id="@+id/tenureContractsEditNameAlert"
+                android:text="@string/tenure_contracts_name_empty"
                 android:textColor="@color/alert_red"
                 android:textSize="@dimen/input_field_alert_font_size"
                 android:visibility="invisible"
-                android:layout_below="@id/propertyExpensesEditVendor"
-                android:layout_toEndOf="@id/propertyExpensesEditAmountLabel"
+                android:layout_below="@id/tenureContractsEditTenantName"
+                android:layout_toEndOf="@id/tenureContractsEditNameLabel"
                 android:layout_marginStart="@dimen/min_group_margin"
                 android:layout_marginTop="@dimen/input_field_gap_height"
                 />
@@ -222,16 +140,100 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/input_field_height"
-                android:id="@+id/propertyExpensesEditAmount"
+                android:id="@+id/tenureContractsEditName"
                 android:autofillHints=""
-                android:hint="@string/property_expenses_amount"
+                android:hint="@string/tenure_contracts_name"
+                android:inputType="text"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/input_field_font_size"
+                android:textColor="@color/black"
+                android:textColorHint="@color/disabled_grey"
+                android:background="@drawable/edittext_background_state"
+                android:layout_below="@id/tenureContractsEditNameLabel"
+                android:paddingStart="@dimen/input_field_gap_height"
+                tools:ignore="RtlSymmetry"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tenureContractsEditDescriptionLabel"
+                android:text="@string/tenure_contracts_description_label"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_field_font_size"
+                android:layout_below="@id/tenureContractsEditName"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/input_field_gap_height"
+                android:id="@+id/tenureContractsEditDescriptionAlert"
+                android:text="@string/tenure_contracts_description_empty"
+                android:textColor="@color/alert_red"
+                android:textSize="@dimen/input_field_alert_font_size"
+                android:visibility="invisible"
+                android:layout_below="@id/tenureContractsEditName"
+                android:layout_toEndOf="@id/tenureContractsEditDescriptionLabel"
+                android:layout_marginStart="@dimen/min_group_margin"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_field_height"
+                android:id="@+id/tenureContractsEditDescription"
+                android:autofillHints=""
+                android:hint="@string/tenure_contracts_description"
+                android:inputType="text"
+                android:textAlignment="textStart"
+                android:textSize="@dimen/input_field_font_size"
+                android:textColor="@color/black"
+                android:textColorHint="@color/disabled_grey"
+                android:background="@drawable/edittext_background_state"
+                android:layout_below="@id/tenureContractsEditDescriptionLabel"
+                android:paddingStart="@dimen/input_field_gap_height"
+                tools:ignore="RtlSymmetry"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tenureContractsEditMonthlyRentalAmountLabel"
+                android:text="@string/tenure_contracts_monthly_rental_amount_label"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_field_font_size"
+                android:layout_below="@id/tenureContractsEditDescription"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/input_field_gap_height"
+                android:id="@+id/tenureContractsEditMonthlyRentalAmountAlert"
+                android:text="@string/tenure_contracts_monthly_rental_amount_empty"
+                android:textColor="@color/alert_red"
+                android:textSize="@dimen/input_field_alert_font_size"
+                android:visibility="invisible"
+                android:layout_below="@id/tenureContractsEditDescription"
+                android:layout_toEndOf="@id/tenureContractsEditMonthlyRentalAmountLabel"
+                android:layout_marginStart="@dimen/min_group_margin"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_field_height"
+                android:id="@+id/tenureContractsEditMonthlyRentalAmount"
+                android:autofillHints=""
+                android:hint="@string/tenure_contracts_monthly_rental_amount"
                 android:inputType="numberDecimal|numberSigned"
                 android:textAlignment="textStart"
                 android:textSize="@dimen/input_field_font_size"
                 android:textColor="@color/black"
                 android:textColorHint="@color/disabled_grey"
                 android:background="@drawable/edittext_background_state"
-                android:layout_below="@id/propertyExpensesEditAmountLabel"
+                android:layout_below="@id/tenureContractsEditMonthlyRentalAmountLabel"
                 android:paddingStart="@dimen/input_field_gap_height"
                 tools:ignore="RtlSymmetry"
                 />
@@ -239,24 +241,24 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/propertyExpensesEditDateOfExpenseLabel"
-                android:text="@string/property_expenses_date_of_expense_label"
+                android:id="@+id/tenureContractsEditTenureStartDateLabel"
+                android:text="@string/tenure_contracts_tenure_start_date_label"
                 android:textColor="@color/black"
                 android:textSize="@dimen/input_field_font_size"
-                android:layout_below="@id/propertyExpensesEditAmount"
+                android:layout_below="@id/tenureContractsEditMonthlyRentalAmount"
                 android:layout_marginTop="@dimen/input_field_gap_height"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/input_field_gap_height"
-                android:id="@+id/propertyExpensesEditDateOfExpenseAlert"
-                android:text="@string/property_expenses_date_of_expense_empty"
+                android:id="@+id/tenureContractsEditTenureStartDateAlert"
+                android:text="@string/tenure_contracts_tenure_start_date_empty"
                 android:textColor="@color/alert_red"
                 android:textSize="@dimen/input_field_alert_font_size"
                 android:visibility="invisible"
-                android:layout_below="@id/propertyExpensesEditAmount"
-                android:layout_toEndOf="@id/propertyExpensesEditDateOfExpenseLabel"
+                android:layout_below="@id/tenureContractsEditMonthlyRentalAmount"
+                android:layout_toEndOf="@id/tenureContractsEditTenureStartDateLabel"
                 android:layout_marginStart="@dimen/min_group_margin"
                 android:layout_marginTop="@dimen/input_field_gap_height"
                 />
@@ -264,7 +266,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/input_field_height"
-                android:id="@+id/propertyExpensesEditDateOfExpense"
+                android:id="@+id/tenureContractsEditTenureStartDate"
                 android:inputType="date"
                 android:autofillHints=""
                 android:textAlignment="textStart"
@@ -272,7 +274,7 @@
                 android:textColor="@color/black"
                 android:textColorHint="@color/disabled_grey"
                 android:background="@drawable/edittext_background_state"
-                android:layout_below="@id/propertyExpensesEditDateOfExpenseLabel"
+                android:layout_below="@id/tenureContractsEditTenureStartDateLabel"
                 android:paddingStart="@dimen/input_field_gap_height"
                 tools:ignore="RtlSymmetry"
                 android:clickable="false"
@@ -284,11 +286,56 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/propertyExpensesEditUploadedFileLabel"
-                android:text="@string/property_expenses_uploaded_files_label"
+                android:id="@+id/tenureContractsEditTenureEndDateLabel"
+                android:text="@string/tenure_contracts_tenure_end_date_label"
                 android:textColor="@color/black"
                 android:textSize="@dimen/input_field_font_size"
-                android:layout_below="@id/propertyExpensesEditDateOfExpense"
+                android:layout_below="@id/tenureContractsEditTenureStartDate"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/input_field_gap_height"
+                android:id="@+id/tenureContractsEditTenureEndDateAlert"
+                android:text="@string/tenure_contracts_tenure_end_date_empty"
+                android:textColor="@color/alert_red"
+                android:textSize="@dimen/input_field_alert_font_size"
+                android:visibility="invisible"
+                android:layout_below="@id/tenureContractsEditTenureStartDate"
+                android:layout_toEndOf="@id/tenureContractsEditTenureEndDateLabel"
+                android:layout_marginStart="@dimen/min_group_margin"
+                android:layout_marginTop="@dimen/input_field_gap_height"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_field_height"
+                android:id="@+id/tenureContractsEditTenureEndDate"
+                android:inputType="date"
+                android:autofillHints=""
+                android:textAlignment="textStart"
+                android:textSize="@dimen/input_field_font_size"
+                android:textColor="@color/black"
+                android:textColorHint="@color/disabled_grey"
+                android:background="@drawable/edittext_background_state"
+                android:layout_below="@id/tenureContractsEditTenureEndDateLabel"
+                android:paddingStart="@dimen/input_field_gap_height"
+                tools:ignore="RtlSymmetry"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tenureContractsEditUploadedFileLabel"
+                android:text="@string/tenure_contracts_uploaded_files_label"
+                android:textColor="@color/black"
+                android:textSize="@dimen/input_field_font_size"
+                android:layout_below="@id/tenureContractsEditTenureEndDate"
                 android:layout_marginTop="@dimen/input_field_gap_height"
                 />
 
@@ -296,7 +343,7 @@
                 android:layout_width="@dimen/user_profile_image_width"
                 android:layout_height="@dimen/user_profile_image_height"
                 android:src="@drawable/file_ic"
-                android:id="@+id/propertyExpensesEditUploadedFile"
+                android:id="@+id/tenureContractsEditUploadedFile"
                 app:shapeAppearanceOverlay="@style/uploaded_file_image"
                 app:srcCompat="@drawable/file_ic"
                 app:strokeColor="@color/disabled_grey"
@@ -304,57 +351,27 @@
                 android:contentDescription="@string/app_name"
                 android:scaleType="fitCenter"
                 android:padding="@dimen/user_profile_image_padding"
-                android:layout_below="@id/propertyExpensesEditUploadedFileLabel"
+                android:layout_below="@id/tenureContractsEditUploadedFileLabel"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tenureContractsEditUploadedFileName"
+                android:text="@string/empty"
+                android:textColor="@color/disabled_grey"
+                android:textSize="@dimen/input_field_font_size"
+                android:layout_below="@id/tenureContractsEditUploadedFile"
                 />
 
         </RelativeLayout>
 
     </ScrollView>
 
-<!--    <com.nambimobile.widgets.efab.ExpandableFabLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent">-->
-
-<!--        <com.nambimobile.widgets.efab.ExpandableFab-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="bottom|end"-->
-<!--            app:efab_orientation="portrait"-->
-<!--            android:layout_marginBottom="@dimen/min_group_margin"-->
-<!--            android:layout_marginEnd="@dimen/min_group_margin"-->
-<!--            app:efab_color="@color/primary_blue"-->
-<!--            app:efab_icon="@drawable/more_ic_white"-->
-<!--            app:efab_iconAnimationRotationDeg="-180"-->
-<!--            app:efab_closingAnticipateTension="0"-->
-<!--            app:efab_size="normal"-->
-<!--            />-->
-
-<!--        <com.nambimobile.widgets.efab.FabOption-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:id="@+id/propertyExpensesEditRemoveExpenseButton"-->
-<!--            app:fab_color="@color/alert_red"-->
-<!--            app:fab_icon="@drawable/remove_ic_white"-->
-<!--            app:label_text="Remove Asset Expenses"-->
-<!--            app:label_backgroundColor="@color/alert_red"-->
-<!--            />-->
-
-        <!--        <com.nambimobile.widgets.efab.FabOption-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:id="@+id/propertyExpensesEditEditButton"-->
-        <!--            app:fab_color="@color/primary_blue"-->
-        <!--            app:fab_icon="@drawable/ic_edit_white"-->
-        <!--            app:label_text="Edit"-->
-        <!--            app:label_backgroundColor="@color/primary_blue"-->
-        <!--            />-->
-
-<!--    </com.nambimobile.widgets.efab.ExpandableFabLayout>-->
-
     <android.widget.Button
         android:layout_width="@dimen/large_button_width"
         android:layout_height="wrap_content"
-        android:id="@+id/propertyExpensesEditSaveButton"
+        android:id="@+id/tenureContractsEditSaveButton"
         android:text="@string/save"
         android:textColor="@color/white"
         android:textSize="@dimen/large_button_font_size"
@@ -370,7 +387,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/propertyExpensesEditBackground"
+        android:id="@+id/tenureContractsEditBackground"
         android:background="@color/background_black"
         android:visibility="gone"
         />
@@ -378,7 +395,7 @@
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/propertyExpensesEditLoadingSpinner"
+        android:id="@+id/tenureContractsEditLoadingSpinner"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:indeterminate="true"

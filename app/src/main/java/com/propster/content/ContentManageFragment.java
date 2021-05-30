@@ -15,7 +15,6 @@ import com.propster.allRoles.PropertyExpensesListActivity;
 import com.propster.allRoles.PropertyTenureContractsListActivity;
 import com.propster.landlord.LandlordPropertyListActivity;
 import com.propster.landlord.LandlordPropertyTenantListActivity;
-import com.propster.tenant.TenantPropertyListActivity;
 import com.propster.utils.Constants;
 
 public class ContentManageFragment extends ContentFragment {
@@ -62,24 +61,24 @@ public class ContentManageFragment extends ContentFragment {
             startActivity(landlordPropertyTenantListIntent);
         });
 
-        Button landlordContentManagePropertyPropertyExpensesButton = view.findViewById(R.id.landlordContentManagePropertyPropertyExpensesButton);
-        landlordContentManagePropertyPropertyExpensesButton.setOnClickListener(v -> {
-            Intent propertyExpensesListIntent = new Intent(getContext(), PropertyExpensesListActivity.class);
-            propertyExpensesListIntent.putExtra(Constants.INTENT_EXTRA_LIST_ALL_PROPERTY_EXPENSES, Constants.INTENT_EXTRA_LIST_ALL_PROPERTY_EXPENSES);
-            startActivity(propertyExpensesListIntent);
-        });
-
-        Button landlordContentManagePropertyPaymentRecordsButton = view.findViewById(R.id.landlordContentManagePropertyPaymentRecordsButton);
-        landlordContentManagePropertyPaymentRecordsButton.setOnClickListener(v -> {
-            Intent tenureContractsListIntent = new Intent(getContext(), PropertyTenureContractsListActivity.class);
-            tenureContractsListIntent.putExtra(Constants.INTENT_EXTRA_LIST_ALL_TENURE_CONTRACTS, Constants.INTENT_EXTRA_LIST_ALL_TENURE_CONTRACTS);
-            startActivity(tenureContractsListIntent);
-        });
-
-        Button landlordContentManagePropertyTenureContractsButton = view.findViewById(R.id.landlordContentManagePropertyTenureContractsButton);
-        landlordContentManagePropertyTenureContractsButton.setOnClickListener(v -> {
-
-        });
+//        Button landlordContentManagePropertyPropertyExpensesButton = view.findViewById(R.id.landlordContentManagePropertyPropertyExpensesButton);
+//        landlordContentManagePropertyPropertyExpensesButton.setOnClickListener(v -> {
+//            Intent propertyExpensesListIntent = new Intent(getContext(), PropertyExpensesListActivity.class);
+//            propertyExpensesListIntent.putExtra(Constants.INTENT_EXTRA_LIST_ALL_PROPERTY_EXPENSES, Constants.INTENT_EXTRA_LIST_ALL_PROPERTY_EXPENSES);
+//            startActivity(propertyExpensesListIntent);
+//        });
+//
+//        Button landlordContentManagePropertyPaymentRecordsButton = view.findViewById(R.id.landlordContentManagePropertyPaymentRecordsButton);
+//        landlordContentManagePropertyPaymentRecordsButton.setOnClickListener(v -> {
+//            Intent tenureContractsListIntent = new Intent(getContext(), PropertyTenureContractsListActivity.class);
+//            tenureContractsListIntent.putExtra(Constants.INTENT_EXTRA_LIST_ALL_TENURE_CONTRACTS, Constants.INTENT_EXTRA_LIST_ALL_TENURE_CONTRACTS);
+//            startActivity(tenureContractsListIntent);
+//        });
+//
+//        Button landlordContentManagePropertyTenureContractsButton = view.findViewById(R.id.landlordContentManagePropertyTenureContractsButton);
+//        landlordContentManagePropertyTenureContractsButton.setOnClickListener(v -> {
+//
+//        });
         if (this.firstTime) {
             landlordContentManagePropertyPropertyListButton.performClick();
         }

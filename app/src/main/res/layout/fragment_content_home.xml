@@ -6,7 +6,20 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="home"
+        android:id="@+id/randomTextTitle"
+        android:text="Home/dashboard"
+        android:textSize="30sp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This function will be published in near future. \nPlease stay tuned."
+        android:layout_below="@id/randomTextTitle"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
         />
 
 </RelativeLayout>

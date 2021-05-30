@@ -51,24 +51,24 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class AddPropertyExpensesActivity extends AppCompatActivity {
+public class AddPropertyTenureContractsActivity extends AppCompatActivity {
 
-    private EditText propertyExpensesAddDescription;
-    private TextView propertyExpensesAddDescriptionAlert;
-    private EditText propertyExpensesAddPropertyName;
-    private TextView propertyExpensesAddPropertyNameAlert;
-    private EditText propertyExpensesAddType;
-    private TextView propertyExpensesAddTypeAlert;
-    private EditText propertyExpensesAddVendor;
-    private TextView propertyExpensesAddVendorAlert;
-    private EditText propertyExpensesAddAmount;
-    private TextView propertyExpensesAddAmountAlert;
-    private EditText propertyExpensesAddDateOfExpense;
-    private TextView propertyExpensesAddDateOfExpenseAlert;
-    private ShapeableImageView propertyExpensesAddUploadedFile;
-    private TextView propertyExpensesAddUploadedFileName;
+    private EditText addTenureContractsPropertyName;
+    private EditText addTenureContractsTenantName;
+    private EditText addTenureContractsName;
+    private TextView addTenureContractsNameAlert;
+    private EditText addTenureContractsDescription;
+    private TextView addTenureContractsDescriptionAlert;
+    private EditText addTenureContractsMonthlyRentalAmount;
+    private TextView addTenureContractsMonthlyRentalAmountAlert;
+    private EditText addTenureContractsTenureStartDate;
+    private TextView addTenureContractsTenureStartDateAlert;
+    private EditText addTenureContractsTenureEndDate;
+    private TextView addTenureContractsTenureEndDateAlert;
+    private ShapeableImageView addTenureContractsUploadedFile;
+    private TextView addTenureContractsUploadedFileName;
 
-    private Button propertyExpensesAddExpensesButton;
+    private Button addTenureContractsAddContractButton;
 
     private View backgroundView;
     private ProgressBar loadingSpinner;
@@ -77,74 +77,75 @@ public class AddPropertyExpensesActivity extends AppCompatActivity {
 
     private int propertyId = -1;
     private String propertyName = null;
-
+    private int tenantId = -1;
+    private String tenantName = null;
+    
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_property_expenses_add);
+        setContentView(R.layout.activity_property_tenure_contracts_add);
 
         Bundle extras = getIntent().getExtras();
         if(extras == null) {
             this.propertyId = -1;
             this.propertyName = null;
+            this.tenantId = -1;
+            this.tenantName = null;
         } else {
             this.propertyId = extras.getInt(Constants.INTENT_EXTRA_PROPERTY_ID, -1);
             this.propertyName = extras.getString(Constants.INTENT_EXTRA_PROPERTY_NAME, null);
+            this.tenantId = extras.getInt(Constants.INTENT_EXTRA_TENANT_ID, -1);
+            this.tenantName = extras.getString(Constants.INTENT_EXTRA_TENANT_NAME, null);
         }
 
-        this.propertyExpensesAddDescription = findViewById(R.id.propertyExpensesAddDescription);
-        this.propertyExpensesAddDescriptionAlert = findViewById(R.id.propertyExpensesAddDescriptionAlert);
-        this.propertyExpensesAddPropertyName = findViewById(R.id.propertyExpensesAddPropertyName);
-        this.propertyExpensesAddPropertyNameAlert = findViewById(R.id.propertyExpensesAddPropertyNameAlert);
-        this.propertyExpensesAddType = findViewById(R.id.propertyExpensesAddType);
-        this.propertyExpensesAddTypeAlert = findViewById(R.id.propertyExpensesAddTypeAlert);
-        this.propertyExpensesAddVendor = findViewById(R.id.propertyExpensesAddVendor);
-        this.propertyExpensesAddVendorAlert = findViewById(R.id.propertyExpensesAddVendorAlert);
-        this.propertyExpensesAddAmount = findViewById(R.id.propertyExpensesAddAmount);
-        this.propertyExpensesAddAmountAlert = findViewById(R.id.propertyExpensesAddAmountAlert);
-        this.propertyExpensesAddDateOfExpense = findViewById(R.id.propertyExpensesAddDateOfExpense);
-        this.propertyExpensesAddDateOfExpenseAlert = findViewById(R.id.propertyExpensesAddDateOfExpenseAlert);
+        this.addTenureContractsPropertyName = findViewById(R.id.addTenureContractsPropertyName);
+        this.addTenureContractsTenantName = findViewById(R.id.addTenureContractsTenantName);
+        this.addTenureContractsName = findViewById(R.id.addTenureContractsName);
+        this.addTenureContractsNameAlert = findViewById(R.id.addTenureContractsNameAlert);
+        this.addTenureContractsDescription = findViewById(R.id.addTenureContractsDescription);
+        this.addTenureContractsDescriptionAlert = findViewById(R.id.addTenureContractsDescriptionAlert);
+        this.addTenureContractsMonthlyRentalAmount = findViewById(R.id.addTenureContractsMonthlyRentalAmount);
+        this.addTenureContractsMonthlyRentalAmountAlert = findViewById(R.id.addTenureContractsMonthlyRentalAmountAlert);
+        this.addTenureContractsTenureStartDate = findViewById(R.id.addTenureContractsTenureStartDate);
+        this.addTenureContractsTenureStartDateAlert = findViewById(R.id.addTenureContractsTenureStartDateAlert);
+        this.addTenureContractsTenureEndDate = findViewById(R.id.addTenureContractsTenureEndDate);
+        this.addTenureContractsTenureEndDateAlert = findViewById(R.id.addTenureContractsTenureEndDateAlert);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
         Date currentDate = new Date();
         Calendar currentCalendar = new GregorianCalendar();
         currentCalendar.setTime(currentDate);
-        this.propertyExpensesAddDateOfExpense.setOnClickListener(v -> {
-            DatePickerDialog datePickerDialog = new DatePickerDialog(AddPropertyExpensesActivity.this, (view, year, month, dayOfMonth) -> {
+        this.addTenureContractsTenureStartDate.setOnClickListener(v -> {
+            DatePickerDialog datePickerDialog = new DatePickerDialog(AddPropertyTenureContractsActivity.this, (view, year, month, dayOfMonth) -> {
                 currentCalendar.set(Calendar.YEAR, year);
                 currentCalendar.set(Calendar.MONTH, month);
                 currentCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                propertyExpensesAddDateOfExpense.setText(sdf.format(currentCalendar.getTime()));
+                addTenureContractsTenureStartDate.setText(sdf.format(currentCalendar.getTime()));
+            }, currentCalendar.get(Calendar.YEAR), currentCalendar.get(Calendar.MONTH), currentCalendar.get(Calendar.DAY_OF_MONTH));
+            datePickerDialog.show();
+        });
+        this.addTenureContractsTenureEndDate.setOnClickListener(v -> {
+            DatePickerDialog datePickerDialog = new DatePickerDialog(AddPropertyTenureContractsActivity.this, (view, year, month, dayOfMonth) -> {
+                currentCalendar.set(Calendar.YEAR, year);
+                currentCalendar.set(Calendar.MONTH, month);
+                currentCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                addTenureContractsTenureEndDate.setText(sdf.format(currentCalendar.getTime()));
             }, currentCalendar.get(Calendar.YEAR), currentCalendar.get(Calendar.MONTH), currentCalendar.get(Calendar.DAY_OF_MONTH));
             datePickerDialog.show();
         });
 
-        this.propertyExpensesAddUploadedFile = findViewById(R.id.propertyExpensesAddUploadedFile);
-        this.propertyExpensesAddUploadedFile.setOnClickListener(v -> {
-            Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
-            getIntent.setType("image/*");
+        this.addTenureContractsUploadedFile = findViewById(R.id.addTenureContractsUploadedFile);
+        this.addTenureContractsUploadedFileName = findViewById(R.id.addTenureContractsUploadedFileName);
 
-//            Intent pickIntent = new Intent(Intent.ACTION_PICK);
-//            pickIntent.setType("image/*");
-
-            Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
-//            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
-
-            startActivityForResult(chooserIntent, Constants.REQUEST_CODE_PROPERTY_EXPENSES_IMAGE_DOCUMENT);
-        });
-        this.propertyExpensesAddUploadedFileName = findViewById(R.id.propertyExpensesAddUploadedFileName);
-
-        this.backgroundView = findViewById(R.id.propertyExpensesAddBackground);
-        this.loadingSpinner = findViewById(R.id.propertyExpensesAddLoadingSpinner);
+        this.backgroundView = findViewById(R.id.addTenureContractsBackground);
+        this.loadingSpinner = findViewById(R.id.addTenureContractsLoadingSpinner);
 
         this.requestQueue = Volley.newRequestQueue(this);
 
-        this.propertyExpensesAddExpensesButton = findViewById(R.id.propertyExpensesAddExpensesButton);
-        this.propertyExpensesAddExpensesButton.setOnClickListener(v -> {
-            this.doAddPropertyExpenses();
-        });
+        this.addTenureContractsAddContractButton = findViewById(R.id.addTenureContractsAddContractButton);
+        this.addTenureContractsAddContractButton.setOnClickListener(v -> this.doAddTenureContracts());
 
-        Toolbar mainToolbar = findViewById(R.id.propertyExpensesAddToolbar);
+        Toolbar mainToolbar = findViewById(R.id.addTenureContractsToolbar);
         setSupportActionBar(mainToolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(R.string.app_name);
@@ -155,21 +156,26 @@ public class AddPropertyExpensesActivity extends AppCompatActivity {
 //                startActivityForResult(userProfileIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
 //            } else
             if (item.getItemId() == R.id.mainMenuNotification) {
-                Intent notificationIntent = new Intent(AddPropertyExpensesActivity.this, NotificationActivity.class);
+                Intent notificationIntent = new Intent(AddPropertyTenureContractsActivity.this, NotificationActivity.class);
                 startActivityForResult(notificationIntent, Constants.REQUEST_CODE_SWITCH_ROLE);
             }
             return false;
         });
         mainToolbar.setNavigationOnClickListener(v -> finish());
 
-        this.refreshPropertyExpensesPropertyName();
+        this.refreshTenureContractsName();
+
     }
 
-    private void refreshPropertyExpensesPropertyName() {
+    private void refreshTenureContractsName() {
         if (this.propertyName == null) {
             return;
         }
-        this.propertyExpensesAddPropertyName.setText(this.propertyName);
+        this.addTenureContractsPropertyName.setText(this.propertyName);
+        if (this.tenantName == null) {
+            return;
+        }
+        this.addTenureContractsTenantName.setText(this.tenantName);
     }
 
     @Override
@@ -182,7 +188,7 @@ public class AddPropertyExpensesActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Constants.REQUEST_CODE_PROPERTY_EXPENSES_IMAGE_DOCUMENT) {
+        if (requestCode == Constants.REQUEST_CODE_TENURE_CONTRACTS_IMAGE_DOCUMENT) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     if (data == null) {
@@ -191,7 +197,7 @@ public class AddPropertyExpensesActivity extends AppCompatActivity {
                     Uri imageUri = data.getData();
                     InputStream imageStream = getContentResolver().openInputStream(imageUri);
                     Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                    this.propertyExpensesAddUploadedFile.setImageBitmap(selectedImage);
+                    this.addTenureContractsUploadedFile.setImageBitmap(selectedImage);
 
                     Cursor cursor = getContentResolver().query(imageUri, null, null, null, null);
                     cursor.moveToFirst();
@@ -199,7 +205,7 @@ public class AddPropertyExpensesActivity extends AppCompatActivity {
                     String picturePath = cursor.getString(columnIndex);
                     cursor.close();
 
-                    this.propertyExpensesAddUploadedFileName.setText(picturePath);
+                    this.addTenureContractsUploadedFileName.setText(picturePath);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -207,105 +213,90 @@ public class AddPropertyExpensesActivity extends AppCompatActivity {
         }
     }
 
-    private void doAddPropertyExpenses() {
+    private void doAddTenureContracts() {
         if (this.propertyId == -1) {
-            this.addPropertyExpensesFailed(Constants.ERROR_COMMON);
+            this.addTenureContractsFailed(Constants.ERROR_COMMON);
             return;
         }
-        if (this.propertyName == null) {
-            this.addPropertyExpensesFailed(Constants.ERROR_COMMON);
+        if (this.tenantId == -1) {
+            this.addTenureContractsFailed(Constants.ERROR_COMMON);
             return;
         }
-        if (this.propertyExpensesAddDescription.length() <= 0) {
-            this.propertyExpensesAddDescriptionAlert.setVisibility(View.VISIBLE);
-            this.propertyExpensesAddPropertyNameAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddTypeAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddVendorAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddAmountAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddDateOfExpenseAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddDescription.requestFocus();
+        if (this.addTenureContractsName.length() <= 0) {
+            this.addTenureContractsNameAlert.setVisibility(View.VISIBLE);
+            this.addTenureContractsDescriptionAlert.setVisibility(View.INVISIBLE);
+            this.addTenureContractsMonthlyRentalAmountAlert.setVisibility(View.INVISIBLE);
+            this.addTenureContractsTenureStartDateAlert.setVisibility(View.INVISIBLE);
+            this.addTenureContractsTenureEndDateAlert.setVisibility(View.INVISIBLE);
+            this.addTenureContractsName.requestFocus();
             return;
         }
-        if (this.propertyExpensesAddPropertyName.length() <= 0) {
-            this.propertyExpensesAddDescriptionAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddPropertyNameAlert.setVisibility(View.VISIBLE);
-            this.propertyExpensesAddTypeAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddVendorAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddAmountAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddDateOfExpenseAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddPropertyName.requestFocus();
+        if (this.addTenureContractsDescription.length() <= 0) {
+            this.addTenureContractsNameAlert.setVisibility(View.INVISIBLE);
+            this.addTenureContractsDescriptionAlert.setVisibility(View.VISIBLE);
+            this.addTenureContractsMonthlyRentalAmountAlert.setVisibility(View.INVISIBLE);
+            this.addTenureContractsTenureStartDateAlert.setVisibility(View.INVISIBLE);
+            this.addTenureContractsTenureEndDateAlert.setVisibility(View.INVISIBLE);
+            this.addTenureContractsDescription.requestFocus();
             return;
         }
-        if (this.propertyExpensesAddType.length() <= 0) {
-            this.propertyExpensesAddDescriptionAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddPropertyNameAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddTypeAlert.setVisibility(View.VISIBLE);
-            this.propertyExpensesAddVendorAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddAmountAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddDateOfExpenseAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddType.requestFocus();
+        if (this.addTenureContractsMonthlyRentalAmount.length() <= 0) {
+            this.addTenureContractsNameAlert.setVisibility(View.INVISIBLE);
+            this.addTenureContractsDescriptionAlert.setVisibility(View.INVISIBLE);
+            this.addTenureContractsMonthlyRentalAmountAlert.setVisibility(View.VISIBLE);
+            this.addTenureContractsTenureStartDateAlert.setVisibility(View.INVISIBLE);
+            this.addTenureContractsTenureEndDateAlert.setVisibility(View.INVISIBLE);
+            this.addTenureContractsMonthlyRentalAmount.requestFocus();
             return;
         }
-        if (this.propertyExpensesAddVendor.length() <= 0) {
-            this.propertyExpensesAddDescriptionAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddPropertyNameAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddTypeAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddVendorAlert.setVisibility(View.VISIBLE);
-            this.propertyExpensesAddAmountAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddDateOfExpenseAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddVendor.requestFocus();
+        if (this.addTenureContractsTenureStartDate.length() <= 0) {
+            this.addTenureContractsNameAlert.setVisibility(View.INVISIBLE);
+            this.addTenureContractsDescriptionAlert.setVisibility(View.INVISIBLE);
+            this.addTenureContractsMonthlyRentalAmountAlert.setVisibility(View.INVISIBLE);
+            this.addTenureContractsTenureStartDateAlert.setVisibility(View.VISIBLE);
+            this.addTenureContractsTenureEndDateAlert.setVisibility(View.INVISIBLE);
+            this.addTenureContractsTenureStartDate.requestFocus();
             return;
         }
-        if (this.propertyExpensesAddDateOfExpense.length() <= 0) {
-            this.propertyExpensesAddDescriptionAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddPropertyNameAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddTypeAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddVendorAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddAmountAlert.setVisibility(View.VISIBLE);
-            this.propertyExpensesAddDateOfExpenseAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddDateOfExpense.requestFocus();
-            return;
-        }
-        if (this.propertyExpensesAddDateOfExpense.length() <= 0) {
-            this.propertyExpensesAddDescriptionAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddPropertyNameAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddTypeAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddVendorAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddAmountAlert.setVisibility(View.INVISIBLE);
-            this.propertyExpensesAddDateOfExpenseAlert.setVisibility(View.VISIBLE);
-            this.propertyExpensesAddDateOfExpense.requestFocus();
+        if (this.addTenureContractsTenureEndDate.length() <= 0) {
+            this.addTenureContractsNameAlert.setVisibility(View.INVISIBLE);
+            this.addTenureContractsDescriptionAlert.setVisibility(View.INVISIBLE);
+            this.addTenureContractsMonthlyRentalAmountAlert.setVisibility(View.INVISIBLE);
+            this.addTenureContractsTenureStartDateAlert.setVisibility(View.INVISIBLE);
+            this.addTenureContractsTenureEndDateAlert.setVisibility(View.VISIBLE);
+            this.addTenureContractsTenureEndDate.requestFocus();
             return;
         }
         this.startLoadingSpinner();
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         String sessionId = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, null);
         if (sessionId == null) {
-            this.addPropertyExpensesFailed("Please relogin.");
+            this.addTenureContractsFailed("Please relogin.");
             return;
         }
-        if (this.propertyExpensesAddUploadedFileName.getText().equals("Empty") || !(this.propertyExpensesAddUploadedFile.getDrawable() instanceof BitmapDrawable)) {
+        if (this.addTenureContractsUploadedFileName.getText().equals("Empty") || !(this.addTenureContractsUploadedFile.getDrawable() instanceof BitmapDrawable)) {
             JSONObject postData = new JSONObject();
             try {
                 postData.put("asset_id", this.propertyId);
-                postData.put("payment_description", this.propertyExpensesAddDescription.getText().toString());
-                postData.put("vendor", this.propertyExpensesAddVendor.getText().toString());
-                postData.put("amount", this.propertyExpensesAddAmount.getText().toString());
-                postData.put("currency_iso", "MYR");
-                postData.put("date_of_expense", this.propertyExpensesAddDateOfExpense.getText().toString());
-                postData.put("expense_type", this.propertyExpensesAddType.getText().toString());
-                postData.put("is_recurring", 1);
+                postData.put("tenant_id", this.tenantId);
+                postData.put("contract_name", this.addTenureContractsName.getText().toString());
+                postData.put("contract_description", this.addTenureContractsDescription.getText().toString());
+                postData.put("monthly_rental_amount", this.addTenureContractsMonthlyRentalAmount.getText().toString());
+                postData.put("monthly_rental_currency_iso", "MYR");
+                postData.put("tenure_start_date", this.addTenureContractsTenureStartDate.getText().toString());
+                postData.put("tenure_end_date", this.addTenureContractsTenureEndDate.getText().toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.URL_LANDLORD_PROPERTY_EXPENSES, postData, response -> {
-                addPropertyExpensesSuccess();
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.URL_LANDLORD_TENURE_CONTRACTS, postData, response -> {
+                addTenureContractsSuccess();
             }, error -> {
                 try {
                     System.out.println("error.networkResponse.data ==> " + new String(error.networkResponse.data));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                addPropertyExpensesFailed(Constants.ERROR_COMMON);
+                addTenureContractsFailed(Constants.ERROR_COMMON);
             }) {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
@@ -392,17 +383,17 @@ public class AddPropertyExpensesActivity extends AppCompatActivity {
         }
     }
 
-    private void addPropertyExpensesFailed(String addPropertyExpensesFailed) {
+    private void addTenureContractsFailed(String addTenureContactsFailed) {
         this.stopLoadingSpinner();
-        AlertDialog.Builder addPropertyExpensesFailedDialog = new AlertDialog.Builder(this);
-        addPropertyExpensesFailedDialog.setCancelable(false);
-        addPropertyExpensesFailedDialog.setTitle("Add Property Expenses Failed");
-        addPropertyExpensesFailedDialog.setMessage(addPropertyExpensesFailed);
-        addPropertyExpensesFailedDialog.setPositiveButton("OK", (dialog, which) -> dialog.cancel());
-        addPropertyExpensesFailedDialog.create().show();
+        AlertDialog.Builder addTenureContractsFailedDialog = new AlertDialog.Builder(this);
+        addTenureContractsFailedDialog.setCancelable(false);
+        addTenureContractsFailedDialog.setTitle("Add Tenure Contracts Failed");
+        addTenureContractsFailedDialog.setMessage(addTenureContactsFailed);
+        addTenureContractsFailedDialog.setPositiveButton("OK", (dialog, which) -> dialog.cancel());
+        addTenureContractsFailedDialog.create().show();
     }
 
-    private void addPropertyExpensesSuccess() {
+    private void addTenureContractsSuccess() {
         this.stopLoadingSpinner();
         setResult(Activity.RESULT_OK);
         finish();
@@ -412,13 +403,13 @@ public class AddPropertyExpensesActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         this.backgroundView.setVisibility(View.VISIBLE);
         this.loadingSpinner.setVisibility(View.VISIBLE);
-        this.propertyExpensesAddExpensesButton.setEnabled(false);
+        this.addTenureContractsAddContractButton.setEnabled(false);
     }
 
     private void stopLoadingSpinner() {
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         this.backgroundView.setVisibility(View.GONE);
         this.loadingSpinner.setVisibility(View.GONE);
-        this.propertyExpensesAddExpensesButton.setEnabled(true);
+        this.addTenureContractsAddContractButton.setEnabled(true);
     }
 }

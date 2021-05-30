@@ -31,47 +31,47 @@
         android:layout_below="@id/landlordContentManagePropertyPropertyListButton"
         />
 
-    <android.widget.Button
-        android:layout_width="@dimen/primary_button_width"
-        android:layout_height="wrap_content"
-        android:id="@+id/landlordContentManagePropertyPropertyExpensesButton"
-        android:text="@string/property_expenses"
-        android:textColor="@color/white"
-        android:textSize="@dimen/primary_button_font_size"
-        android:background="@drawable/primary_button_background_state"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/primary_button_gap_height"
-        android:layout_below="@id/landlordContentManagePropertyTenantsButton"
-        />
+<!--    <android.widget.Button-->
+<!--        android:layout_width="@dimen/primary_button_width"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/landlordContentManagePropertyPropertyExpensesButton"-->
+<!--        android:text="@string/property_expenses"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="@dimen/primary_button_font_size"-->
+<!--        android:background="@drawable/primary_button_background_state"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_marginTop="@dimen/primary_button_gap_height"-->
+<!--        android:layout_below="@id/landlordContentManagePropertyTenantsButton"-->
+<!--        />-->
 
 
 
-    <android.widget.Button
-        android:layout_width="@dimen/primary_button_width"
-        android:layout_height="wrap_content"
-        android:id="@+id/landlordContentManagePropertyPaymentRecordsButton"
-        android:text="@string/payment_records"
-        android:textColor="@color/white"
-        android:textSize="@dimen/primary_button_font_size"
-        android:background="@drawable/primary_button_background_state"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/primary_button_gap_height"
-        android:layout_below="@id/landlordContentManagePropertyPropertyExpensesButton"
-        />
+<!--    <android.widget.Button-->
+<!--        android:layout_width="@dimen/primary_button_width"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/landlordContentManagePropertyPaymentRecordsButton"-->
+<!--        android:text="@string/payment_records"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="@dimen/primary_button_font_size"-->
+<!--        android:background="@drawable/primary_button_background_state"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_marginTop="@dimen/primary_button_gap_height"-->
+<!--        android:layout_below="@id/landlordContentManagePropertyPropertyExpensesButton"-->
+<!--        />-->
 
 
 
-    <android.widget.Button
-        android:layout_width="@dimen/primary_button_width"
-        android:layout_height="wrap_content"
-        android:id="@+id/landlordContentManagePropertyTenureContractsButton"
-        android:text="@string/tenure_contracts"
-        android:textColor="@color/white"
-        android:textSize="@dimen/primary_button_font_size"
-        android:background="@drawable/primary_button_background_state"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/primary_button_gap_height"
-        android:layout_below="@id/landlordContentManagePropertyPaymentRecordsButton"
-        />
+<!--    <android.widget.Button-->
+<!--        android:layout_width="@dimen/primary_button_width"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/landlordContentManagePropertyTenureContractsButton"-->
+<!--        android:text="@string/tenure_contracts"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="@dimen/primary_button_font_size"-->
+<!--        android:background="@drawable/primary_button_background_state"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_marginTop="@dimen/primary_button_gap_height"-->
+<!--        android:layout_below="@id/landlordContentManagePropertyPaymentRecordsButton"-->
+<!--        />-->
 
 </RelativeLayout>
