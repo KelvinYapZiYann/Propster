@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +23,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -31,7 +33,10 @@ import com.propster.R;
 import com.propster.content.NotificationActivity;
 import com.propster.login.SplashActivity;
 import com.propster.utils.Constants;
+import com.propster.utils.FileNameConverter;
+import com.propster.utils.PreviewImageActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,6 +52,7 @@ public class PropertyExpensesDetailActivity extends AppCompatActivity {
     private EditText propertyExpensesDetailAmount;
     private EditText propertyExpensesDetailDateOfExpense;
     private ShapeableImageView propertyExpensesDetailUploadedFile;
+    private String imageUrl;
 
     private Button propertyExpensesDetailEditButton;
 
@@ -59,6 +65,8 @@ public class PropertyExpensesDetailActivity extends AppCompatActivity {
     private String propertyName = null;
     private int expenseId = -1;
     private String expenseName = null;
+
+    private boolean isDetailRefreshed = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,9 +94,29 @@ public class PropertyExpensesDetailActivity extends AppCompatActivity {
         this.propertyExpensesDetailDateOfExpense = findViewById(R.id.propertyExpensesDetailDateOfExpense);
 
         this.propertyExpensesDetailUploadedFile = findViewById(R.id.propertyExpensesDetailUploadedFile);
-//        this.propertyExpensesDetailUploadedFile.setOnClickListener(v -> {
+        this.propertyExpensesDetailUploadedFile.setOnClickListener(v -> {
+            if (this.imageUrl == null) {
+                return;
+            }
+            if (!(this.propertyExpensesDetailUploadedFile.getDrawable() instanceof BitmapDrawable)) {
+                return;
+            }
+//            AlertDialog.Builder uploadedFileSavingDialog = new AlertDialog.Builder(this);
+//            uploadedFileSavingDialog.setCancelable(false);
+//            uploadedFileSavingDialog.setTitle("Do you want to save this file?");
+//            uploadedFileSavingDialog.setPositiveButton("OK", (dialog, which) -> {
 //
-//        });
+//                dialog.cancel();
+//            });
+//            uploadedFileSavingDialog.setNegativeButton("Cancel", (dialog, which) -> {
+//                dialog.cancel();
+//            });
+//            uploadedFileSavingDialog.create().show();
+            Intent previewImageIntent = new Intent(this, PreviewImageActivity.class);
+            previewImageIntent.putExtra(Constants.INTENT_EXTRA_IMAGE_URL, this.imageUrl);
+            previewImageIntent.putExtra(Constants.INTENT_EXTRA_IMAGE_NAME, FileNameConverter.convertFileName(this.expenseName + "_image_" + System.currentTimeMillis()));
+            startActivity(previewImageIntent);
+        });
 
         this.backgroundView = findViewById(R.id.propertyExpensesDetailBackground);
         this.loadingSpinner = findViewById(R.id.propertyExpensesDetailLoadingSpinner);
@@ -126,9 +154,22 @@ public class PropertyExpensesDetailActivity extends AppCompatActivity {
             }
             return false;
         });
-        mainToolbar.setNavigationOnClickListener(v -> finish());
+        mainToolbar.setNavigationOnClickListener(v -> {
+            if (this.isDetailRefreshed) {
+                setResult(Activity.RESULT_OK);
+            }
+            finish();
+        });
 
         this.refreshPropertyExpenses();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (this.isDetailRefreshed) {
+            setResult(Activity.RESULT_OK);
+        }
+        super.onBackPressed();
     }
 
     @Override
@@ -142,7 +183,10 @@ public class PropertyExpensesDetailActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constants.REQUEST_CODE_PROPERTY_EXPENSES_DETAIL) {
-            this.refreshPropertyExpenses();
+            if (resultCode == Activity.RESULT_OK) {
+                this.isDetailRefreshed = true;
+                this.refreshPropertyExpenses();
+            }
         }
     }
 
@@ -206,6 +250,19 @@ public class PropertyExpensesDetailActivity extends AppCompatActivity {
 //                this.doGetPropertyExpensePropertyName();
                 this.propertyExpensesDetailPropertyName.setText(this.propertyName);
                 this.stopLoadingSpinner();
+                if (!dataFieldsJsonObject.has("media")) {
+                    return;
+                }
+                JSONArray dataFieldsMediaJsonArray = dataFieldsJsonObject.getJSONArray("media");
+                if (dataFieldsMediaJsonArray.length() <= 0) {
+                    return;
+                }
+                JSONObject dataFieldsMediaJsonObject = dataFieldsMediaJsonArray.getJSONObject(0);
+                if (!dataFieldsMediaJsonObject.has("temporary_url")) {
+                    return;
+                }
+                String mediaTemporaryUrl = dataFieldsMediaJsonObject.getString("temporary_url");
+                displayImageFromUrl(mediaTemporaryUrl);
             } catch (JSONException e) {
                 e.printStackTrace();
                 getPropertyExpensesDetailFailed(Constants.ERROR_COMMON);
@@ -227,6 +284,19 @@ public class PropertyExpensesDetailActivity extends AppCompatActivity {
         };
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         this.requestQueue.add(jsonObjectRequest);
+    }
+
+    private void displayImageFromUrl(String mediaTemporaryUrl) {
+        this.startLoadingSpinner();
+        ImageRequest imageRequest = new ImageRequest(mediaTemporaryUrl, response -> {
+            propertyExpensesDetailUploadedFile.setImageBitmap(response);
+            this.imageUrl = mediaTemporaryUrl;
+            this.stopLoadingSpinner();
+        }, 0, 0, null, null, error -> {
+            getPropertyExpensesDetailFailed(Constants.ERROR_IMAGE_DOCUMENT_FILE_NOT_LOADED);
+        });
+        imageRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        this.requestQueue.add(imageRequest);
     }
 
 //    private void doGetPropertyExpensePropertyName() {

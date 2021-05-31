@@ -61,24 +61,28 @@ public class ContentManageFragment extends ContentFragment {
             startActivity(landlordPropertyTenantListIntent);
         });
 
-//        Button landlordContentManagePropertyPropertyExpensesButton = view.findViewById(R.id.landlordContentManagePropertyPropertyExpensesButton);
-//        landlordContentManagePropertyPropertyExpensesButton.setOnClickListener(v -> {
-//            Intent propertyExpensesListIntent = new Intent(getContext(), PropertyExpensesListActivity.class);
-//            propertyExpensesListIntent.putExtra(Constants.INTENT_EXTRA_LIST_ALL_PROPERTY_EXPENSES, Constants.INTENT_EXTRA_LIST_ALL_PROPERTY_EXPENSES);
-//            startActivity(propertyExpensesListIntent);
-//        });
-//
+        Button landlordContentManagePropertyPropertyExpensesButton = view.findViewById(R.id.landlordContentManagePropertyPropertyExpensesButton);
+        landlordContentManagePropertyPropertyExpensesButton.setOnClickListener(v -> {
+            Intent propertyExpensesListIntent = new Intent(getContext(), PropertyExpensesListActivity.class);
+            propertyExpensesListIntent.putExtra(Constants.INTENT_EXTRA_LIST_ALL_PROPERTY_EXPENSES, Constants.INTENT_EXTRA_LIST_ALL_PROPERTY_EXPENSES);
+            startActivity(propertyExpensesListIntent);
+        });
+
+        Button landlordContentManagePropertyTenureContractsButton = view.findViewById(R.id.landlordContentManagePropertyTenureContractsButton);
+        landlordContentManagePropertyTenureContractsButton.setOnClickListener(v -> {
+            Intent tenureContractsListIntent = new Intent(getContext(), PropertyTenureContractsListActivity.class);
+            tenureContractsListIntent.putExtra(Constants.INTENT_EXTRA_LIST_ALL_TENURE_CONTRACTS, Constants.INTENT_EXTRA_LIST_ALL_TENURE_CONTRACTS);
+            startActivity(tenureContractsListIntent);
+        });
+
 //        Button landlordContentManagePropertyPaymentRecordsButton = view.findViewById(R.id.landlordContentManagePropertyPaymentRecordsButton);
 //        landlordContentManagePropertyPaymentRecordsButton.setOnClickListener(v -> {
 //            Intent tenureContractsListIntent = new Intent(getContext(), PropertyTenureContractsListActivity.class);
 //            tenureContractsListIntent.putExtra(Constants.INTENT_EXTRA_LIST_ALL_TENURE_CONTRACTS, Constants.INTENT_EXTRA_LIST_ALL_TENURE_CONTRACTS);
 //            startActivity(tenureContractsListIntent);
 //        });
-//
-//        Button landlordContentManagePropertyTenureContractsButton = view.findViewById(R.id.landlordContentManagePropertyTenureContractsButton);
-//        landlordContentManagePropertyTenureContractsButton.setOnClickListener(v -> {
-//
-//        });
+
+
         if (this.firstTime) {
             landlordContentManagePropertyPropertyListButton.performClick();
         }

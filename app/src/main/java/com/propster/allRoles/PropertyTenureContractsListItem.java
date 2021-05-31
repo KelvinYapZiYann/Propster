@@ -3,9 +3,9 @@ package com.propster.allRoles;
 public class PropertyTenureContractsListItem {
 
     private final int propertyId;
-    private final String propertyName;
+    private String propertyName;
     private final int tenantId;
-    private final String tenantName;
+    private String tenantName;
     private final int propertyTenureContractsId;
     private final String propertyTenureContractsName;
     private final String propertyTenureContractsEndDate;
@@ -31,12 +31,20 @@ public class PropertyTenureContractsListItem {
         return propertyName;
     }
 
+    public void setPropertyName(String propertyName) {
+        this.propertyName = propertyName;
+    }
+
     public int getTenantId() {
         return tenantId;
     }
 
     public String getTenantName() {
         return tenantName;
+    }
+
+    public void setTenantName(String tenantName) {
+        this.tenantName = tenantName;
     }
 
     public int getPropertyTenureContractsId() {

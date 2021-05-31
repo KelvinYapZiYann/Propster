@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -77,6 +78,9 @@
         <activity android:name=".allRoles.AddPropertyTenureContractsActivity"/>
         <activity android:name=".allRoles.PropertyTenureContractsDetailActivity"/>
         <activity android:name=".allRoles.PropertyTenureContractsEditActivity"/>
+
+
+        <activity android:name=".utils.PreviewImageActivity"/>
 
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"

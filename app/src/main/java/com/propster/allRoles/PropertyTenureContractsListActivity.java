@@ -198,6 +198,14 @@ public class PropertyTenureContractsListActivity extends AppCompatActivity {
                             return;
                         }
                         dataFieldsJsonObject = dataJsonObject.getJSONObject("fields");
+                        if (!dataFieldsJsonObject.has("asset_id")) {
+                            getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
+                            return;
+                        }
+                        if (!dataFieldsJsonObject.has("tenant_id")) {
+                            getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
+                            return;
+                        }
                         if (!dataFieldsJsonObject.has("contract_name")) {
                             getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
                             return;
@@ -214,11 +222,12 @@ public class PropertyTenureContractsListActivity extends AppCompatActivity {
                             getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
                             return;
                         }
-                        propertyTenureContractsListItemList.add(new PropertyTenureContractsListItem(this.propertyId, this.propertyName, this.tenantId, this.tenantName,
+                        propertyTenureContractsListItemList.add(new PropertyTenureContractsListItem(dataFieldsJsonObject.getInt("asset_id"), "", dataFieldsJsonObject.getInt("tenant_id"), "",
                                 dataJsonObject.getInt("id"), dataFieldsJsonObject.getString("contract_name"), dataFieldsJsonObject.getString("tenure_end_date"),
                                 CurrencyConverter.convertCurrency(dataFieldsJsonObject.getString("monthly_rental_currency_iso")) + dataFieldsJsonObject.getInt("monthly_rental_amount")));
                     }
-                    getPropertyTenureContractsListSuccess(propertyTenureContractsListItemList);
+                    updatePropertyNameToTenureContractsListItem(propertyTenureContractsListItemList);
+//                    getPropertyTenureContractsListSuccess(propertyTenureContractsListItemList);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -320,6 +329,141 @@ public class PropertyTenureContractsListActivity extends AppCompatActivity {
             jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             this.requestQueue.add(jsonObjectRequest);
         }
+    }
+
+    private void updatePropertyNameToTenureContractsListItem(List<PropertyTenureContractsListItem> propertyTenureContractsListItemList) {
+        List<Integer> propertyIdList = new ArrayList<>();
+        boolean doesPropertyIdExist;
+        for (PropertyTenureContractsListItem propertyTenureContractsListItem : propertyTenureContractsListItemList) {
+            doesPropertyIdExist = false;
+            for (Integer propertyId : propertyIdList) {
+                if (propertyId.equals(propertyTenureContractsListItem.getPropertyId())) {
+                    doesPropertyIdExist = true;
+                    break;
+                }
+            }
+            if (!doesPropertyIdExist) {
+                propertyIdList.add(propertyTenureContractsListItem.getPropertyId());
+            }
+        }
+        List<String> propertyNameList = new ArrayList<>();
+        getPropertyNameFromPropertyId(propertyTenureContractsListItemList, propertyIdList, propertyNameList, 0);
+    }
+
+    private void getPropertyNameFromPropertyId(List<PropertyTenureContractsListItem> propertyTenureContractsListItemList, List<Integer> propertyIdList, List<String> propertyNameList, int index) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY + "/" + propertyIdList.get(index) + "/" + Constants.FIELD_VALUE + "?" + Constants.FIELDS + "=" + "asset_nickname", null, response -> {
+            try {
+                if (!response.has("asset_nickname")) {
+                    getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
+                }
+                propertyNameList.add(response.getString("asset_nickname"));
+            } catch (JSONException e) {
+                getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
+            }
+            if (index < propertyIdList.size() - 1) {
+                getPropertyNameFromPropertyId(propertyTenureContractsListItemList, propertyIdList, propertyNameList, index+1);
+            } else {
+                if (propertyIdList.size() != propertyNameList.size()) {
+                    getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
+                } else {
+                    for (int i = 0; i < propertyTenureContractsListItemList.size(); i++) {
+                        for (int j = 0; j < propertyNameList.size(); j++) {
+                            if (propertyTenureContractsListItemList.get(i).getPropertyId() == propertyIdList.get(j)) {
+                                propertyTenureContractsListItemList.get(i).setPropertyName(propertyNameList.get(j));
+                            }
+                        }
+                    }
+                    updateTenantNameToTenureContractsListItem(propertyTenureContractsListItemList);
+                }
+            }
+        }, error -> {
+            getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                if (SplashActivity.SESSION_ID.isEmpty()) {
+                    SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                    SplashActivity.SESSION_ID = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, "");
+                }
+                Map<String, String> headerParams = new HashMap<>();
+                headerParams.put("Accept", "application/json");
+                headerParams.put("Content-Type", "application/json");
+                headerParams.put("X-Requested-With", "XMLHttpRequest");
+                headerParams.put("Authorization", SplashActivity.SESSION_ID);
+                return headerParams;
+            }
+        };
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        this.requestQueue.add(jsonObjectRequest);
+    }
+
+    private void updateTenantNameToTenureContractsListItem(List<PropertyTenureContractsListItem> propertyTenureContractsListItemList) {
+        List<Integer> tenantIdList = new ArrayList<>();
+        boolean doesTenantIdExist;
+        for (PropertyTenureContractsListItem propertyTenureContractsListItem : propertyTenureContractsListItemList) {
+            doesTenantIdExist = false;
+            for (Integer tenantId : tenantIdList) {
+                if (tenantId.equals(propertyTenureContractsListItem.getTenantId())) {
+                    doesTenantIdExist = true;
+                    break;
+                }
+            }
+            if (!doesTenantIdExist) {
+                tenantIdList.add(propertyTenureContractsListItem.getTenantId());
+            }
+        }
+        List<String> tenantNameList = new ArrayList<>();
+        getTenantNameFromPropertyId(propertyTenureContractsListItemList, tenantIdList, tenantNameList, 0);
+    }
+
+    private void getTenantNameFromPropertyId(List<PropertyTenureContractsListItem> propertyTenureContractsListItemList, List<Integer> tenantIdList, List<String> tenantNameList, int index) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_TENANT + "/" + tenantIdList.get(index) + "/" + Constants.FIELD_VALUE + "?" + Constants.FIELDS + "=" + "first_name,last_name", null, response -> {
+            try {
+                if (!response.has("first_name")) {
+                    getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
+                }
+                if (!response.has("last_name")) {
+                    getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
+                }
+                tenantNameList.add(response.getString("first_name") + " " + response.getString("last_name"));
+            } catch (JSONException e) {
+                getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
+            }
+            if (index < tenantIdList.size() - 1) {
+                getTenantNameFromPropertyId(propertyTenureContractsListItemList, tenantIdList, tenantNameList, index+1);
+            } else {
+                if (tenantIdList.size() != tenantNameList.size()) {
+                    getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
+                } else {
+                    for (int i = 0; i < propertyTenureContractsListItemList.size(); i++) {
+                        for (int j = 0; j < tenantNameList.size(); j++) {
+                            if (propertyTenureContractsListItemList.get(i).getTenantId() == tenantIdList.get(j)) {
+                                propertyTenureContractsListItemList.get(i).setTenantName(tenantNameList.get(j));
+                            }
+                        }
+                    }
+                    getPropertyTenureContractsListSuccess(propertyTenureContractsListItemList);
+                }
+            }
+        }, error -> {
+            getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                if (SplashActivity.SESSION_ID.isEmpty()) {
+                    SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                    SplashActivity.SESSION_ID = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, "");
+                }
+                Map<String, String> headerParams = new HashMap<>();
+                headerParams.put("Accept", "application/json");
+                headerParams.put("Content-Type", "application/json");
+                headerParams.put("X-Requested-With", "XMLHttpRequest");
+                headerParams.put("Authorization", SplashActivity.SESSION_ID);
+                return headerParams;
+            }
+        };
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        this.requestQueue.add(jsonObjectRequest);
     }
 
     private boolean isShowingAllTenureContactsOfAllPropertiesAndTenants() {

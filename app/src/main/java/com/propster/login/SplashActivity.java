@@ -6,8 +6,6 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
 import android.os.Bundle;
-import android.view.WindowInsets;
-import android.view.WindowInsetsController;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -104,18 +102,10 @@ public class SplashActivity extends AppCompatActivity {
                 checkAppVersionFailed();
             }
         }, error -> {
-//            try {
-//                System.out.println("status code ==> " + error.networkResponse.statusCode);
-//                System.out.println("error ==> " + new String(error.networkResponse.data));
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            System.out.println("bruh pls...");
             checkAppVersionFailed();
         });
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         this.requestQueue.add(jsonObjectRequest);
-//        checkAppVersionSuccess();
     }
 
     private boolean compareAppVersionString(String appVersion, String responseFromServer) {

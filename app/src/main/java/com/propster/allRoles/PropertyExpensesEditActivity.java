@@ -29,7 +29,6 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.propster.R;
 import com.propster.content.NotificationActivity;
-import com.propster.content.UserProfileActivity;
 import com.propster.login.SplashActivity;
 import com.propster.utils.Constants;
 

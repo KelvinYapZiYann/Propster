@@ -26,7 +26,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="3">
+            android:layout_weight="0">
+<!--            android:layout_weight="3">-->
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:layout_width="@dimen/user_profile_image_width"
@@ -55,6 +56,7 @@
             android:layout_marginStart="@dimen/min_group_margin"
             android:layout_marginEnd="@dimen/min_group_margin"
             android:layout_marginBottom="@dimen/min_group_margin"
+            android:layout_marginTop="@dimen/min_group_margin"
             >
 
             <ScrollView

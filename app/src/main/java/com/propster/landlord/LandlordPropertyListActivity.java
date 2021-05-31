@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -50,6 +51,10 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
 
     private RequestQueue requestQueue;
 
+    private int paginationLastItem = 0;
+    private boolean paginationHasNextPage = false;
+    private int paginationId = 1;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +73,10 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
 
         this.requestQueue = Volley.newRequestQueue(this);
 
+        this.paginationLastItem = 0;
+        this.paginationHasNextPage = false;
+        this.paginationId = 1;
+
         this.landlordManageFirstTimeLoginLabel = findViewById(R.id.landlordManageFirstTimeLoginLabel);
         ListView landlordManagePropertyList = findViewById(R.id.landlordManagePropertyList);
         ArrayList<LandlordPropertyListItem> propertyListItemArrayList = new ArrayList<>();
@@ -81,6 +90,25 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
             propertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_TENANT_ID, landlordPropertyListItem.getTenantIdArray());
 //            propertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_EXPENSES_ID, landlordPropertyListItem.getPropertyExpensesIdArray());
             startActivityForResult(propertyTenantListIntent, Constants.REQUEST_CODE_LANDLORD_PROPERTY_TENANT_LIST);
+        });
+        landlordManagePropertyList.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                final int lastItem = firstVisibleItem + visibleItemCount;
+                if(lastItem == totalItemCount) {
+                    if(paginationLastItem != lastItem) {
+                        paginationLastItem = lastItem;
+                        if (paginationHasNextPage) {
+                            getProperty();
+                        }
+                    }
+                }
+            }
         });
 
         this.landlordManageAddPropertyButton = findViewById(R.id.landlordManageAddPropertyButton);
@@ -139,14 +167,21 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
 
     private void refreshPropertyListView() {
         this.startLoadingSpinner();
+        this.paginationId = 1;
+        this.refreshPropertyList();
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         String sessionId = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, null);
         if (sessionId == null) {
             this.landlordManageGetPropertyListFailed("Please relogin.");
             return;
         }
+        this.getProperty();
+    }
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY, null, response -> {
+    private void getProperty() {
+        this.startLoadingSpinner();
+        this.paginationHasNextPage = false;
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY + "?" + Constants.PAGE + "=" + this.paginationId, null, response -> {
             try {
                 if (!response.has("data")) {
                     landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
@@ -203,6 +238,20 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
                     propertyListItems.add(new LandlordPropertyListItem(dataFieldsJsonObject.getString("asset_nickname"), dataJsonObject.getInt("id"), tenantIdArray,0, 0));
                 }
                 landlordManageGetPropertyListSuccess(propertyListItems);
+                if (!response.has("meta")) {
+                    return;
+                }
+                JSONObject metaJsonObject = response.getJSONObject("meta");
+                if (!metaJsonObject.has("to")) {
+                    return;
+                }
+                if (!metaJsonObject.has("total")) {
+                    return;
+                }
+                if (metaJsonObject.getInt("total") > metaJsonObject.getInt("to")) {
+                    this.paginationHasNextPage = true;
+                    this.paginationId += 1;
+                }
             } catch (JSONException e) {
                 landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
             }
@@ -223,11 +272,9 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
         };
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         this.requestQueue.add(jsonObjectRequest);
-
     }
 
     private void landlordManageGetPropertyListSuccess(List<LandlordPropertyListItem> propertyListItemList) {
-        this.refreshPropertyList();
         this.stopLoadingSpinner();
         for (int i = 0; i < propertyListItemList.size(); i++) {
             this.addPropertyItemIntoList(propertyListItemList.get(i));

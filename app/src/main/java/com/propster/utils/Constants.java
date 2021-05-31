@@ -18,10 +18,10 @@ public class Constants {
 //    public static final String INTENT_EXTRA_PROPERTY_EXPENSES_ID = "INTENT_EXTRA_PROPERTY_EXPENSES_ID";
 //    public static final String INTENT_EXTRA_PROPERTY_EXPENSES_NAME = "INTENT_EXTRA_PROPERTY_EXPENSES_NAME";
 //    public static final String INTENT_EXTRA_PROPERTY_EXPENSES_PROPERTY_ID = "INTENT_EXTRA_PROPERTY_EXPENSES_PROPERTY_ID";
-    public static final String INTENT_EXTRA_PROPERTY_TENURE_CONTRACTS_LIST = "INTENT_EXTRA_PROPERTY_TENURE_CONTRACTS_LIST";
-    public static final String INTENT_EXTRA_PROPERTY_TENURE_CONTRACTS_LIST_ALL = "INTENT_EXTRA_PROPERTY_TENURE_CONTRACTS_LIST_ALL";
-    public static final String INTENT_EXTRA_PROPERTY_TENURE_CONTRACTS_PROPERTY_ID = "INTENT_EXTRA_PROPERTY_TENURE_CONTRACTS_PROPERTY_ID";
-    public static final String INTENT_EXTRA_PROPERTY_TENURE_CONTRACTS_ID = "INTENT_EXTRA_PROPERTY_TENURE_CONTRACTS_ID";
+//    public static final String INTENT_EXTRA_PROPERTY_TENURE_CONTRACTS_LIST = "INTENT_EXTRA_PROPERTY_TENURE_CONTRACTS_LIST";
+//    public static final String INTENT_EXTRA_PROPERTY_TENURE_CONTRACTS_LIST_ALL = "INTENT_EXTRA_PROPERTY_TENURE_CONTRACTS_LIST_ALL";
+//    public static final String INTENT_EXTRA_PROPERTY_TENURE_CONTRACTS_PROPERTY_ID = "INTENT_EXTRA_PROPERTY_TENURE_CONTRACTS_PROPERTY_ID";
+//    public static final String INTENT_EXTRA_PROPERTY_TENURE_CONTRACTS_ID = "INTENT_EXTRA_PROPERTY_TENURE_CONTRACTS_ID";
 
 
 
@@ -38,6 +38,9 @@ public class Constants {
     public static final String INTENT_EXTRA_PROPERTY_EXPENSES_NAME = "INTENT_EXTRA_PROPERTY_EXPENSES_NAME";
     public static final String INTENT_EXTRA_TENURE_CONTRACTS_ID = "INTENT_EXTRA_TENURE_CONTRACTS_ID";
     public static final String INTENT_EXTRA_TENURE_CONTRACTS_NAME = "INTENT_EXTRA_TENURE_CONTRACTS_NAME";
+
+    public static final String INTENT_EXTRA_IMAGE_URL = "INTENT_EXTRA_IMAGE_URL";
+    public static final String INTENT_EXTRA_IMAGE_NAME = "INTENT_EXTRA_IMAGE_NAME";
 
     /* REQUEST CODE */
     public static final int REQUEST_CODE_FIRST_LOGIN_USER_PROFILE_IMAGE = 1000;
@@ -78,10 +81,13 @@ public class Constants {
     public static final String SESSION_ID_PREFIX = "Bearer ";
 
     /* URL */
+    public static final String PAGE = "page";
     public static final String PROPERTY = "assets";
     public static final String TENANTS = "tenants";
     public static final String PROPERTY_EXPENSES = "asset-expenses";
     public static final String TENURE_CONTRACTS = "tenure-contracts";
+    public static final String FIELD_VALUE = "field-value";
+    public static final String FIELDS = "fields";
     public static final String URL_BASE = "https://propster.io/api/dashboard/";
 
     public static final String URL_LOGIN = URL_BASE + "login";
@@ -123,5 +129,7 @@ public class Constants {
     public static final String ERROR_USER_ADD_PROPERTY_LIMIT_FAILED = "Your limit is up. Please upgrade to higher subscription plan.";
     public static final String ERROR_USER_PROPERTY_DETAIL_ID_NOT_MATCHED = "Something wrong with the server. Please restart this app.";
     public static final String ERROR_USER_TENANT_DETAIL_ID_NOT_MATCHED = "Something wrong with the server. Please restart this app.";
+    public static final String ERROR_IMAGE_DOCUMENT_FILE_NOT_LOADED = "Failed loading the file. Please contact us.";
+    public static final String ERROR_IMAGE_DOCUMENT_FILE_NOT_SAVED = "Failed saving the file. Please contact us.";
 
 }
