@@ -245,11 +245,9 @@ public class UserProfileEditActivity extends AppCompatActivity {
             postData.put("last_name", this.userProfileEditLastName.getText().toString());
             postData.put("date_of_birth", this.userProfileEditDateOfBirth.getText().toString());
             postData.put("is_business", this.userProfileEditIsBusiness.getSelectedItemId() != 0);
-            System.out.println("postData ++ > " + postData.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        System.out.println("this.userId ==> " + this.userId);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, Constants.URL_USER + "/" + this.userId, postData, response -> saveUserProfileSuccess(), error -> {
             try {
                 System.out.println("error = " + new String(error.networkResponse.data));

@@ -2,7 +2,6 @@ package com.propster.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.MediaScannerConnection;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
@@ -62,21 +61,41 @@ public class PreviewImageActivity extends AppCompatActivity {
 
         this.previewImageSaveButton = findViewById(R.id.previewImageSaveButton);
         this.previewImageSaveButton.setOnClickListener(v -> {
+            File path = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
             AlertDialog.Builder uploadedFileSavingDialog = new AlertDialog.Builder(this);
             uploadedFileSavingDialog.setCancelable(false);
-            uploadedFileSavingDialog.setTitle("Do you want to save this file?");
+            uploadedFileSavingDialog.setTitle("Do you want to save this file in path below?");
+            uploadedFileSavingDialog.setMessage(path.getAbsolutePath());
             uploadedFileSavingDialog.setPositiveButton("OK", (dialog, which) -> {
-                File path = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS + "/propster");
+                String imageType;
+                if (this.imageUrl.contains(".png?")) {
+                    imageType = "png";
+                } else if (this.imageUrl.contains(".jpg?")) {
+                    imageType = "jpg";
+                } else if (this.imageUrl.contains(".jpeg?")) {
+                    imageType = "jpeg";
+                } else {
+                    dialog.cancel();
+                    return;
+                }
                 path.mkdirs();
-                File imageFile = new File(path, this.imageName + ".png");
+                File imageFile = new File(path, this.imageName + "." + imageType);
                 try {
                     FileOutputStream out = new FileOutputStream(imageFile);
-                    ((BitmapDrawable) this.previewImage.getDrawable()).getBitmap().compress(Bitmap.CompressFormat.PNG, 100, out);
+                    switch (imageType) {
+                        case "png":
+                            ((BitmapDrawable) this.previewImage.getDrawable()).getBitmap().compress(Bitmap.CompressFormat.PNG, 100, out);
+                            break;
+                        case "jpg":
+                        case "jpeg":
+                            ((BitmapDrawable) this.previewImage.getDrawable()).getBitmap().compress(Bitmap.CompressFormat.JPEG, 100, out);
+                            break;
+                    }
                     out.flush();
                     out.close();
 //                    MediaScannerConnection.scanFile(this, new String[] { imageFile.getAbsolutePath() }, null, (path1, uri) -> {
 //                        System.out.println("ExternalStorage scan = " + path1);
-//                        System.out.println("ExternalStorage uri = " + uri.toString());
+////                        System.out.println("ExternalStorage uri = " + uri.toString());
 //                    });
                 } catch (Exception e) {
                     getImageFailed(Constants.ERROR_IMAGE_DOCUMENT_FILE_NOT_SAVED);

@@ -307,6 +307,17 @@
                 android:layout_below="@id/propertyExpensesEditUploadedFileLabel"
                 />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/propertyExpensesEditUploadedFileName"
+                android:text="@string/empty"
+                android:textColor="@color/disabled_grey"
+                android:textSize="@dimen/input_field_font_size"
+                android:layout_below="@id/propertyExpensesEditUploadedFile"
+                android:visibility="gone"
+                />
+
         </RelativeLayout>
 
     </ScrollView>

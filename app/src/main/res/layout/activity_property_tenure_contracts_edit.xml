@@ -361,6 +361,7 @@
                 android:text="@string/empty"
                 android:textColor="@color/disabled_grey"
                 android:textSize="@dimen/input_field_font_size"
+                android:visibility="gone"
                 android:layout_below="@id/tenureContractsEditUploadedFile"
                 />
 

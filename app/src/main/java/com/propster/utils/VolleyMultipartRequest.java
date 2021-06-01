@@ -9,7 +9,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONObject;
 
@@ -20,80 +19,73 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
-public class VolleyMultipartRequest extends JsonObjectRequest {
+public class VolleyMultipartRequest extends Request<NetworkResponse> {
 
     private final String twoHyphens = "--";
     private final String lineEnd = "\r\n";
     private final String boundary = "apiclient-" + System.currentTimeMillis();
 
-    private final Response.Listener<JSONObject> listener;
+    private final Response.Listener<NetworkResponse> listener;
     private final Response.ErrorListener errorListener;
 
-    public VolleyMultipartRequest(int method, String url, JSONObject postData, Response.Listener<JSONObject> listener, @Nullable Response.ErrorListener errorListener) {
-        super(method, url, postData, listener, errorListener);
+    public VolleyMultipartRequest(int method, String url, Response.Listener<NetworkResponse> listener, @Nullable Response.ErrorListener errorListener) {
+        super(method, url, errorListener);
         this.listener = listener;
         this.errorListener = errorListener;
     }
 
-//    @Override
-//    public String getBodyContentType() {
-//        return "multipart/form-data;boundary=" + boundary;
-////        return "multipart/form-data";
-//    }
+    @Override
+    public String getBodyContentType() {
+        return "multipart/form-data;boundary=" + boundary;
+//        return "multipart/form-data";
+    }
 
     @Override
-    public byte[] getBody() {
-//        try {
-//            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//            DataOutputStream dos = new DataOutputStream(bos);
-//            // populate text payload
-//            Map<String, String> params = getParams();
-//            if (params != null && params.size() > 0) {
-//                textParse(dos, params, getParamsEncoding());
-//            }
-//
-//            // populate data byte payload
-//            Map<String, DataPart> data = getByteData();
-//            if (data != null && data.size() > 0) {
-//                dataParse(dos, data);
-//            }
-//
-//            // close multipart form data after text and file data
-//            dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
-//
-//            return bos.toByteArray();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+    public byte[] getBody() throws AuthFailureError {
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            DataOutputStream dos = new DataOutputStream(bos);
+            // populate text payload
+            Map<String, String> params = getParams();
+            if (params != null && params.size() > 0) {
+                textParse(dos, params, getParamsEncoding());
+            }
+
+            // populate data byte payload
+            Map<String, FilePart> data = getFileData();
+            if (data != null && data.size() > 0) {
+                dataParse(dos, data);
+            }
+
+            // close multipart form data after text and file data
+            dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+
+            return bos.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
-    protected Map<String, DataPart> getByteData() throws AuthFailureError {
+
+
+    protected Map<String, FilePart> getFileData() throws AuthFailureError {
         return null;
     }
 
-//    @Override
-//    protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
-//        try {
-//            return Response.success(response, HttpHeaderParser.parseCacheHeaders(response));
-//        } catch (Exception e) {
-//            return Response.error(new ParseError(e));
-//        }
-//    }
+    @Override
+    protected Response<NetworkResponse> parseNetworkResponse(NetworkResponse response) {
+        try {
+            return Response.success(response, HttpHeaderParser.parseCacheHeaders(response));
+        } catch (Exception e) {
+            return Response.error(new ParseError(e));
+        }
+    }
 
-    //    @Override
-//    protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
-//        try {
-//            return Response.success(response, HttpHeaderParser.parseCacheHeaders(response));
-//        } catch (Exception e) {
-//            return Response.error(new ParseError(e));
-//        }
-//    }
-
-//    @Override
-//    protected void deliverResponse(NetworkResponse response) {
-//        this.listener.onResponse(response);
-//    }
+    @Override
+    protected void deliverResponse(NetworkResponse response) {
+        this.listener.onResponse(response);
+    }
 
     @Override
     public void deliverError(VolleyError error) {
@@ -110,8 +102,8 @@ public class VolleyMultipartRequest extends JsonObjectRequest {
         }
     }
 
-    private void dataParse(DataOutputStream dataOutputStream, Map<String, DataPart> data) throws IOException {
-        for (Map.Entry<String, DataPart> entry : data.entrySet()) {
+    private void dataParse(DataOutputStream dataOutputStream, Map<String, FilePart> data) throws IOException {
+        for (Map.Entry<String, FilePart> entry : data.entrySet()) {
             buildDataPart(dataOutputStream, entry.getValue(), entry.getKey());
         }
     }
@@ -123,7 +115,7 @@ public class VolleyMultipartRequest extends JsonObjectRequest {
         dataOutputStream.writeBytes(parameterValue + lineEnd);
     }
 
-    private void buildDataPart(DataOutputStream dataOutputStream, DataPart dataFile, String inputName) throws IOException {
+    private void buildDataPart(DataOutputStream dataOutputStream, FilePart dataFile, String inputName) throws IOException {
         dataOutputStream.writeBytes(twoHyphens + boundary + lineEnd);
         dataOutputStream.writeBytes("Content-Disposition: form-data; name=\"" +
                 inputName + "\"; filename=\"" + dataFile.getFileName() + "\"" + lineEnd);
@@ -152,12 +144,12 @@ public class VolleyMultipartRequest extends JsonObjectRequest {
     }
 
 
-    public static class DataPart {
+    public static class FilePart {
         private final String fileName;
         private final byte[] content;
         private final String type;
 
-        public DataPart(String name, byte[] data, String type) {
+        public FilePart(String name, byte[] data, String type) {
             this.fileName = name;
             this.content = data;
             this.type = type;

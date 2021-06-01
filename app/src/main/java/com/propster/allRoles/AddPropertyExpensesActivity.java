@@ -37,10 +37,12 @@ import com.propster.R;
 import com.propster.content.NotificationActivity;
 import com.propster.login.SplashActivity;
 import com.propster.utils.Constants;
+import com.propster.utils.VolleyMultipartRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -324,71 +326,70 @@ public class AddPropertyExpensesActivity extends AppCompatActivity {
             jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             this.requestQueue.add(jsonObjectRequest);
         } else {
-//            VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, Constants.URL_LANDLORD_PROPERTY_EXPENSES, response -> {
-//                addPropertyExpensesSuccess();
-//            }, error -> {
-//                try {
-//                    System.out.println("error.networkResponse.data ==> " + new String(error.networkResponse.data));
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//                addPropertyExpensesFailed(Constants.ERROR_COMMON);
-//            }) {
-//                @Override
-//                public Map<String, String> getHeaders() throws AuthFailureError {
-//                    if (SplashActivity.SESSION_ID.isEmpty()) {
-//                        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-//                        SplashActivity.SESSION_ID = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, "");
-//                    }
-//                    Map<String, String> headerParams = new HashMap<>();
-//                    headerParams.put("Accept", "application/json");
+            VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, Constants.URL_LANDLORD_PROPERTY_EXPENSES, response -> {
+                addPropertyExpensesSuccess();
+            }, error -> {
+                try {
+                    System.out.println("error.networkResponse.data ==> " + new String(error.networkResponse.data));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                addPropertyExpensesFailed(Constants.ERROR_COMMON);
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    if (SplashActivity.SESSION_ID.isEmpty()) {
+                        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                        SplashActivity.SESSION_ID = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, "");
+                    }
+                    Map<String, String> headerParams = new HashMap<>();
+                    headerParams.put("Accept", "application/json");
 //                    headerParams.put("Content-Type", "application/json");
 //                    headerParams.put("X-Requested-With", "XMLHttpRequest");
-//                    headerParams.put("Authorization", SplashActivity.SESSION_ID);
-//                    return headerParams;
-//                }
-//
-//                @Nullable
-//                @Override
-//                protected Map<String, String> getParams() throws AuthFailureError {
-//                    Map<String, String> params = new HashMap<>();
-//                    params.put("asset_id", Integer.toString(propertyId));
-//                    params.put("payment_description", propertyExpensesAddDescription.getText().toString());
-//                    params.put("vendor", propertyExpensesAddVendor.getText().toString());
-//                    params.put("amount", propertyExpensesAddAmount.getText().toString());
-//                    params.put("currency_iso", "MYR");
-//                    params.put("date_of_expense", propertyExpensesAddDateOfExpense.getText().toString());
-//                    params.put("expense_type", propertyExpensesAddType.getText().toString());
-//                    params.put("is_recurring", Integer.toString(1));
-//                    return params;
-//                }
-//
-//                @Override
-//                protected Map<String, VolleyMultipartRequest.DataPart> getByteData() throws AuthFailureError {
-//                    Map<String, DataPart> params = new HashMap<>();
-//                    String name = propertyExpensesAddUploadedFileName.getText().toString();
-//                    String type = name.substring(name.lastIndexOf(".") + 1).toUpperCase();
-//
-//                    BitmapDrawable bitmapDrawable = (BitmapDrawable) propertyExpensesAddUploadedFile.getDrawable();
-//                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-//                    switch (type) {
-//                        case "JPEG":
-//                        case "JPG":
-//                            bitmapDrawable.getBitmap().compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
-//                            break;
-//                        case "PNG":
-//                            bitmapDrawable.getBitmap().compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
-//                            break;
-//                        default:
-//                            throw new AuthFailureError();
-//                    }
-//                    params.put("image", new DataPart(name, byteArrayOutputStream.toByteArray(), type));
-//                    return params;
-//
-//                }
-//            };
-//            volleyMultipartRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-//            this.requestQueue.add(volleyMultipartRequest);
+                    headerParams.put("Authorization", SplashActivity.SESSION_ID);
+                    return headerParams;
+                }
+
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("asset_id", Integer.toString(propertyId));
+                    params.put("payment_description", propertyExpensesAddDescription.getText().toString());
+                    params.put("vendor", propertyExpensesAddVendor.getText().toString());
+                    params.put("amount", propertyExpensesAddAmount.getText().toString());
+                    params.put("currency_iso", "MYR");
+                    params.put("date_of_expense", propertyExpensesAddDateOfExpense.getText().toString());
+                    params.put("expense_type", propertyExpensesAddType.getText().toString());
+                    params.put("is_recurring", Integer.toString(1));
+                    return params;
+                }
+
+                @Override
+                protected Map<String, FilePart> getFileData() throws AuthFailureError {
+                    Map<String, FilePart> params = new HashMap<>();
+                    String name = propertyExpensesAddUploadedFileName.getText().toString();
+                    String type = name.substring(name.lastIndexOf(".") + 1).toUpperCase();
+
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) propertyExpensesAddUploadedFile.getDrawable();
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    switch (type) {
+                        case "JPEG":
+                        case "JPG":
+                            bitmapDrawable.getBitmap().compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                            break;
+                        case "PNG":
+                            bitmapDrawable.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                            break;
+                        default:
+                            throw new AuthFailureError();
+                    }
+                    params.put("file", new FilePart(name, byteArrayOutputStream.toByteArray(), type));
+                    return params;
+
+                }
+            };
+            volleyMultipartRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            this.requestQueue.add(volleyMultipartRequest);
         }
     }
 

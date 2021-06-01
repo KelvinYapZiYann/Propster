@@ -136,7 +136,6 @@ public class RegisterActivity extends AppCompatActivity {
             try {
                 String errorResponseBody = new String(error.networkResponse.data, StandardCharsets.UTF_8);
                 JSONObject errorResponseBodyJsonObject = new JSONObject(errorResponseBody);
-                System.out.println("errorResponseBodyJsonObject = " + errorResponseBodyJsonObject.toString());
                 if (!errorResponseBodyJsonObject.has("message")) {
                     registerFailed(Constants.ERROR_COMMON);
                     return;

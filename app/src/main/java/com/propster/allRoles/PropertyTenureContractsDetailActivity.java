@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +23,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -31,7 +33,10 @@ import com.propster.R;
 import com.propster.content.NotificationActivity;
 import com.propster.login.SplashActivity;
 import com.propster.utils.Constants;
+import com.propster.utils.FileNameConverter;
+import com.propster.utils.PreviewImageActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -48,6 +53,7 @@ public class PropertyTenureContractsDetailActivity extends AppCompatActivity {
     private EditText tenureContractsDetailTenureStartDate;
     private EditText tenureContractsDetailTenureEndDate;
     private ShapeableImageView tenureContractsDetailUploadedFile;
+    private String imageUrl;
 
     private Button tenureContractsDetailEditButton;
 
@@ -94,9 +100,18 @@ public class PropertyTenureContractsDetailActivity extends AppCompatActivity {
         this.tenureContractsDetailTenureEndDate = findViewById(R.id.tenureContractsDetailTenureEndDate);
 
         this.tenureContractsDetailUploadedFile = findViewById(R.id.tenureContractsDetailUploadedFile);
-//        this.tenureContractsDetailUploadedFile.setOnClickListener(v -> {
-//
-//        });
+        this.tenureContractsDetailUploadedFile.setOnClickListener(v -> {
+            if (this.imageUrl == null) {
+                return;
+            }
+            if (!(this.tenureContractsDetailUploadedFile.getDrawable() instanceof BitmapDrawable)) {
+                return;
+            }
+            Intent previewImageIntent = new Intent(this, PreviewImageActivity.class);
+            previewImageIntent.putExtra(Constants.INTENT_EXTRA_IMAGE_URL, this.imageUrl);
+            previewImageIntent.putExtra(Constants.INTENT_EXTRA_IMAGE_NAME, FileNameConverter.convertFileName(this.tenantName + "_image_" + System.currentTimeMillis()));
+            startActivity(previewImageIntent);
+        });
 
         this.backgroundView = findViewById(R.id.tenureContractsDetailBackground);
         this.loadingSpinner = findViewById(R.id.tenureContractsDetailLoadingSpinner);
@@ -216,8 +231,20 @@ public class PropertyTenureContractsDetailActivity extends AppCompatActivity {
                 this.tenureContractsDetailMonthlyRentalAmount.setText(dataFieldsJsonObject.getString("monthly_rental_amount"));
                 this.tenureContractsDetailTenureStartDate.setText(dataFieldsJsonObject.getString("tenure_start_date"));
                 this.tenureContractsDetailTenureEndDate.setText(dataFieldsJsonObject.getString("tenure_end_date"));
-
                 this.stopLoadingSpinner();
+                if (!dataFieldsJsonObject.has("media")) {
+                    return;
+                }
+                JSONArray dataFieldsMediaJsonArray = dataFieldsJsonObject.getJSONArray("media");
+                if (dataFieldsMediaJsonArray.length() <= 0) {
+                    return;
+                }
+                JSONObject dataFieldsMediaJsonObject = dataFieldsMediaJsonArray.getJSONObject(0);
+                if (!dataFieldsMediaJsonObject.has("temporary_url")) {
+                    return;
+                }
+                String mediaTemporaryUrl = dataFieldsMediaJsonObject.getString("temporary_url");
+                displayImageFromUrl(mediaTemporaryUrl);
             } catch (JSONException e) {
                 e.printStackTrace();
                 getTenureContractsDetailFailed(Constants.ERROR_COMMON);
@@ -241,43 +268,18 @@ public class PropertyTenureContractsDetailActivity extends AppCompatActivity {
         this.requestQueue.add(jsonObjectRequest);
     }
 
-//    private void doGetPropertyExpensePropertyName() {
-//        this.startLoadingSpinner();
-//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY + "/" + this.propertyId, null, response -> {
-//            try {
-//                if (!response.has("data")) {
-//                    getPropertyExpensesDetailFailed(Constants.ERROR_COMMON);
-//                    return;
-//                }
-//                JSONObject dataJsonObject = response.getJSONObject("data");
-//                if (!dataJsonObject.has("id")) {
-//                    getPropertyExpensesDetailFailed(Constants.ERROR_COMMON);
-//                    return;
-//                }
-//                JSONObject dataFieldsJsonObject = dataJsonObject.getJSONObject("fields");
-//                this.propertyExpensesDetailPropertyName.setText(dataFieldsJsonObject.getString("asset_nickname"));
-//                this.stopLoadingSpinner();
-//            } catch (JSONException e) {
-//                getPropertyExpensesDetailFailed(Constants.ERROR_COMMON);
-//            }
-//        }, error -> getPropertyExpensesDetailFailed(Constants.ERROR_COMMON)) {
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                if (SplashActivity.SESSION_ID.isEmpty()) {
-//                    SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-//                    SplashActivity.SESSION_ID = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, "");
-//                }
-//                Map<String, String> headerParams = new HashMap<>();
-//                headerParams.put("Accept", "application/json");
-//                headerParams.put("Content-Type", "application/json");
-//                headerParams.put("X-Requested-With", "XMLHttpRequest");
-//                headerParams.put("Authorization", SplashActivity.SESSION_ID);
-//                return headerParams;
-//            }
-//        };
-//        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-//        this.requestQueue.add(jsonObjectRequest);
-//    }
+    private void displayImageFromUrl(String mediaTemporaryUrl) {
+        this.startLoadingSpinner();
+        ImageRequest imageRequest = new ImageRequest(mediaTemporaryUrl, response -> {
+            tenureContractsDetailUploadedFile.setImageBitmap(response);
+            this.imageUrl = mediaTemporaryUrl;
+            this.stopLoadingSpinner();
+        }, 0, 0, null, null, error -> {
+            getTenureContractsDetailFailed(Constants.ERROR_IMAGE_DOCUMENT_FILE_NOT_LOADED);
+        });
+        imageRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        this.requestQueue.add(imageRequest);
+    }
 
     private void getTenureContractsDetailFailed(String propertyExpensesDetailFailed) {
         this.stopLoadingSpinner();
