@@ -150,7 +150,7 @@ public class PropertyTenureContractsEditActivity extends AppCompatActivity {
             Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
             getIntent.setType("image/*");
             Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
-            startActivityForResult(chooserIntent, Constants.REQUEST_CODE_PROPERTY_EXPENSES_IMAGE_DOCUMENT);
+            startActivityForResult(chooserIntent, Constants.REQUEST_CODE_TENURE_CONTRACTS_IMAGE_DOCUMENT);
         });
 
         this.backgroundView = findViewById(R.id.tenureContractsEditBackground);
@@ -232,7 +232,6 @@ public class PropertyTenureContractsEditActivity extends AppCompatActivity {
         }
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_TENURE_CONTRACTS + "/" + this.tenureContractId, null, response -> {
             try {
-                System.out.println("response = " + response.toString());
                 if (!response.has("data")) {
                     getTenureContractsEditFailed(Constants.ERROR_COMMON);
                     return;

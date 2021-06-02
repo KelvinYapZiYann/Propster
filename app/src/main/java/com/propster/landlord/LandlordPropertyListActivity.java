@@ -26,6 +26,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.propster.R;
+import com.propster.allRoles.PropertyExpensesListItem;
 import com.propster.content.NotificationActivity;
 import com.propster.login.SplashActivity;
 import com.propster.utils.Constants;
@@ -87,7 +88,7 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
             Intent propertyTenantListIntent = new Intent(LandlordPropertyListActivity.this, LandlordPropertyTenantListActivity.class);
             propertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_ID, landlordPropertyListItem.getPropertyId());
             propertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_NAME, landlordPropertyListItem.getPropertyName());
-            propertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_TENANT_ID, landlordPropertyListItem.getTenantIdArray());
+//            propertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_TENANT_ID, landlordPropertyListItem.getTenantIdArray());
 //            propertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_EXPENSES_ID, landlordPropertyListItem.getPropertyExpensesIdArray());
             startActivityForResult(propertyTenantListIntent, Constants.REQUEST_CODE_LANDLORD_PROPERTY_TENANT_LIST);
         });
@@ -190,10 +191,10 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
                 JSONArray dataJsonArray = response.getJSONArray("data");
                 JSONObject dataJsonObject;
                 JSONObject dataFieldsJsonObject;
-                int[] tenantIdArray;
+//                int[] tenantIdArray;
 //                int[] expensesIdArray;
-                JSONArray dataTenantsJsonArray;
-                JSONObject dataTenantJsonObject;
+//                JSONArray dataTenantsJsonArray;
+//                JSONObject dataTenantJsonObject;
 //                JSONArray dataExpensesJsonArray;
 //                JSONObject dataExpensesJsonObject;
                 List<LandlordPropertyListItem> propertyListItems = new ArrayList<>();
@@ -216,16 +217,23 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
                         landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
                         return;
                     }
-                    if (!dataJsonObject.has("tenants")) {
-                        landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
-                        return;
-                    }
-                    dataTenantsJsonArray = dataJsonObject.getJSONArray("tenants");
-                    tenantIdArray = new int[dataTenantsJsonArray.length()];
-                    for (int j = 0; j < dataTenantsJsonArray.length(); j++) {
-                        dataTenantJsonObject = dataTenantsJsonArray.getJSONObject(j);
-                        tenantIdArray[j] = dataTenantJsonObject.getInt("id");
-                    }
+                    ////////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////////
+//                    if (!dataJsonObject.has("tenants")) {
+//                        landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
+//                        return;
+//                    }
+//                    dataTenantsJsonArray = dataJsonObject.getJSONArray("tenants");
+//                    tenantIdArray = new int[dataTenantsJsonArray.length()];
+//                    for (int j = 0; j < dataTenantsJsonArray.length(); j++) {
+//                        dataTenantJsonObject = dataTenantsJsonArray.getJSONObject(j);
+//                        tenantIdArray[j] = dataTenantJsonObject.getInt("id");
+//                    }
+                    ////////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////////
+
 //                    if (!dataFieldsJsonObject.has("asset_expenses")) {
 //                        landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
 //                    }
@@ -235,9 +243,10 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
 //                        dataExpensesJsonObject = dataExpensesJsonArray.getJSONObject(j);
 //                        expensesIdArray[j] = dataExpensesJsonObject.getInt("id");
 //                    }
-                    propertyListItems.add(new LandlordPropertyListItem(dataFieldsJsonObject.getString("asset_nickname"), dataJsonObject.getInt("id"), tenantIdArray,0, 0));
+                    propertyListItems.add(new LandlordPropertyListItem(dataFieldsJsonObject.getString("asset_nickname"), dataJsonObject.getInt("id"), 0, 0,0, 0));
                 }
-                landlordManageGetPropertyListSuccess(propertyListItems);
+                updateTenantCountToPropertyListItem(propertyListItems);
+//                landlordManageGetPropertyListSuccess(propertyListItems);
                 if (!response.has("meta")) {
                     return;
                 }
@@ -256,6 +265,48 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
                 landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
             }
         }, error -> landlordManageGetPropertyListFailed(Constants.ERROR_COMMON)) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                if (SplashActivity.SESSION_ID.isEmpty()) {
+                    SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+                    SplashActivity.SESSION_ID = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, "");
+                }
+                Map<String, String> headerParams = new HashMap<>();
+                headerParams.put("Accept", "application/json");
+                headerParams.put("Content-Type", "application/json");
+                headerParams.put("X-Requested-With", "XMLHttpRequest");
+                headerParams.put("Authorization", SplashActivity.SESSION_ID);
+                return headerParams;
+            }
+        };
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        this.requestQueue.add(jsonObjectRequest);
+    }
+
+    private void updateTenantCountToPropertyListItem(List<LandlordPropertyListItem> propertyListItems) {
+        getTenants(propertyListItems, 0);
+    }
+
+    private void getTenants(List<LandlordPropertyListItem> propertyListItemList, int index) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY + "/" + propertyListItemList.get(index).getPropertyId() + "/" + Constants.TENANTS, null, response -> {
+            try {
+                if (!response.has("data")) {
+                    landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
+                }
+                JSONArray dataJsonArray = response.getJSONArray("data");
+                propertyListItemList.get(index).setTenantCount(dataJsonArray.length());
+                propertyListItemList.get(index).setTotalTenantCount(dataJsonArray.length());
+            } catch (JSONException e) {
+                landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
+            }
+            if (index < propertyListItemList.size() - 1) {
+                getTenants(propertyListItemList, index+1);
+            } else {
+                landlordManageGetPropertyListSuccess(propertyListItemList);
+            }
+        }, error -> {
+            landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 if (SplashActivity.SESSION_ID.isEmpty()) {

@@ -207,6 +207,7 @@ public class PropertyExpensesListActivity extends AppCompatActivity {
                     JSONArray dataJsonArray = response.getJSONArray("data");
                     JSONObject dataJsonObject;
                     JSONObject dataFieldsJsonObject;
+                    JSONObject dataFieldsAssetJsonObject;
                     List<PropertyExpensesListItem> propertyExpensesListItemList = new ArrayList<>();
                     for (int i = dataJsonArray.length() - 1; i >= 0; i--) {
                         dataJsonObject = dataJsonArray.getJSONObject(i);
@@ -219,7 +220,7 @@ public class PropertyExpensesListActivity extends AppCompatActivity {
                             return;
                         }
                         dataFieldsJsonObject = dataJsonObject.getJSONObject("fields");
-                        if (!dataFieldsJsonObject.has("asset_id")) {
+                        if (!dataFieldsJsonObject.has("asset")) {
                             getPropertyExpensesListFailed(Constants.ERROR_COMMON);
                             return;
                         }
@@ -243,27 +244,48 @@ public class PropertyExpensesListActivity extends AppCompatActivity {
                             getPropertyExpensesListFailed(Constants.ERROR_COMMON);
                             return;
                         }
-                        propertyExpensesListItemList.add(new PropertyExpensesListItem(dataFieldsJsonObject.getInt("asset_id"), "", dataJsonObject.getInt("id"),
-                                dataFieldsJsonObject.getString("payment_description"), dataFieldsJsonObject.getString("vendor"), dataFieldsJsonObject.getString("date_of_expense"),
-                                CurrencyConverter.convertCurrency(dataFieldsJsonObject.getString("currency_iso")) + dataFieldsJsonObject.getInt("amount")));
+                        dataFieldsAssetJsonObject = dataFieldsJsonObject.getJSONObject("asset");
+                        if (!dataFieldsAssetJsonObject.has("asset_nickname")) {
+                            getPropertyExpensesListFailed(Constants.ERROR_COMMON);
+                            return;
+                        }
+                        if (!dataFieldsAssetJsonObject.has("id")) {
+                            getPropertyExpensesListFailed(Constants.ERROR_COMMON);
+                            return;
+                        }
+                        if (dataFieldsAssetJsonObject.isNull("asset_nickname")) {
+                            continue;
+                        }
+                        if (dataFieldsAssetJsonObject.isNull("id")) {
+                            continue;
+                        }
+                        propertyExpensesListItemList.add(new PropertyExpensesListItem(
+                                dataFieldsAssetJsonObject.getInt("id"),
+                                dataFieldsAssetJsonObject.getString("asset_nickname"),
+                                dataJsonObject.getInt("id"),
+                                dataFieldsJsonObject.getString("payment_description"),
+                                dataFieldsJsonObject.getString("vendor"),
+                                dataFieldsJsonObject.getString("date_of_expense"),
+                                CurrencyConverter.convertCurrency(dataFieldsJsonObject.getString("currency_iso")) + dataFieldsJsonObject.getDouble("amount")));
                     }
-//                    getPropertyExpensesListSuccess(propertyExpensesListItemList);
-                    updatePropertyNameToPropertyExpensesListItem(propertyExpensesListItemList);
+                    getPropertyExpensesListSuccess(propertyExpensesListItemList);
+//                    updatePropertyNameToPropertyExpensesListItem(propertyExpensesListItemList);
                     if (!response.has("meta")) {
                         return;
                     }
                     JSONObject metaJsonObject = response.getJSONObject("meta");
-                    if (!metaJsonObject.has("to")) {
+                    if (!metaJsonObject.has("current_page")) {
                         return;
                     }
-                    if (!metaJsonObject.has("total")) {
+                    if (!metaJsonObject.has("last_page")) {
                         return;
                     }
-                    if (metaJsonObject.getInt("total") > metaJsonObject.getInt("to")) {
+                    if (metaJsonObject.getInt("last_page") > metaJsonObject.getInt("current_page")) {
                         this.paginationHasNextPage = true;
                         this.paginationId += 1;
                     }
                 } catch (JSONException e) {
+                    e.printStackTrace();
                     getPropertyExpensesListFailed(Constants.ERROR_COMMON);
                 }
             }, error -> getPropertyExpensesListFailed(Constants.ERROR_COMMON)) {
@@ -315,6 +337,10 @@ public class PropertyExpensesListActivity extends AppCompatActivity {
                         }
                         JSONObject dataFieldsJsonObject = dataJsonObject.getJSONObject("fields");
                         if (!dataFieldsJsonObject.has("payment_description")) {
+                            getPropertyExpensesListFailed(Constants.ERROR_COMMON);
+                            return;
+                        }
+                        if (!dataFieldsJsonObject.has("vendor")) {
                             getPropertyExpensesListFailed(Constants.ERROR_COMMON);
                             return;
                         }
@@ -380,71 +406,71 @@ public class PropertyExpensesListActivity extends AppCompatActivity {
         }
     }
 
-    private void updatePropertyNameToPropertyExpensesListItem(List<PropertyExpensesListItem> propertyExpensesListItemList) {
-        List<Integer> propertyIdList = new ArrayList<>();
-        boolean doesPropertyIdExist;
-        for (PropertyExpensesListItem propertyExpensesListItem : propertyExpensesListItemList) {
-            doesPropertyIdExist = false;
-            for (Integer propertyId : propertyIdList) {
-                if (propertyId.equals(propertyExpensesListItem.getPropertyId())) {
-                    doesPropertyIdExist = true;
-                    break;
-                }
-            }
-            if (!doesPropertyIdExist) {
-                propertyIdList.add(propertyExpensesListItem.getPropertyId());
-            }
-        }
-        List<String> propertyNameList = new ArrayList<>();
-        getPropertyNameFromPropertyId(propertyExpensesListItemList, propertyIdList, propertyNameList, 0);
-    }
-
-    private void getPropertyNameFromPropertyId(List<PropertyExpensesListItem> propertyExpensesListItemList, List<Integer> propertyIdList, List<String> propertyNameList, int index) {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY + "/" + propertyIdList.get(index) + "/" + Constants.FIELD_VALUE + "?" + Constants.FIELDS + "=" + "asset_nickname", null, response -> {
-            try {
-                if (!response.has("asset_nickname")) {
-                    getPropertyExpensesListFailed(Constants.ERROR_COMMON);
-                }
-                propertyNameList.add(response.getString("asset_nickname"));
-            } catch (JSONException e) {
-                getPropertyExpensesListFailed(Constants.ERROR_COMMON);
-            }
-            if (index < propertyIdList.size() - 1) {
-                getPropertyNameFromPropertyId(propertyExpensesListItemList, propertyIdList, propertyNameList, index+1);
-            } else {
-                if (propertyIdList.size() != propertyNameList.size()) {
-                    getPropertyExpensesListFailed(Constants.ERROR_COMMON);
-                } else {
-                    for (int i = 0; i < propertyExpensesListItemList.size(); i++) {
-                        for (int j = 0; j < propertyNameList.size(); j++) {
-                            if (propertyExpensesListItemList.get(i).getPropertyId() == propertyIdList.get(j)) {
-                                propertyExpensesListItemList.get(i).setPropertyName(propertyNameList.get(j));
-                            }
-                        }
-                    }
-                    getPropertyExpensesListSuccess(propertyExpensesListItemList);
-                }
-            }
-        }, error -> {
-            getPropertyExpensesListFailed(Constants.ERROR_COMMON);
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                if (SplashActivity.SESSION_ID.isEmpty()) {
-                    SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-                    SplashActivity.SESSION_ID = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, "");
-                }
-                Map<String, String> headerParams = new HashMap<>();
-                headerParams.put("Accept", "application/json");
-                headerParams.put("Content-Type", "application/json");
-                headerParams.put("X-Requested-With", "XMLHttpRequest");
-                headerParams.put("Authorization", SplashActivity.SESSION_ID);
-                return headerParams;
-            }
-        };
-        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        this.requestQueue.add(jsonObjectRequest);
-    }
+//    private void updatePropertyNameToPropertyExpensesListItem(List<PropertyExpensesListItem> propertyExpensesListItemList) {
+//        List<Integer> propertyIdList = new ArrayList<>();
+//        boolean doesPropertyIdExist;
+//        for (PropertyExpensesListItem propertyExpensesListItem : propertyExpensesListItemList) {
+//            doesPropertyIdExist = false;
+//            for (Integer propertyId : propertyIdList) {
+//                if (propertyId.equals(propertyExpensesListItem.getPropertyId())) {
+//                    doesPropertyIdExist = true;
+//                    break;
+//                }
+//            }
+//            if (!doesPropertyIdExist) {
+//                propertyIdList.add(propertyExpensesListItem.getPropertyId());
+//            }
+//        }
+//        List<String> propertyNameList = new ArrayList<>();
+//        getPropertyNameFromPropertyId(propertyExpensesListItemList, propertyIdList, propertyNameList, 0);
+//    }
+//
+//    private void getPropertyNameFromPropertyId(List<PropertyExpensesListItem> propertyExpensesListItemList, List<Integer> propertyIdList, List<String> propertyNameList, int index) {
+//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY + "/" + propertyIdList.get(index) + "/" + Constants.FIELD_VALUE + "?" + Constants.FIELDS + "=" + "asset_nickname", null, response -> {
+//            try {
+//                if (!response.has("asset_nickname")) {
+//                    getPropertyExpensesListFailed(Constants.ERROR_COMMON);
+//                }
+//                propertyNameList.add(response.getString("asset_nickname"));
+//            } catch (JSONException e) {
+//                getPropertyExpensesListFailed(Constants.ERROR_COMMON);
+//            }
+//            if (index < propertyIdList.size() - 1) {
+//                getPropertyNameFromPropertyId(propertyExpensesListItemList, propertyIdList, propertyNameList, index+1);
+//            } else {
+//                if (propertyIdList.size() != propertyNameList.size()) {
+//                    getPropertyExpensesListFailed(Constants.ERROR_COMMON);
+//                } else {
+//                    for (int i = 0; i < propertyExpensesListItemList.size(); i++) {
+//                        for (int j = 0; j < propertyNameList.size(); j++) {
+//                            if (propertyExpensesListItemList.get(i).getPropertyId() == propertyIdList.get(j)) {
+//                                propertyExpensesListItemList.get(i).setPropertyName(propertyNameList.get(j));
+//                            }
+//                        }
+//                    }
+//                    getPropertyExpensesListSuccess(propertyExpensesListItemList);
+//                }
+//            }
+//        }, error -> {
+//            getPropertyExpensesListFailed(Constants.ERROR_COMMON);
+//        }) {
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                if (SplashActivity.SESSION_ID.isEmpty()) {
+//                    SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+//                    SplashActivity.SESSION_ID = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, "");
+//                }
+//                Map<String, String> headerParams = new HashMap<>();
+//                headerParams.put("Accept", "application/json");
+//                headerParams.put("Content-Type", "application/json");
+//                headerParams.put("X-Requested-With", "XMLHttpRequest");
+//                headerParams.put("Authorization", SplashActivity.SESSION_ID);
+//                return headerParams;
+//            }
+//        };
+//        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//        this.requestQueue.add(jsonObjectRequest);
+//    }
 
     private void getPropertyExpensesListSuccess(List<PropertyExpensesListItem> propertyExpensesListItemList) {
         this.stopLoadingSpinner();

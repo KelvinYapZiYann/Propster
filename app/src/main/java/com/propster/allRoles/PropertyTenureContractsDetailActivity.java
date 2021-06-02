@@ -185,7 +185,6 @@ public class PropertyTenureContractsDetailActivity extends AppCompatActivity {
         }
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_TENURE_CONTRACTS + "/" + this.tenureContractId, null, response -> {
             try {
-                System.out.println("response = " + response.toString());
                 if (!response.has("data")) {
                     getTenureContractsDetailFailed(Constants.ERROR_COMMON);
                     return;
