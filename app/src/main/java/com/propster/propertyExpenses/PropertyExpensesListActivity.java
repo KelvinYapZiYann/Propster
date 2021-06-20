@@ -1,4 +1,4 @@
-package com.propster.allRoles;
+package com.propster.propertyExpenses;
 
 import android.app.Activity;
 import android.content.Context;
@@ -72,7 +72,7 @@ public class PropertyExpensesListActivity extends AppCompatActivity {
             this.propertyName = null;
 //            this.propertyExpensesIdArray = null;
         } else {
-            this.propertyExpensesAll = extras.getString(Constants.INTENT_EXTRA_LIST_ALL_PROPERTY_EXPENSES, null);
+            this.propertyExpensesAll = extras.getString(Constants.INTENT_EXTRA_LIST_PROPERTY_EXPENSES, null);
             this.propertyId = extras.getInt(Constants.INTENT_EXTRA_PROPERTY_ID, -1);
             this.propertyName = extras.getString(Constants.INTENT_EXTRA_PROPERTY_NAME, null);
 //            this.propertyExpensesIdArray = extras.getIntArray(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_LIST_PROPERTY_EXPENSES_ID);
@@ -402,7 +402,7 @@ public class PropertyExpensesListActivity extends AppCompatActivity {
         if (this.propertyExpensesAll == null) {
             return false;
         } else {
-            return this.propertyExpensesAll.equals(Constants.INTENT_EXTRA_LIST_ALL_PROPERTY_EXPENSES);
+            return this.propertyExpensesAll.equals(Constants.INTENT_EXTRA_LIST_ALL);
         }
     }
 

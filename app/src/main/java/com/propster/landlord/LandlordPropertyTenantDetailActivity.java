@@ -27,9 +27,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.nambimobile.widgets.efab.FabOption;
 import com.propster.R;
-import com.propster.allRoles.PropertyTenureContractsListActivity;
+import com.propster.tenureContracts.PropertyTenureContractsListActivity;
 import com.propster.content.NotificationActivity;
-import com.propster.content.UserProfileActivity;
 import com.propster.login.SplashActivity;
 import com.propster.utils.Constants;
 

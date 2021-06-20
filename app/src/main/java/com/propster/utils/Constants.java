@@ -26,9 +26,11 @@ public class Constants {
 
 
     public static final String INTENT_EXTRA_CONTENT_FIRST_TIME_LOGIN = "INTENT_EXTRA_CONTENT_FIRST_TIME_LOGIN";
-    public static final String INTENT_EXTRA_LIST_ALL_TENANTS = "INTENT_EXTRA_LIST_ALL_TENANTS";
-    public static final String INTENT_EXTRA_LIST_ALL_PROPERTY_EXPENSES = "INTENT_EXTRA_LIST_ALL_PROPERTY_EXPENSES";
-    public static final String INTENT_EXTRA_LIST_ALL_TENURE_CONTRACTS = "INTENT_EXTRA_LIST_ALL_TENURE_CONTRACTS";
+    public static final String INTENT_EXTRA_LIST_ALL = "INTENT_EXTRA_LIST_ALL";
+    public static final String INTENT_EXTRA_LIST_TENANTS = "INTENT_EXTRA_LIST_TENANTS";
+    public static final String INTENT_EXTRA_LIST_PROPERTY_EXPENSES = "INTENT_EXTRA_LIST_PROPERTY_EXPENSES";
+    public static final String INTENT_EXTRA_LIST_TENURE_CONTRACTS = "INTENT_EXTRA_LIST_TENURE_CONTRACTS";
+    public static final String INTENT_EXTRA_LIST_PAYMENT_RECORDS = "INTENT_EXTRA_LIST_PAYMENT_RECORDS";
 
     public static final String INTENT_EXTRA_PROPERTY_ID = "INTENT_EXTRA_PROPERTY_ID";
     public static final String INTENT_EXTRA_PROPERTY_NAME = "INTENT_EXTRA_PROPERTY_NAME";
@@ -58,6 +60,9 @@ public class Constants {
     public static final int REQUEST_CODE_ADD_TENURE_CONTRACTS = 7000;
     public static final int REQUEST_CODE_TENURE_CONTRACTS_DETAIL = 7200;
     public static final int REQUEST_CODE_TENURE_CONTRACTS_IMAGE_DOCUMENT = 7500;
+    public static final int REQUEST_CODE_ADD_PAYMENT_RECORDS = 8000;
+    public static final int REQUEST_CODE_PAYMENT_RECORDS_DETAIL = 8200;
+    public static final int REQUEST_CODE_PAYMENT_RECORDS_IMAGE_DOCUMENT = 8500;
 
     /* SHARED PREFERENCES */
     public static final String SHARED_PREFERENCES = "Propster_SP";
@@ -108,6 +113,7 @@ public class Constants {
 //    public static final String URL_LANDLORD_PROPERTY_TENURE_CONTRACTS = URL_LANDLORD_PROPERTY + "/tenure-contract";
     public static final String URL_LANDLORD_PROPERTY_EXPENSES = URL_BASE + "asset-expenses";
     public static final String URL_LANDLORD_TENURE_CONTRACTS = URL_BASE + "tenure-contracts";
+    public static final String URL_LANDLORD_PAYMENT_RECORDS = URL_BASE + "payment-records";
 
 //    public static final String URL_LANDLORD_PROPERTY_LIST = URL_BASE + "assets";
 //    public static final String URL_LANDLORD_ADD_PROPERTY = URL_BASE + "assets";

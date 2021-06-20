@@ -69,15 +69,15 @@
         <activity android:name=".tenant.TenantPropertyListActivity"/>
         <activity android:name=".tenant.TenantPropertyDetailActivity"/>
 
-        <activity android:name=".allRoles.PropertyExpensesListActivity"/>
-        <activity android:name=".allRoles.AddPropertyExpensesActivity"/>
-        <activity android:name=".allRoles.PropertyExpensesDetailActivity"/>
-        <activity android:name=".allRoles.PropertyExpensesEditActivity"/>
+        <activity android:name=".propertyExpenses.PropertyExpensesListActivity"/>
+        <activity android:name=".propertyExpenses.AddPropertyExpensesActivity"/>
+        <activity android:name=".propertyExpenses.PropertyExpensesDetailActivity"/>
+        <activity android:name=".propertyExpenses.PropertyExpensesEditActivity"/>
 
-        <activity android:name=".allRoles.PropertyTenureContractsListActivity"/>
-        <activity android:name=".allRoles.AddPropertyTenureContractsActivity"/>
-        <activity android:name=".allRoles.PropertyTenureContractsDetailActivity"/>
-        <activity android:name=".allRoles.PropertyTenureContractsEditActivity"/>
+        <activity android:name=".tenureContracts.PropertyTenureContractsListActivity"/>
+        <activity android:name=".tenureContracts.AddPropertyTenureContractsActivity"/>
+        <activity android:name=".tenureContracts.PropertyTenureContractsDetailActivity"/>
+        <activity android:name=".tenureContracts.PropertyTenureContractsEditActivity"/>
 
 
         <activity android:name=".utils.PreviewImageActivity"/>

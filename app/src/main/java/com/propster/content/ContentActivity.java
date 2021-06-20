@@ -188,10 +188,14 @@ public class ContentActivity extends AppCompatActivity {
                     return;
                 }
                 JSONObject dataJsonObject = response.getJSONObject("data");
-                if (!dataJsonObject.has("selected_role")) {
+                if (!dataJsonObject.has("fields")) {
                     return;
                 }
-                String selectedRole = dataJsonObject.getString("selected_role");
+                JSONObject dataFieldsJsonObject = response.getJSONObject("fields");
+                if (!dataFieldsJsonObject.has("selected_role")) {
+                    return;
+                }
+                String selectedRole = dataFieldsJsonObject.getString("selected_role");
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 if (selectedRole.equals("TENANT")) {
                     editor.putInt(Constants.SHARED_PREFERENCES_ROLE, Constants.ROLE_TENANT);

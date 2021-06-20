@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/min_group_margin"
+        >
+        <!--        android:background="@drawable/edittext_background_unfocused"-->
+        <!--        android:layout_marginBottom="@dimen/min_group_margin"-->
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/paymentRecordsListItemDescription"
+                    android:textColor="@color/black"
+                    android:text="payment record name"
+                    android:textSize="@dimen/list_item_secondary_large_font_size"
+                    />
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/paymentRecordsListItemDirection"
+                    android:src="@drawable/ic_arrow_left_green"
+                    android:layout_below="@id/paymentRecordsListItemDescription"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/paymentRecordsListItemPersonName"
+                    android:textColor="@color/black"
+                    android:text="person name"
+                    android:textSize="@dimen/list_item_secondary_small_font_size"
+                    android:layout_below="@id/paymentRecordsListItemDescription"
+                    android:layout_toEndOf="@id/paymentRecordsListItemDirection"
+                    />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/paymentRecordsListItemPaymentType"
+                        android:text="payment type"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/list_item_secondary_large_font_size"
+                        android:layout_alignParentEnd="true"
+                        />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/paymentRecordsListItemPaymentDate"
+                        android:textColor="@color/black"
+                        android:text="2020-05-05"
+                        android:textSize="@dimen/list_item_secondary_small_font_size"
+                        android:layout_toStartOf="@id/paymentRecordsListItemPaymentAmount"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/paymentRecordsListItemPaymentAmount"
+                        android:textColor="@color/black"
+                        android:text="RM500"
+                        android:textSize="@dimen/list_item_secondary_small_font_size"
+                        android:layout_alignParentEnd="true"
+                        />
+
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

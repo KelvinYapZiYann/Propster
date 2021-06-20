@@ -240,6 +240,13 @@
     <string name="tenure_contracts_tenure_end_date_label">Tenure End Date:</string>
     <string name="tenure_contracts_uploaded_files_label">Uploaded Files:</string>
 
+    <!-- PAYMENT RECORDS -->
+    <string name="add_payment_records">Add Payment Records</string>
+
+    <string name="payment_records_description">Description</string>
+
+    <string name="payment_records_description_label">Description:</string>
+
     <!-- ERROR -->
     <string name="login_error_username_empty">Username cannot be empty</string>
     <string name="login_error_password_empty">Password cannot be empty</string>

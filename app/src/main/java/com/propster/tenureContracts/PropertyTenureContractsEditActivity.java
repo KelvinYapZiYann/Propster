@@ -1,4 +1,4 @@
-package com.propster.allRoles;
+package com.propster.tenureContracts;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;

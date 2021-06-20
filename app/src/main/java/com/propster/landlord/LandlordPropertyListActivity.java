@@ -26,7 +26,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.propster.R;
-import com.propster.allRoles.PropertyExpensesListItem;
 import com.propster.content.NotificationActivity;
 import com.propster.login.SplashActivity;
 import com.propster.utils.Constants;
@@ -167,6 +166,7 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
     }
 
     private void refreshPropertyListView() {
+        System.out.println("refreshPropertyListView");
         this.startLoadingSpinner();
         this.paginationId = 1;
         this.refreshPropertyList();
@@ -180,11 +180,14 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
     }
 
     private void getProperty() {
+        System.out.println("getProperty");
         this.startLoadingSpinner();
         this.paginationHasNextPage = false;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY + "?" + Constants.PAGE + "=" + this.paginationId, null, response -> {
             try {
+                System.out.println("response => " + response.toString());
                 if (!response.has("data")) {
+                    System.out.println("!response.has(\"data\")");
                     landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
                     return;
                 }
@@ -201,19 +204,23 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
                 for (int i = 0; i < dataJsonArray.length(); i++) {
                     dataJsonObject = dataJsonArray.getJSONObject(i);
                     if (!dataJsonObject.has("id")) {
+                        System.out.println("!dataJsonObject.has(\"id\")");
                         landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
                         return;
                     }
                     if (!dataJsonObject.has("fields")) {
+                        System.out.println("!dataJsonObject.has(\"fields\")");
                         landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
                         return;
                     }
                     dataFieldsJsonObject = dataJsonObject.getJSONObject("fields");
-                    if (!dataFieldsJsonObject.has("landlord_id")) {
-                        landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
-                        return;
-                    }
+//                    if (!dataFieldsJsonObject.has("landlord_id")) {
+//                        System.out.println("!dataFieldsJsonObject.has(\"landlord_id\")");
+//                        landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
+//                        return;
+//                    }
                     if (!dataFieldsJsonObject.has("asset_nickname")) {
+                        System.out.println("!dataFieldsJsonObject.has(\"asset_nickname\")");
                         landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
                         return;
                     }
@@ -262,9 +269,13 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
                     this.paginationId += 1;
                 }
             } catch (JSONException e) {
+                e.printStackTrace();
                 landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
             }
-        }, error -> landlordManageGetPropertyListFailed(Constants.ERROR_COMMON)) {
+        }, error -> {
+            error.printStackTrace();
+            landlordManageGetPropertyListFailed(Constants.ERROR_COMMON);
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 if (SplashActivity.SESSION_ID.isEmpty()) {
@@ -288,6 +299,7 @@ public class LandlordPropertyListActivity extends AppCompatActivity {
     }
 
     private void getTenants(List<LandlordPropertyListItem> propertyListItemList, int index) {
+        System.out.println("getTenants id = " + index);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_PROPERTY + "/" + propertyListItemList.get(index).getPropertyId() + "/" + Constants.TENANTS, null, response -> {
             try {
                 if (!response.has("data")) {

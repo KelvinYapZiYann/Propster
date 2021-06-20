@@ -1,4 +1,4 @@
-package com.propster.allRoles;
+package com.propster.tenureContracts;
 
 import android.content.Context;
 import android.content.Intent;
@@ -68,7 +68,7 @@ public class PropertyTenureContractsListActivity extends AppCompatActivity {
             this.tenantId = -1;
             this.tenantName = null;
         } else {
-            this.tenureContractsAll = extras.getString(Constants.INTENT_EXTRA_LIST_ALL_TENURE_CONTRACTS, null);
+            this.tenureContractsAll = extras.getString(Constants.INTENT_EXTRA_LIST_TENURE_CONTRACTS, null);
             this.propertyId = extras.getInt(Constants.INTENT_EXTRA_PROPERTY_ID, -1);
             this.propertyName = extras.getString(Constants.INTENT_EXTRA_PROPERTY_NAME, null);
             this.tenantId = extras.getInt(Constants.INTENT_EXTRA_TENANT_ID, -1);
@@ -492,7 +492,7 @@ public class PropertyTenureContractsListActivity extends AppCompatActivity {
         if (this.tenureContractsAll == null) {
             return false;
         } else {
-            return this.tenureContractsAll.equals(Constants.INTENT_EXTRA_LIST_ALL_TENURE_CONTRACTS);
+            return this.tenureContractsAll.equals(Constants.INTENT_EXTRA_LIST_ALL);
         }
     }
 

@@ -28,7 +28,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.nambimobile.widgets.efab.ExpandableFab;
 import com.nambimobile.widgets.efab.FabOption;
 import com.propster.R;
-import com.propster.allRoles.PropertyExpensesListActivity;
+import com.propster.propertyExpenses.PropertyExpensesListActivity;
 import com.propster.content.NotificationActivity;
 import com.propster.login.SplashActivity;
 import com.propster.utils.Constants;
@@ -81,7 +81,7 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
         } else {
             this.propertyId = extras.getInt(Constants.INTENT_EXTRA_PROPERTY_ID, -1);
             this.propertyName = extras.getString(Constants.INTENT_EXTRA_PROPERTY_NAME, null);
-            this.tenantListAllTenants = extras.getString(Constants.INTENT_EXTRA_LIST_ALL_TENANTS, null);
+            this.tenantListAllTenants = extras.getString(Constants.INTENT_EXTRA_LIST_TENANTS, null);
 //            this.tenantIdArray = extras.getIntArray(Constants.INTENT_EXTRA_TENANT_ID);
 //            this.propertyExpensesIdArray = extras.getIntArray(Constants.INTENT_EXTRA_LANDLORD_PROPERTY_TENANT_LIST_EXPENSES_ID);
         }
@@ -344,7 +344,7 @@ public class LandlordPropertyTenantListActivity extends AppCompatActivity {
         if (this.tenantListAllTenants == null) {
             return false;
         } else {
-            return this.tenantListAllTenants.equals(Constants.INTENT_EXTRA_LIST_ALL_TENANTS);
+            return this.tenantListAllTenants.equals(Constants.INTENT_EXTRA_LIST_ALL);
         }
     }
 

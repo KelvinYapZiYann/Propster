@@ -1,4 +1,4 @@
-package com.propster.allRoles;
+package com.propster.propertyExpenses;
 
 public class PropertyExpensesListItem {
 

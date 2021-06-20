@@ -11,8 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.propster.R;
-import com.propster.allRoles.PropertyExpensesListActivity;
-import com.propster.allRoles.PropertyTenureContractsListActivity;
+import com.propster.propertyExpenses.PropertyExpensesListActivity;
+import com.propster.tenureContracts.PropertyTenureContractsListActivity;
 import com.propster.landlord.LandlordPropertyListActivity;
 import com.propster.landlord.LandlordPropertyTenantListActivity;
 import com.propster.utils.Constants;
@@ -57,21 +57,21 @@ public class ContentManageFragment extends ContentFragment {
         Button landlordContentManagePropertyTenantsButton = view.findViewById(R.id.landlordContentManagePropertyTenantsButton);
         landlordContentManagePropertyTenantsButton.setOnClickListener(v -> {
             Intent landlordPropertyTenantListIntent = new Intent(getContext(), LandlordPropertyTenantListActivity.class);
-            landlordPropertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_LIST_ALL_TENANTS, Constants.INTENT_EXTRA_LIST_ALL_TENANTS);
+            landlordPropertyTenantListIntent.putExtra(Constants.INTENT_EXTRA_LIST_TENANTS, Constants.INTENT_EXTRA_LIST_ALL);
             startActivity(landlordPropertyTenantListIntent);
         });
 
         Button landlordContentManagePropertyPropertyExpensesButton = view.findViewById(R.id.landlordContentManagePropertyPropertyExpensesButton);
         landlordContentManagePropertyPropertyExpensesButton.setOnClickListener(v -> {
             Intent propertyExpensesListIntent = new Intent(getContext(), PropertyExpensesListActivity.class);
-            propertyExpensesListIntent.putExtra(Constants.INTENT_EXTRA_LIST_ALL_PROPERTY_EXPENSES, Constants.INTENT_EXTRA_LIST_ALL_PROPERTY_EXPENSES);
+            propertyExpensesListIntent.putExtra(Constants.INTENT_EXTRA_LIST_PROPERTY_EXPENSES, Constants.INTENT_EXTRA_LIST_ALL);
             startActivity(propertyExpensesListIntent);
         });
 
         Button landlordContentManagePropertyTenureContractsButton = view.findViewById(R.id.landlordContentManagePropertyTenureContractsButton);
         landlordContentManagePropertyTenureContractsButton.setOnClickListener(v -> {
             Intent tenureContractsListIntent = new Intent(getContext(), PropertyTenureContractsListActivity.class);
-            tenureContractsListIntent.putExtra(Constants.INTENT_EXTRA_LIST_ALL_TENURE_CONTRACTS, Constants.INTENT_EXTRA_LIST_ALL_TENURE_CONTRACTS);
+            tenureContractsListIntent.putExtra(Constants.INTENT_EXTRA_LIST_TENURE_CONTRACTS, Constants.INTENT_EXTRA_LIST_ALL);
             startActivity(tenureContractsListIntent);
         });
 

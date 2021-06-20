@@ -1,4 +1,4 @@
-package com.propster.allRoles;
+package com.propster.tenureContracts;
 
 import android.content.Context;
 import android.view.LayoutInflater;
