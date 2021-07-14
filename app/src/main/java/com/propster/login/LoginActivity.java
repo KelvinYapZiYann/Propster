@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText loginPassword;
     private TextView loginPasswordAlert;
     private Button loginButton;
-    private Button registerButton;
+//    private Button registerButton;
 
     private View backgroundView;
     private ProgressBar loadingSpinner;
@@ -56,7 +56,8 @@ public class LoginActivity extends AppCompatActivity {
         this.loginPassword = findViewById(R.id.loginPassword);
         this.loginPasswordAlert = findViewById(R.id.loginPasswordAlert);
         this.loginButton = findViewById(R.id.loginButton);
-        this.registerButton = findViewById(R.id.loginRegisterButton);
+//        this.registerButton = findViewById(R.id.loginRegisterButton);
+        TextView loginRegister = findViewById(R.id.loginRegister);
         TextView forgotPasswordButton = findViewById(R.id.loginForgotPassword);
 
         this.backgroundView = findViewById(R.id.loginBackground);
@@ -66,7 +67,12 @@ public class LoginActivity extends AppCompatActivity {
 
         this.loginButton.setOnClickListener(v -> doLogin());
 
-        this.registerButton.setOnClickListener(v -> {
+//        this.registerButton.setOnClickListener(v -> {
+//            Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
+//            startActivity(registerIntent);
+//        });
+
+        loginRegister.setOnClickListener(v -> {
             Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(registerIntent);
         });
@@ -323,7 +329,7 @@ public class LoginActivity extends AppCompatActivity {
         this.backgroundView.setVisibility(View.VISIBLE);
         this.loadingSpinner.setVisibility(View.VISIBLE);
         this.loginButton.setEnabled(false);
-        this.registerButton.setEnabled(false);
+//        this.registerButton.setEnabled(false);
     }
 
     private void stopLoadingSpinner() {
@@ -331,7 +337,7 @@ public class LoginActivity extends AppCompatActivity {
         this.backgroundView.setVisibility(View.GONE);
         this.loadingSpinner.setVisibility(View.GONE);
         this.loginButton.setEnabled(true);
-        this.registerButton.setEnabled(true);
+//        this.registerButton.setEnabled(true);
     }
 
 }
