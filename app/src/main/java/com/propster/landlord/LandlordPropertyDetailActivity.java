@@ -196,7 +196,7 @@ public class LandlordPropertyDetailActivity extends AppCompatActivity {
                 this.landlordPropertyDetailCurrentValue.setText(dataFieldsFinancialJsonObject.getString("asset_current_value"));
                 String purchaseDate = dataFieldsFinancialJsonObject.getString("purchased_date");
                 this.landlordPropertyDetailPurchaseDate.setText(purchaseDate.length() > 10 ? purchaseDate.substring(0, 10) : purchaseDate);
-                this.landlordPropertyDetailIsActive.setText(dataFieldsFinancialJsonObject.getInt("loan_is_active") == 1 ? "Yes" : "No");
+                this.landlordPropertyDetailIsActive.setText(dataFieldsFinancialJsonObject.getBoolean("loan_is_active") ? "Yes" : "No");
                 this.landlordPropertyDetailInterestRate.setText(dataFieldsFinancialJsonObject.getString("loan_interest_rate"));
                 this.landlordPropertyDetailOutstandingAmount.setText(dataFieldsFinancialJsonObject.getString("loan_outstanding_amount"));
                 this.landlordPropertyDetailTotalYear.setText(dataFieldsFinancialJsonObject.getString("loan_total_year"));

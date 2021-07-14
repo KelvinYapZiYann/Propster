@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
@@ -28,7 +27,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.imageview.ShapeableImageView;
-import com.nambimobile.widgets.efab.FabOption;
 import com.propster.R;
 import com.propster.content.NotificationActivity;
 import com.propster.login.SplashActivity;
@@ -45,16 +43,22 @@ import java.util.Map;
 
 public class PropertyExpensesDetailActivity extends AppCompatActivity {
 
-    private EditText propertyExpensesDetailDescription;
+    private EditText propertyExpensesDetailSenderType;
+    private EditText propertyExpensesDetailSenderName;
+    private EditText propertyExpensesDetailRecipientType;
+    private EditText propertyExpensesDetailRecipientName;
     private EditText propertyExpensesDetailPropertyName;
+    private EditText propertyExpensesDetailDescription;
+    private EditText propertyExpensesDetailMethod;
     private EditText propertyExpensesDetailType;
-    private EditText propertyExpensesDetailVendor;
     private EditText propertyExpensesDetailAmount;
+    private EditText propertyExpensesDetailStatus;
+    private EditText propertyExpensesDetailSeen;
     private EditText propertyExpensesDetailDateOfExpense;
     private ShapeableImageView propertyExpensesDetailUploadedFile;
     private String imageUrl;
 
-    private Button propertyExpensesDetailEditButton;
+//    private Button propertyExpensesDetailEditButton;
 
     private View backgroundView;
     private ProgressBar loadingSpinner;
@@ -86,11 +90,17 @@ public class PropertyExpensesDetailActivity extends AppCompatActivity {
             this.expenseName = extras.getString(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_NAME, null);
         }
 
-        this.propertyExpensesDetailDescription = findViewById(R.id.propertyExpensesDetailDescription);
+        this.propertyExpensesDetailSenderType = findViewById(R.id.propertyExpensesDetailSenderType);
+        this.propertyExpensesDetailSenderName = findViewById(R.id.propertyExpensesDetailSenderName);
+        this.propertyExpensesDetailRecipientType = findViewById(R.id.propertyExpensesDetailRecipientType);
+        this.propertyExpensesDetailRecipientName = findViewById(R.id.propertyExpensesDetailRecipientName);
         this.propertyExpensesDetailPropertyName = findViewById(R.id.propertyExpensesDetailPropertyName);
+        this.propertyExpensesDetailDescription = findViewById(R.id.propertyExpensesDetailDescription);
+        this.propertyExpensesDetailMethod = findViewById(R.id.propertyExpensesDetailMethod);
         this.propertyExpensesDetailType = findViewById(R.id.propertyExpensesDetailType);
-        this.propertyExpensesDetailVendor = findViewById(R.id.propertyExpensesDetailVendor);
         this.propertyExpensesDetailAmount = findViewById(R.id.propertyExpensesDetailAmount);
+        this.propertyExpensesDetailStatus = findViewById(R.id.propertyExpensesDetailStatus);
+        this.propertyExpensesDetailSeen = findViewById(R.id.propertyExpensesDetailSeen);
         this.propertyExpensesDetailDateOfExpense = findViewById(R.id.propertyExpensesDetailDateOfExpense);
 
         this.propertyExpensesDetailUploadedFile = findViewById(R.id.propertyExpensesDetailUploadedFile);
@@ -123,20 +133,20 @@ public class PropertyExpensesDetailActivity extends AppCompatActivity {
 
         this.requestQueue = Volley.newRequestQueue(this);
 
-        this.propertyExpensesDetailEditButton = findViewById(R.id.propertyExpensesDetailEditButton);
-        this.propertyExpensesDetailEditButton.setOnClickListener(v -> {
-            Intent propertyExpensesEditTenant = new Intent(PropertyExpensesDetailActivity.this, PropertyExpensesEditActivity.class);
-            propertyExpensesEditTenant.putExtra(Constants.INTENT_EXTRA_PROPERTY_ID, this.propertyId);
-            propertyExpensesEditTenant.putExtra(Constants.INTENT_EXTRA_PROPERTY_NAME, this.propertyName);
-            propertyExpensesEditTenant.putExtra(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_ID, this.expenseId);
-            propertyExpensesEditTenant.putExtra(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_NAME, this.expenseName);
-            startActivityForResult(propertyExpensesEditTenant, Constants.REQUEST_CODE_PROPERTY_EXPENSES_DETAIL);
-        });
+//        this.propertyExpensesDetailEditButton = findViewById(R.id.propertyExpensesDetailEditButton);
+//        this.propertyExpensesDetailEditButton.setOnClickListener(v -> {
+//            Intent propertyExpensesEditTenant = new Intent(PropertyExpensesDetailActivity.this, PropertyExpensesEditActivity.class);
+//            propertyExpensesEditTenant.putExtra(Constants.INTENT_EXTRA_PROPERTY_ID, this.propertyId);
+//            propertyExpensesEditTenant.putExtra(Constants.INTENT_EXTRA_PROPERTY_NAME, this.propertyName);
+//            propertyExpensesEditTenant.putExtra(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_ID, this.expenseId);
+//            propertyExpensesEditTenant.putExtra(Constants.INTENT_EXTRA_PROPERTY_EXPENSES_NAME, this.expenseName);
+//            startActivityForResult(propertyExpensesEditTenant, Constants.REQUEST_CODE_PROPERTY_EXPENSES_DETAIL);
+//        });
 
-        FabOption propertyExpensesDetailRemoveExpenseButton = findViewById(R.id.propertyExpensesDetailRemoveExpenseButton);
-        propertyExpensesDetailRemoveExpenseButton.setOnClickListener(v -> {
-            this.doRemovePropertyExpenses();
-        });
+//        FabOption propertyExpensesDetailRemoveExpenseButton = findViewById(R.id.propertyExpensesDetailRemoveExpenseButton);
+//        propertyExpensesDetailRemoveExpenseButton.setOnClickListener(v -> {
+//            this.doRemovePropertyExpenses();
+//        });
 
         Toolbar mainToolbar = findViewById(R.id.propertyExpensesDetailToolbar);
         setSupportActionBar(mainToolbar);
@@ -222,11 +232,11 @@ public class PropertyExpensesDetailActivity extends AppCompatActivity {
                     getPropertyExpensesDetailFailed(Constants.ERROR_COMMON);
                     return;
                 }
-                if (!dataFieldsJsonObject.has("expense_type")) {
+                if (!dataFieldsJsonObject.has("payment_method")) {
                     getPropertyExpensesDetailFailed(Constants.ERROR_COMMON);
                     return;
                 }
-                if (!dataFieldsJsonObject.has("vendor")) {
+                if (!dataFieldsJsonObject.has("payment_type")) {
                     getPropertyExpensesDetailFailed(Constants.ERROR_COMMON);
                     return;
                 }
@@ -234,21 +244,64 @@ public class PropertyExpensesDetailActivity extends AppCompatActivity {
                     getPropertyExpensesDetailFailed(Constants.ERROR_COMMON);
                     return;
                 }
-                if (!dataFieldsJsonObject.has("date_of_expense")) {
+                if (!dataFieldsJsonObject.has("status")) {
                     getPropertyExpensesDetailFailed(Constants.ERROR_COMMON);
                     return;
                 }
+                if (!dataFieldsJsonObject.has("is_seen")) {
+                    getPropertyExpensesDetailFailed(Constants.ERROR_COMMON);
+                    return;
+                }
+                if (!dataFieldsJsonObject.has("created_at")) {
+                    getPropertyExpensesDetailFailed(Constants.ERROR_COMMON);
+                    return;
+                }
+
+                if (!dataFieldsJsonObject.has("sender")) {
+                    getPropertyExpensesDetailFailed(Constants.ERROR_COMMON);
+                    return;
+                }
+                JSONObject dataFieldsSenderJsonObject = dataFieldsJsonObject.getJSONObject("sender");
+                if (!dataFieldsSenderJsonObject.has("sender_type")) {
+                    getPropertyExpensesDetailFailed(Constants.ERROR_COMMON);
+                    return;
+                }
+                if (!dataFieldsSenderJsonObject.has("sender_name")) {
+                    getPropertyExpensesDetailFailed(Constants.ERROR_COMMON);
+                    return;
+                }
+
+                if (!dataFieldsJsonObject.has("recipient")) {
+                    getPropertyExpensesDetailFailed(Constants.ERROR_COMMON);
+                    return;
+                }
+                JSONObject dataFieldsRecipientJsonObject = dataFieldsJsonObject.getJSONObject("recipient");
+                if (!dataFieldsRecipientJsonObject.has("recipient_type")) {
+                    getPropertyExpensesDetailFailed(Constants.ERROR_COMMON);
+                    return;
+                }
+                if (!dataFieldsRecipientJsonObject.has("recipient_name")) {
+                    getPropertyExpensesDetailFailed(Constants.ERROR_COMMON);
+                    return;
+                }
+
+                this.propertyExpensesDetailSenderType.setText(dataFieldsSenderJsonObject.getString("sender_type"));
+                this.propertyExpensesDetailSenderName.setText(dataFieldsSenderJsonObject.getString("sender_name"));
+                this.propertyExpensesDetailRecipientType.setText(dataFieldsRecipientJsonObject.getString("recipient_type"));
+                this.propertyExpensesDetailRecipientName.setText(dataFieldsRecipientJsonObject.getString("recipient_name"));
+//                this.doGetPropertyExpensePropertyName();
+                this.propertyExpensesDetailPropertyName.setText(this.propertyName);
                 this.expenseName = dataFieldsJsonObject.getString("payment_description");
                 this.propertyExpensesDetailDescription.setText(this.expenseName);
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(this.expenseName);
                 }
-                this.propertyExpensesDetailType.setText(dataFieldsJsonObject.getString("expense_type"));
-                this.propertyExpensesDetailVendor.setText(dataFieldsJsonObject.getString("vendor"));
+                this.propertyExpensesDetailMethod.setText(dataFieldsJsonObject.getString("payment_method"));
+                this.propertyExpensesDetailType.setText(dataFieldsJsonObject.getString("payment_type"));
                 this.propertyExpensesDetailAmount.setText(dataFieldsJsonObject.getString("amount"));
-                this.propertyExpensesDetailDateOfExpense.setText(dataFieldsJsonObject.getString("date_of_expense"));
-//                this.doGetPropertyExpensePropertyName();
-                this.propertyExpensesDetailPropertyName.setText(this.propertyName);
+                this.propertyExpensesDetailStatus.setText(dataFieldsJsonObject.getString("status"));
+                this.propertyExpensesDetailSeen.setText(dataFieldsJsonObject.getBoolean("is_seen") ? "True" : "False");
+                this.propertyExpensesDetailDateOfExpense.setText(dataFieldsJsonObject.getString("created_at"));
                 this.stopLoadingSpinner();
                 if (!dataFieldsJsonObject.has("media")) {
                     return;
@@ -397,14 +450,14 @@ public class PropertyExpensesDetailActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         this.backgroundView.setVisibility(View.VISIBLE);
         this.loadingSpinner.setVisibility(View.VISIBLE);
-        this.propertyExpensesDetailEditButton.setEnabled(false);
+//        this.propertyExpensesDetailEditButton.setEnabled(false);
     }
 
     private void stopLoadingSpinner() {
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         this.backgroundView.setVisibility(View.GONE);
         this.loadingSpinner.setVisibility(View.GONE);
-        this.propertyExpensesDetailEditButton.setEnabled(true);
+//        this.propertyExpensesDetailEditButton.setEnabled(true);
     }
 
 }

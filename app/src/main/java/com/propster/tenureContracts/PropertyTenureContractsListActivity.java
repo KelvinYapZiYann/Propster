@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -55,6 +56,10 @@ public class PropertyTenureContractsListActivity extends AppCompatActivity {
     private int tenantId;
     private String tenantName;
 
+    private int paginationLastItem = 0;
+    private boolean paginationHasNextPage = false;
+    private int paginationId = 1;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +85,10 @@ public class PropertyTenureContractsListActivity extends AppCompatActivity {
 
         this.requestQueue = Volley.newRequestQueue(this);
 
+        this.paginationLastItem = 0;
+        this.paginationHasNextPage = false;
+        this.paginationId = 1;
+
         ListView propertyTenureContractsList = findViewById(R.id.propertyTenureContractsList);
         ArrayList<PropertyTenureContractsListItem> propertyTenureContractsListItemArrayList = new ArrayList<>();
         this.propertyTenureContractsListAdapter = new PropertyTenureContractsListAdapter(this, propertyTenureContractsListItemArrayList);
@@ -94,6 +103,26 @@ public class PropertyTenureContractsListActivity extends AppCompatActivity {
             propertyTenantDetailIntent.putExtra(Constants.INTENT_EXTRA_TENURE_CONTRACTS_ID, propertyTenureContractsListItem.getPropertyTenureContractsId());
             propertyTenantDetailIntent.putExtra(Constants.INTENT_EXTRA_TENURE_CONTRACTS_NAME, propertyTenureContractsListItem.getPropertyTenureContractsName());
             startActivityForResult(propertyTenantDetailIntent, Constants.REQUEST_CODE_TENURE_CONTRACTS_DETAIL);
+        });
+
+        propertyTenureContractsList.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                final int lastItem = firstVisibleItem + visibleItemCount;
+                if(lastItem == totalItemCount) {
+                    if(paginationLastItem != lastItem) {
+                        paginationLastItem = lastItem;
+                        if (paginationHasNextPage) {
+                            getTenureContracts();
+                        }
+                    }
+                }
+            }
         });
 
         this.propertyTenureContractsListAddContractsButton = findViewById(R.id.propertyTenureContractsListAddContractsButton);
@@ -156,14 +185,23 @@ public class PropertyTenureContractsListActivity extends AppCompatActivity {
 
     private void refreshPropertyTenureContractsList() {
         this.startLoadingSpinner();
+        this.paginationId = 1;
+        this.refreshPropertyTenureContractsAdapterList();
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         String sessionId = sharedPreferences.getString(Constants.SHARED_PREFERENCES_SESSION_ID, null);
         if (sessionId == null) {
             this.getPropertyTenureContractsListFailed("Please relogin.");
             return;
         }
+        this.paginationId = 1;
+        this.getTenureContracts();
+    }
+
+    private void getTenureContracts() {
+        this.startLoadingSpinner();
+        this.paginationHasNextPage = false;
         if (this.isShowingAllTenureContactsOfAllPropertiesAndTenants()) {
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_TENURE_CONTRACTS, null, response -> {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_TENURE_CONTRACTS + "?" + Constants.PAGE + "=" + this.paginationId, null, response -> {
                 try {
                     if (!response.has("data")) {
                         getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
@@ -173,6 +211,7 @@ public class PropertyTenureContractsListActivity extends AppCompatActivity {
                     JSONObject dataJsonObject;
                     JSONObject dataFieldsJsonObject;
                     JSONObject dataFieldsAssetJsonObject;
+                    JSONObject dataFieldsTenantJsonObject;
                     List<PropertyTenureContractsListItem> propertyTenureContractsListItemList = new ArrayList<>();
                     for (int i = dataJsonArray.length() - 1; i >= 0; i--) {
                         dataJsonObject = dataJsonArray.getJSONObject(i);
@@ -203,7 +242,7 @@ public class PropertyTenureContractsListActivity extends AppCompatActivity {
                             getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
                             return;
                         }
-                        if (!dataFieldsJsonObject.has("tenant_id")) {
+                        if (!dataFieldsJsonObject.has("tenant")) {
                             getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
                             return;
                         }
@@ -238,19 +277,57 @@ public class PropertyTenureContractsListActivity extends AppCompatActivity {
                         if (dataFieldsAssetJsonObject.isNull("id")) {
                             continue;
                         }
+                        dataFieldsTenantJsonObject = dataFieldsJsonObject.getJSONObject("tenant");
+                        if (!dataFieldsTenantJsonObject.has("first_name")) {
+                            getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
+                            return;
+                        }
+                        if (!dataFieldsTenantJsonObject.has("last_name")) {
+                            getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
+                            return;
+                        }
+                        if (!dataFieldsTenantJsonObject.has("id")) {
+                            getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
+                            return;
+                        }
+                        if (dataFieldsTenantJsonObject.isNull("first_name")) {
+                            continue;
+                        }
+                        if (dataFieldsTenantJsonObject.isNull("last_name")) {
+                            continue;
+                        }
+                        if (dataFieldsTenantJsonObject.isNull("id")) {
+                            continue;
+                        }
+                        System.out.println("dataFieldsAssetJsonObject.getString(\"asset_nickname\") = " + dataFieldsAssetJsonObject.getString("asset_nickname"));
+                        System.out.println("dataFieldsTenantJsonObject.getString(\"first_name\") = " + dataFieldsTenantJsonObject.getString("first_name"));
                         propertyTenureContractsListItemList.add(new PropertyTenureContractsListItem(
                                 dataFieldsAssetJsonObject.getInt("id"),
                                 dataFieldsAssetJsonObject.getString("asset_nickname"),
-                                dataFieldsJsonObject.getInt("tenant_id"),
-                                "",
+                                dataFieldsTenantJsonObject.getInt("id"),
+                                dataFieldsTenantJsonObject.getString("first_name"),
                                 dataJsonObject.getInt("id"),
                                 dataFieldsJsonObject.getString("contract_name"),
                                 dataFieldsJsonObject.getString("tenure_end_date"),
                                 CurrencyConverter.convertCurrency(dataFieldsJsonObject.getString("monthly_rental_currency_iso")) + dataFieldsJsonObject.getInt("monthly_rental_amount")));
                     }
-                    updateTenantNameToTenureContractsListItem(propertyTenureContractsListItemList);
-//                    getPropertyTenureContractsListSuccess(propertyTenureContractsListItemList);
+//                    updateTenantNameToTenureContractsListItem(propertyTenureContractsListItemList);
+                    getPropertyTenureContractsListSuccess(propertyTenureContractsListItemList);
 
+                    if (!response.has("meta")) {
+                        return;
+                    }
+                    JSONObject metaJsonObject = response.getJSONObject("meta");
+                    if (!metaJsonObject.has("current_page")) {
+                        return;
+                    }
+                    if (!metaJsonObject.has("last_page")) {
+                        return;
+                    }
+                    if (metaJsonObject.getInt("last_page") > metaJsonObject.getInt("current_page")) {
+                        this.paginationHasNextPage = true;
+                        this.paginationId += 1;
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                     getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
@@ -273,7 +350,7 @@ public class PropertyTenureContractsListActivity extends AppCompatActivity {
             jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(10000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             this.requestQueue.add(jsonObjectRequest);
         } else {
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_TENANT + "/" + this.tenantId + "/" + Constants.TENURE_CONTRACTS, null, response -> {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, Constants.URL_LANDLORD_TENANT + "/" + this.tenantId + "/" + Constants.TENURE_CONTRACTS + "?" + Constants.PAGE + "=" + this.paginationId, null, response -> {
                 try {
                     if (!response.has("data")) {
                         getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
@@ -329,6 +406,20 @@ public class PropertyTenureContractsListActivity extends AppCompatActivity {
                                 CurrencyConverter.convertCurrency(dataFieldsJsonObject.getString("monthly_rental_currency_iso")) + dataFieldsJsonObject.getInt("monthly_rental_amount")));
                     }
                     getPropertyTenureContractsListSuccess(propertyTenureContractsListItemList);
+                    if (!response.has("meta")) {
+                        return;
+                    }
+                    JSONObject metaJsonObject = response.getJSONObject("meta");
+                    if (!metaJsonObject.has("to")) {
+                        return;
+                    }
+                    if (!metaJsonObject.has("total")) {
+                        return;
+                    }
+                    if (metaJsonObject.getInt("total") > metaJsonObject.getInt("to")) {
+                        this.paginationHasNextPage = true;
+                        this.paginationId += 1;
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                     getPropertyTenureContractsListFailed(Constants.ERROR_COMMON);
@@ -497,7 +588,6 @@ public class PropertyTenureContractsListActivity extends AppCompatActivity {
     }
 
     private void getPropertyTenureContractsListSuccess(List<PropertyTenureContractsListItem> propertyTenureContractsListItemList) {
-        this.refreshPropertyTenureContractsAdapterList();
         this.stopLoadingSpinner();
         for (int i = 0; i < propertyTenureContractsListItemList.size(); i++) {
             this.addPropertyTenureContractsItemIntoList(propertyTenureContractsListItemList.get(i));

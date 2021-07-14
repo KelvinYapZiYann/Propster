@@ -44,7 +44,7 @@ public class PropertyExpensesListActivity extends AppCompatActivity {
 
     private PropertyExpensesListAdapter propertyExpensesListAdapter;
 
-    private Button propertyExpensesListAddExpensesButton;
+//    private Button propertyExpensesListAddExpensesButton;
 
     private View backgroundView;
     private ProgressBar loadingSpinner;
@@ -120,19 +120,19 @@ public class PropertyExpensesListActivity extends AppCompatActivity {
             }
         });
 
-        this.propertyExpensesListAddExpensesButton = findViewById(R.id.propertyExpensesListAddExpensesButton);
-        this.propertyExpensesListAddExpensesButton.setOnClickListener(v -> {
-            Intent addPropertyExpensesIntent = new Intent(PropertyExpensesListActivity.this, AddPropertyExpensesActivity.class);
-            addPropertyExpensesIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_ID, this.propertyId);
-            addPropertyExpensesIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_NAME, this.propertyName);
-            startActivityForResult(addPropertyExpensesIntent, Constants.REQUEST_CODE_ADD_PROPERTY_EXPENSES);
-        });
-
-        if (this.isShowingPropertyExpensesOfAllProperties()) {
-            this.propertyExpensesListAddExpensesButton.setVisibility(View.GONE);
-        } else {
-            this.propertyExpensesListAddExpensesButton.setVisibility(View.VISIBLE);
-        }
+//        this.propertyExpensesListAddExpensesButton = findViewById(R.id.propertyExpensesListAddExpensesButton);
+//        this.propertyExpensesListAddExpensesButton.setOnClickListener(v -> {
+//            Intent addPropertyExpensesIntent = new Intent(PropertyExpensesListActivity.this, AddPropertyExpensesActivity.class);
+//            addPropertyExpensesIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_ID, this.propertyId);
+//            addPropertyExpensesIntent.putExtra(Constants.INTENT_EXTRA_PROPERTY_NAME, this.propertyName);
+//            startActivityForResult(addPropertyExpensesIntent, Constants.REQUEST_CODE_ADD_PROPERTY_EXPENSES);
+//        });
+//
+//        if (this.isShowingPropertyExpensesOfAllProperties()) {
+//            this.propertyExpensesListAddExpensesButton.setVisibility(View.GONE);
+//        } else {
+//            this.propertyExpensesListAddExpensesButton.setVisibility(View.VISIBLE);
+//        }
 
         Toolbar mainToolbar = findViewById(R.id.propertyExpensesListToolbar);
         setSupportActionBar(mainToolbar);
@@ -228,11 +228,16 @@ public class PropertyExpensesListActivity extends AppCompatActivity {
                             getPropertyExpensesListFailed(Constants.ERROR_COMMON);
                             return;
                         }
-                        if (!dataFieldsJsonObject.has("date_of_expense")) {
+                        if (!dataFieldsJsonObject.has("recipient")) {
                             getPropertyExpensesListFailed(Constants.ERROR_COMMON);
                             return;
                         }
-                        if (!dataFieldsJsonObject.has("vendor")) {
+                        JSONObject dataFieldsRecipientJsonObject = dataFieldsJsonObject.getJSONObject("recipient");
+                        if (!dataFieldsRecipientJsonObject.has("recipient_name")) {
+                            getPropertyExpensesListFailed(Constants.ERROR_COMMON);
+                            return;
+                        }
+                        if (!dataFieldsJsonObject.has("created_at")) {
                             getPropertyExpensesListFailed(Constants.ERROR_COMMON);
                             return;
                         }
@@ -249,6 +254,7 @@ public class PropertyExpensesListActivity extends AppCompatActivity {
                             getPropertyExpensesListFailed(Constants.ERROR_COMMON);
                             return;
                         }
+
                         if (!dataFieldsAssetJsonObject.has("id")) {
                             getPropertyExpensesListFailed(Constants.ERROR_COMMON);
                             return;
@@ -264,8 +270,8 @@ public class PropertyExpensesListActivity extends AppCompatActivity {
                                 dataFieldsAssetJsonObject.getString("asset_nickname"),
                                 dataJsonObject.getInt("id"),
                                 dataFieldsJsonObject.getString("payment_description"),
-                                dataFieldsJsonObject.getString("vendor"),
-                                dataFieldsJsonObject.getString("date_of_expense"),
+                                dataFieldsRecipientJsonObject.getString("recipient_name"),
+                                dataFieldsJsonObject.getString("created_at"),
                                 CurrencyConverter.convertCurrency(dataFieldsJsonObject.getString("currency_iso")) + dataFieldsJsonObject.getDouble("amount")));
                     }
                     getPropertyExpensesListSuccess(propertyExpensesListItemList);
@@ -340,11 +346,7 @@ public class PropertyExpensesListActivity extends AppCompatActivity {
                             getPropertyExpensesListFailed(Constants.ERROR_COMMON);
                             return;
                         }
-                        if (!dataFieldsJsonObject.has("vendor")) {
-                            getPropertyExpensesListFailed(Constants.ERROR_COMMON);
-                            return;
-                        }
-                        if (!dataFieldsJsonObject.has("date_of_expense")) {
+                        if (!dataFieldsJsonObject.has("created_at")) {
                             getPropertyExpensesListFailed(Constants.ERROR_COMMON);
                             return;
                         }
@@ -356,8 +358,17 @@ public class PropertyExpensesListActivity extends AppCompatActivity {
                             getPropertyExpensesListFailed(Constants.ERROR_COMMON);
                             return;
                         }
+                        if (!dataFieldsJsonObject.has("recipient")) {
+                            getPropertyExpensesListFailed(Constants.ERROR_COMMON);
+                            return;
+                        }
+                        JSONObject dataFieldsRecipientJsonObject = dataFieldsJsonObject.getJSONObject("recipient");
+                        if (!dataFieldsRecipientJsonObject.has("recipient_name")) {
+                            getPropertyExpensesListFailed(Constants.ERROR_COMMON);
+                            return;
+                        }
                         propertyExpensesListItemList.add(new PropertyExpensesListItem(this.propertyId, this.propertyName, dataJsonObject.getInt("id"),
-                                dataFieldsJsonObject.getString("payment_description"), dataFieldsJsonObject.getString("vendor"), dataFieldsJsonObject.getString("date_of_expense"),
+                                dataFieldsJsonObject.getString("payment_description"), dataFieldsRecipientJsonObject.getString("recipient_name"), dataFieldsJsonObject.getString("created_at"),
                                 CurrencyConverter.convertCurrency(dataFieldsJsonObject.getString("currency_iso")) + dataFieldsJsonObject.getDouble("amount")));
                     }
                     getPropertyExpensesListSuccess(propertyExpensesListItemList);
@@ -483,7 +494,7 @@ public class PropertyExpensesListActivity extends AppCompatActivity {
         this.stopLoadingSpinner();
         AlertDialog.Builder loginFailedDialog = new AlertDialog.Builder(this);
         loginFailedDialog.setCancelable(false);
-        loginFailedDialog.setTitle("Property Expenses List Failed");
+        loginFailedDialog.setTitle("Asset Expenses List Failed");
         loginFailedDialog.setMessage(landlordGetPropertyListFailed);
         loginFailedDialog.setPositiveButton("OK", (dialog, which) -> dialog.cancel());
         loginFailedDialog.create().show();
@@ -515,13 +526,13 @@ public class PropertyExpensesListActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         this.backgroundView.setVisibility(View.VISIBLE);
         this.loadingSpinner.setVisibility(View.VISIBLE);
-        this.propertyExpensesListAddExpensesButton.setEnabled(false);
+//        this.propertyExpensesListAddExpensesButton.setEnabled(false);
     }
 
     private void stopLoadingSpinner() {
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         this.backgroundView.setVisibility(View.GONE);
         this.loadingSpinner.setVisibility(View.GONE);
-        this.propertyExpensesListAddExpensesButton.setEnabled(true);
+//        this.propertyExpensesListAddExpensesButton.setEnabled(true);
     }
 }

@@ -22,8 +22,8 @@
         android:layout_marginEnd="@dimen/min_group_margin"
         android:layout_marginTop="@dimen/min_group_margin"
         android:layout_below="@id/tenureContractsDetailToolbar"
-        android:layout_above="@id/tenureContractsDetailEditButton"
         >
+<!--        android:layout_above="@id/tenureContractsDetailEditButton"-->
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -261,61 +261,61 @@
 
     </ScrollView>
 
-    <com.nambimobile.widgets.efab.ExpandableFabLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<!--    <com.nambimobile.widgets.efab.ExpandableFabLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
 
-        <com.nambimobile.widgets.efab.ExpandableFab
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            app:efab_orientation="portrait"
-            android:layout_marginBottom="@dimen/min_group_margin"
-            android:layout_marginEnd="@dimen/min_group_margin"
-            app:efab_color="@color/primary_blue"
-            app:efab_icon="@drawable/more_ic_white"
-            app:efab_iconAnimationRotationDeg="-180"
-            app:efab_closingAnticipateTension="0"
-            app:efab_size="normal"
-            />
-
-        <com.nambimobile.widgets.efab.FabOption
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tenureContractsDetailRemoveContractButton"
-            app:fab_color="@color/alert_red"
-            app:fab_icon="@drawable/remove_ic_white"
-            app:label_text="Remove Tenure Contracts"
-            app:label_backgroundColor="@color/alert_red"
-            />
+<!--        <com.nambimobile.widgets.efab.ExpandableFab-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="bottom|end"-->
+<!--            app:efab_orientation="portrait"-->
+<!--            android:layout_marginBottom="@dimen/min_group_margin"-->
+<!--            android:layout_marginEnd="@dimen/min_group_margin"-->
+<!--            app:efab_color="@color/primary_blue"-->
+<!--            app:efab_icon="@drawable/more_ic_white"-->
+<!--            app:efab_iconAnimationRotationDeg="-180"-->
+<!--            app:efab_closingAnticipateTension="0"-->
+<!--            app:efab_size="normal"-->
+<!--            />-->
 
 <!--        <com.nambimobile.widgets.efab.FabOption-->
 <!--            android:layout_width="wrap_content"-->
 <!--            android:layout_height="wrap_content"-->
-<!--            android:id="@+id/tenureContractsDetailPaymentRecordButton"-->
-<!--            app:fab_color="@color/primary_blue"-->
-<!--            app:fab_icon="@drawable/ic_payment_white"-->
-<!--            app:label_text="Edit"-->
-<!--            app:label_backgroundColor="@color/primary_blue"-->
+<!--            android:id="@+id/tenureContractsDetailRemoveContractButton"-->
+<!--            app:fab_color="@color/alert_red"-->
+<!--            app:fab_icon="@drawable/remove_ic_white"-->
+<!--            app:label_text="Remove Tenure Contracts"-->
+<!--            app:label_backgroundColor="@color/alert_red"-->
 <!--            />-->
 
-    </com.nambimobile.widgets.efab.ExpandableFabLayout>
+<!--&lt;!&ndash;        <com.nambimobile.widgets.efab.FabOption&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:id="@+id/tenureContractsDetailPaymentRecordButton"&ndash;&gt;-->
+<!--&lt;!&ndash;            app:fab_color="@color/primary_blue"&ndash;&gt;-->
+<!--&lt;!&ndash;            app:fab_icon="@drawable/ic_payment_white"&ndash;&gt;-->
+<!--&lt;!&ndash;            app:label_text="Edit"&ndash;&gt;-->
+<!--&lt;!&ndash;            app:label_backgroundColor="@color/primary_blue"&ndash;&gt;-->
+<!--&lt;!&ndash;            />&ndash;&gt;-->
 
-    <android.widget.Button
-        android:layout_width="@dimen/large_button_width"
-        android:layout_height="wrap_content"
-        android:id="@+id/tenureContractsDetailEditButton"
-        android:text="@string/edit"
-        android:textColor="@color/white"
-        android:textSize="@dimen/large_button_font_size"
-        android:background="@drawable/primary_button_background_state"
-        android:layout_centerHorizontal="true"
-        android:paddingTop="@dimen/large_button_padding"
-        android:paddingBottom="@dimen/large_button_padding"
-        android:layout_marginTop="@dimen/min_group_margin"
-        android:layout_marginBottom="@dimen/secondary_button_gap_height"
-        android:layout_alignParentBottom="true"
-        />
+<!--    </com.nambimobile.widgets.efab.ExpandableFabLayout>-->
+
+<!--    <android.widget.Button-->
+<!--        android:layout_width="@dimen/large_button_width"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/tenureContractsDetailEditButton"-->
+<!--        android:text="@string/edit"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="@dimen/large_button_font_size"-->
+<!--        android:background="@drawable/primary_button_background_state"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:paddingTop="@dimen/large_button_padding"-->
+<!--        android:paddingBottom="@dimen/large_button_padding"-->
+<!--        android:layout_marginTop="@dimen/min_group_margin"-->
+<!--        android:layout_marginBottom="@dimen/secondary_button_gap_height"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        />-->
 
     <View
         android:layout_width="match_parent"

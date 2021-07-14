@@ -19,9 +19,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/propertyExpensesListAddExpensesButton"
         android:layout_below="@id/propertyExpensesListToolbar"
         >
+<!--        android:layout_above="@id/propertyExpensesListAddExpensesButton"-->
 
         <!--        android:layout_marginStart="@dimen/min_group_margin"-->
         <!--        android:layout_marginEnd="@dimen/min_group_margin"-->
@@ -37,21 +37,21 @@
 
     </RelativeLayout>
 
-    <android.widget.Button
-        android:layout_width="@dimen/large_button_width"
-        android:layout_height="wrap_content"
-        android:id="@+id/propertyExpensesListAddExpensesButton"
-        android:text="@string/add_property_expenses"
-        android:textColor="@color/white"
-        android:textSize="@dimen/large_button_font_size"
-        android:background="@drawable/primary_button_background_state"
-        android:layout_centerHorizontal="true"
-        android:paddingTop="@dimen/large_button_padding"
-        android:paddingBottom="@dimen/large_button_padding"
-        android:layout_marginTop="@dimen/group_gap_height"
-        android:layout_marginBottom="@dimen/primary_button_gap_height"
-        android:layout_alignParentBottom="true"
-        />
+<!--    <android.widget.Button-->
+<!--        android:layout_width="@dimen/large_button_width"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/propertyExpensesListAddExpensesButton"-->
+<!--        android:text="@string/add_property_expenses"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="@dimen/large_button_font_size"-->
+<!--        android:background="@drawable/primary_button_background_state"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:paddingTop="@dimen/large_button_padding"-->
+<!--        android:paddingBottom="@dimen/large_button_padding"-->
+<!--        android:layout_marginTop="@dimen/group_gap_height"-->
+<!--        android:layout_marginBottom="@dimen/primary_button_gap_height"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        />-->
 
     <View
         android:layout_width="match_parent"

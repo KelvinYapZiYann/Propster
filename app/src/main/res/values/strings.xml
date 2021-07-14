@@ -202,27 +202,41 @@
     <string name="add_property_expenses">Add Asset Expenses</string>
 
     <string name="property_expenses_payment_description">Expense Description</string>
-    <string name="property_expenses_property_name">From Asset</string>
+    <string name="property_expenses_property_name">Asset Nickname</string>
+    <string name="property_expenses_sender_type">Sender Type</string>
+    <string name="property_expenses_sender_name">Sender Name</string>
+    <string name="property_expenses_recipient_type">Recipient Type</string>
+    <string name="property_expenses_recipient_name">Recipient Name</string>
     <string name="property_expenses_expense_type">Expense Type</string>
+    <string name="property_expenses_expense_method">Expense Method</string>
     <string name="property_expenses_vendor_name">Vendor Name</string>
     <string name="property_expenses_currency">RM</string>
     <string name="property_expenses_amount">Amount</string>
+    <string name="property_expenses_status">Status</string>
+    <string name="property_expenses_seen">Seen</string>
     <string name="property_expenses_date_of_expense">Date of Expense</string>
     <string name="property_expenses_uploaded_files">Uploaded Files</string>
 
     <string name="property_expenses_payment_description_label">Expense Description:</string>
-    <string name="property_expenses_property_name_label">From Asset:</string>
+    <string name="property_expenses_property_name_label">Asset Nickname:</string>
+    <string name="property_expenses_sender_type_label">Sender Type:</string>
+    <string name="property_expenses_sender_name_label">Sender Name:</string>
+    <string name="property_expenses_recipient_type_label">Recipient Type:</string>
+    <string name="property_expenses_recipient_name_label">Recipient Name:</string>
     <string name="property_expenses_expense_type_label">Expense Type:</string>
+    <string name="property_expenses_expense_method_label">Expense Method:</string>
     <string name="property_expenses_vendor_name_label">Vendor Name:</string>
     <string name="property_expenses_currency_label">Currency:</string>
     <string name="property_expenses_amount_label">Amount:</string>
+    <string name="property_expenses_status_label">Status:</string>
+    <string name="property_expenses_seen_label">Seen:</string>
     <string name="property_expenses_date_of_expense_label">Date of Expense:</string>
     <string name="property_expenses_uploaded_files_label">Uploaded Files:</string>
 
     <!-- PROPERTY TENURE CONTRACTS -->
     <string name="add_property_tenure_contracts">Add Tenure Contracts</string>
 
-    <string name="tenure_contracts_property_name">From Asset</string>
+    <string name="tenure_contracts_property_name">Asset Nickname</string>
     <string name="tenure_contracts_tenant_name">From Tenant</string>
     <string name="tenure_contracts_name">Contract Name</string>
     <string name="tenure_contracts_description">Contract Description</string>

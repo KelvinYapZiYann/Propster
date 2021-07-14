@@ -55,7 +55,7 @@ public class PropertyTenureContractsDetailActivity extends AppCompatActivity {
     private ShapeableImageView tenureContractsDetailUploadedFile;
     private String imageUrl;
 
-    private Button tenureContractsDetailEditButton;
+//    private Button tenureContractsDetailEditButton;
 
     private View backgroundView;
     private ProgressBar loadingSpinner;
@@ -118,22 +118,22 @@ public class PropertyTenureContractsDetailActivity extends AppCompatActivity {
 
         this.requestQueue = Volley.newRequestQueue(this);
 
-        this.tenureContractsDetailEditButton = findViewById(R.id.tenureContractsDetailEditButton);
-        this.tenureContractsDetailEditButton.setOnClickListener(v -> {
-            Intent tenureContractsEditTenant = new Intent(PropertyTenureContractsDetailActivity.this, PropertyTenureContractsEditActivity.class);
-            tenureContractsEditTenant.putExtra(Constants.INTENT_EXTRA_PROPERTY_ID, this.propertyId);
-            tenureContractsEditTenant.putExtra(Constants.INTENT_EXTRA_PROPERTY_NAME, this.propertyName);
-            tenureContractsEditTenant.putExtra(Constants.INTENT_EXTRA_TENANT_ID, this.tenantId);
-            tenureContractsEditTenant.putExtra(Constants.INTENT_EXTRA_TENANT_NAME, this.tenantName);
-            tenureContractsEditTenant.putExtra(Constants.INTENT_EXTRA_TENURE_CONTRACTS_ID, this.tenureContractId);
-            tenureContractsEditTenant.putExtra(Constants.INTENT_EXTRA_TENURE_CONTRACTS_NAME, this.tenureContractName);
-            startActivityForResult(tenureContractsEditTenant, Constants.REQUEST_CODE_TENURE_CONTRACTS_DETAIL);
-        });
-
-        FabOption tenureContractsDetailRemoveExpenseButton = findViewById(R.id.tenureContractsDetailRemoveContractButton);
-        tenureContractsDetailRemoveExpenseButton.setOnClickListener(v -> {
-            this.doRemovePropertyExpenses();
-        });
+//        this.tenureContractsDetailEditButton = findViewById(R.id.tenureContractsDetailEditButton);
+//        this.tenureContractsDetailEditButton.setOnClickListener(v -> {
+//            Intent tenureContractsEditTenant = new Intent(PropertyTenureContractsDetailActivity.this, PropertyTenureContractsEditActivity.class);
+//            tenureContractsEditTenant.putExtra(Constants.INTENT_EXTRA_PROPERTY_ID, this.propertyId);
+//            tenureContractsEditTenant.putExtra(Constants.INTENT_EXTRA_PROPERTY_NAME, this.propertyName);
+//            tenureContractsEditTenant.putExtra(Constants.INTENT_EXTRA_TENANT_ID, this.tenantId);
+//            tenureContractsEditTenant.putExtra(Constants.INTENT_EXTRA_TENANT_NAME, this.tenantName);
+//            tenureContractsEditTenant.putExtra(Constants.INTENT_EXTRA_TENURE_CONTRACTS_ID, this.tenureContractId);
+//            tenureContractsEditTenant.putExtra(Constants.INTENT_EXTRA_TENURE_CONTRACTS_NAME, this.tenureContractName);
+//            startActivityForResult(tenureContractsEditTenant, Constants.REQUEST_CODE_TENURE_CONTRACTS_DETAIL);
+//        });
+//
+//        FabOption tenureContractsDetailRemoveExpenseButton = findViewById(R.id.tenureContractsDetailRemoveContractButton);
+//        tenureContractsDetailRemoveExpenseButton.setOnClickListener(v -> {
+//            this.doRemovePropertyExpenses();
+//        });
 
         Toolbar mainToolbar = findViewById(R.id.tenureContractsDetailToolbar);
         setSupportActionBar(mainToolbar);
@@ -340,13 +340,13 @@ public class PropertyTenureContractsDetailActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         this.backgroundView.setVisibility(View.VISIBLE);
         this.loadingSpinner.setVisibility(View.VISIBLE);
-        this.tenureContractsDetailEditButton.setEnabled(false);
+//        this.tenureContractsDetailEditButton.setEnabled(false);
     }
 
     private void stopLoadingSpinner() {
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         this.backgroundView.setVisibility(View.GONE);
         this.loadingSpinner.setVisibility(View.GONE);
-        this.tenureContractsDetailEditButton.setEnabled(true);
+//        this.tenureContractsDetailEditButton.setEnabled(true);
     }
 }
